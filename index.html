@@ -90,34 +90,34 @@ var cube = new THREE.Mesh( geometry, material );
 cube.position.set(100, 20, -120);
 scene.add(cube);
 
-var light = new THREE.PointLight( 0xff0000, 10, 100 );
-light.position.set( 80, 10, -100);
+var light = new THREE.PointLight( 0xffffff, 1, 100 );
+light.position.set( 90, 30, -80);
 scene.add( light );
 			}
 
 			 function initPaintings() {
       var femats = [];
-      var seTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_01_2048px.jpg");
+      var seTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_01_2048px.jpg");
       var seMat = new THREE.MeshLambertMaterial({map: seTex /*alphaMap: seTex,transparent: true, opacity: 1, */,side: THREE.DoubleSide});
       femats.push(seMat);
-      var trTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_02_2048px.jpg");
+      var trTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_02_2048px.jpg");
       var trMat = new THREE.MeshLambertMaterial({map: trTex,side: THREE.DoubleSide});
       femats.push(trMat);
-      var brTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_03_2048px.jpg");
+      var brTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_03_2048px.jpg");
       var brMat = new THREE.MeshLambertMaterial({map: brTex,side: THREE.DoubleSide});
       femats.push(brMat);
-      var cnTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_04_2048px.jpg");
+      var cnTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_04_2048px.jpg");
       var cnMat = new THREE.MeshLambertMaterial({map: cnTex,side: THREE.DoubleSide});
       femats.push(cnMat);
-	  var dnTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_05_2048px.jpg");
+	  var dnTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_05_2048px.jpg");
       var dnMat = new THREE.MeshLambertMaterial({map: dnTex,side: THREE.DoubleSide});
       femats.push(dnMat);
 
-	  var dgTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_06_2048px.jpg");
+	  var dgTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_06_2048px.jpg");
       var dgMat = new THREE.MeshLambertMaterial({map: dgTex,side: THREE.DoubleSide});
       femats.push(dgMat);
 
-	  var dcTex = new THREE.TextureLoader().load("https://github.com/Saculs/Nessi-Virtual/blob/master/Nessi2k/Nessi%20Nezilla_07_2048px.jpg");
+	  var dcTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_07_2048px.jpg");
       var dcMat = new THREE.MeshLambertMaterial({map: dcTex,side: THREE.DoubleSide});
       femats.push(dcMat);
 
@@ -252,6 +252,7 @@ scene.add( light );
 				floorGeometry.rotateX( - Math.PI / 2 );
 
 				// vertex displacement
+				/*
 
 				var position = floorGeometry.attributes.position;
 
@@ -280,8 +281,9 @@ scene.add( light );
 				}
 
 				floorGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 0 ) );
+				*/
 
-				var floorMaterial = new THREE.MeshBasicMaterial( { vertexColors: true } );
+				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide } );
 
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 				var ceiling = new THREE.Mesh( floorGeometry, floorMaterial );
