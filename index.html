@@ -44,6 +44,7 @@
 		</style>
 	</head>
 	<body>
+
 		<div id="blocker">
 
 			<div id="instructions">
@@ -62,6 +63,7 @@
 
 			import { PointerLockControls } from './examples/jsm/controls/PointerLockControls.js';
 			import { GLTFLoader } from './examples/jsm/loaders/GLTFLoader.js';
+
 
 			var loader = new GLTFLoader();
 
@@ -123,6 +125,23 @@ scene.add( light );
 	  var dcTex = new THREE.TextureLoader().load("https://raw.githubusercontent.com/Saculs/Nessi-Virtual/master/Nessi2k/Nessi%20Nezilla_07_2048px.jpg");
       var dcMat = new THREE.MeshLambertMaterial({map: dcTex,side: THREE.DoubleSide});
       femats.push(dcMat);
+
+	    var contactloader = new GLTFLoader();
+ contactloader.load( "models/canvas270.glb", function(gltf){
+    var contact = gltf.scene;
+
+      //.scale.set(0.6,0.6,0.6);
+
+    contact.position.set(20,10,5);
+
+    contact.visible = true;
+	contact.material = dcMat;
+    contact.traverse(function (o) {
+      if (o.isMesh) {
+      }
+    });
+    scene.add(contact);
+  });
 
       var i;
       for (i = 0; i < 7; i++) {
