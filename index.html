@@ -132,12 +132,13 @@ scene.add( light );
 
       //.scale.set(0.6,0.6,0.6);
 
-    contact.position.set(20,10,5);
+    contact.position.set(60,10,5);
 
     contact.visible = true;
 	contact.material = dcMat;
     contact.traverse(function (o) {
       if (o.isMesh) {
+	  o.material = dcMat;
       }
     });
     scene.add(contact);
