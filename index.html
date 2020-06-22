@@ -96,7 +96,7 @@
 
 			function initEnv(){
 				var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
-var material = new THREE.MeshLambertMaterial( {color: 0x000022} );
+var material = new THREE.MeshLambertMaterial( {color: 0x000000} );
 var cube = new THREE.Mesh( geometry, material );
 cube.position.set(100, 20, -103);
 scene.add(cube);
@@ -156,7 +156,7 @@ scene.add( light );
         //initPlane(p);
 
 		var p = o.clone();
-		p.scale.set(15,-20.25,13.5);
+		p.scale.set(10,-20.25,13.5);
 	  p.rotation.y = getRadian(-90);
         p.position.set(i * 50 - 0, 22, -100);
         //p.rotation.y = getRadian(-90);
@@ -335,7 +335,7 @@ scene.add( light );
 				floorGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 0 ) );
 				*/
 
-				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide } );
+				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide, color: 0x000011} );
 
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 				var ceiling = new THREE.Mesh( floorGeometry, floorMaterial );
