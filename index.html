@@ -88,6 +88,12 @@
 			init();
 			animate();
 
+			function getRadian(x) {
+				return (Math.PI*x)/180;
+			}
+
+
+
 			function initEnv(){
 				var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
 var material = new THREE.MeshLambertMaterial( {color: 0x000022} );
@@ -130,14 +136,16 @@ scene.add( light );
  contactloader.load( "models/canvas270.glb", function(gltf){
     var contact = gltf.scene;
 
-      //.scale.set(0.6,0.6,0.6);
+      contact.scale.set(5,10,10);
 
-    contact.position.set(20,10,5);
+    contact.position.set(- 50, 20, -100);
+	contact.rotation.y = getRadian(-90);
 
     contact.visible = true;
 	contact.material = dcMat;
     contact.traverse(function (o) {
       if (o.isMesh) {
+	  o.material = dcMat;
       }
     });
     scene.add(contact);
