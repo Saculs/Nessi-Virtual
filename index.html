@@ -294,10 +294,11 @@ scene.add( light );
 
 				}, false );
 
-				instructions.addEventListener( 'touchstart', function () {
+				document.body.addEventListener( 'touchstart', function () {
 
 					controls.lock();
-
+					instructions.style.display = 'none';
+					blocker.style.display = 'none';
 				}, false );
 
 				controls.addEventListener( 'lock', function () {
