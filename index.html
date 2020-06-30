@@ -282,6 +282,12 @@ scene.add( light );
 
 				}, false );
 
+				document.addEventListener( 'mousedown', function () {
+
+					controls.lock();
+
+				}, false );
+
 				controls.addEventListener( 'lock', function () {
 
 					instructions.style.display = 'none';
