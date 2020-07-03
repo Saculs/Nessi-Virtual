@@ -53,7 +53,7 @@
 				-ms-user-select: none;
 				/*
 				pointer-events: none;*/
-				
+			
 				user-select: none;
 				
 
@@ -304,8 +304,9 @@ scene.add( light );
 				document.body.addEventListener( 'touchstart', function () {
 
 controls.lock();
-console.log(touchstart);
-
+console.log("touchstart");
+instructions.style.display = 'none';
+blocker.style.display = 'none';
 }, false );
 
 
