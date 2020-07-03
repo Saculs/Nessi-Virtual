@@ -301,9 +301,10 @@ scene.add( light );
 
 				}, false );
 
-				instructions.addEventListener( 'touchstart', function () {
+				document.body.addEventListener( 'touchstart', function () {
 
 controls.lock();
+console.log(touchstart);
 
 }, false );
 
