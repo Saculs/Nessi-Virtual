@@ -54,8 +54,8 @@ import {
 		  	xfromtouch = clientX-ww;
 			yfromtouch = clientY-(h-100) ;
 			euler.setFromQuaternion( camera.quaternion );
-			euler.y -= xfromtouch * 0.0005;
-			euler.x -= yfromtouch * 0.0005;
+			euler.y = lastxpos + xfromtouch * 0.005;
+			euler.x = lastypos + yfromtouch * 0.005;
 			euler.x = Math.max( - PI_2, Math.min( PI_2_mobile, euler.x ) );
 			//euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
 			lastxpos = euler.x;
