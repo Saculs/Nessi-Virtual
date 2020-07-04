@@ -55,7 +55,7 @@ console.log("device/2",ww, wh);
 		}	
 		function onTouchMove( e ) {
 		  	clientY = tsClientX - e.touches[0].clientY;
-		  	clientX = tsClienty - e.touches[0].clientX;
+		  	clientX = tsClientY - e.touches[0].clientX;
 		  	xfromtouch = clientX-ww;
 			yfromtouch = clientY-(h-100) ;
 			euler.setFromQuaternion( camera.quaternion );
