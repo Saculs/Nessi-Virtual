@@ -14,6 +14,19 @@
 			body{
 				overflow: hidden;
 			}
+
+			#footer{
+				position: fixed;
+  				left: 0;
+ 				bottom: 0;
+  				width: 100%;
+				font-family: customFont;
+				text-align: center;
+				font-size: 17px;
+				margin-bottom: 10px;
+				cursor: pointer;
+			}
+
 			#blocker {
 				position: absolute;
 				width: 100%;
@@ -84,6 +97,8 @@
 
 		</div>
 
+		
+
 		<script type="module">
 
 			import * as THREE from './build/three.module.js';
@@ -94,7 +109,9 @@
 
 			var loader = new GLTFLoader();
 
-			var camera, scene, renderer, controls;
+			var camera, scene, scene1, scene2, renderer, controls;
+
+			var currentScene;
 
 			var objects = [];
 
@@ -278,7 +295,56 @@ scene.add( light );
   });
     }
 
-  
+			function switchScenes(){
+				camera.position.y = 10;
+				camera.position.z = 30;
+				initScene1();
+console.log("switch scenes");
+if(currentScene == scene) {
+	currentScene = scene1;
+} else{currentScene = scene;}
+currentScene.add(controls.getObject());
+			}
+
+			function initScene1(){
+
+				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+				light.position.set( 0.5, 1, 0.75 );
+				scene1.add( light );
+
+				var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
+				floorGeometry.rotateX( - Math.PI / 2 );
+				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide, color: 0x000011} );
+
+				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+
+				scene1.add(floor);
+
+				
+
+
+				var ufoloader = new GLTFLoader(manager);
+     ufoloader.load( "models/Spaceship.glb", function(gltf){
+	var ufo = gltf.scene;
+
+      ufo.scale.set(20,20,20);
+
+    ufo.position.set(- 100, 4, 60);
+	ufo.rotation.y = getRadian(-90);
+
+    ufo.visible = true;
+
+
+
+    ufo.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("UFO");
+      }
+    });
+    scene1.add(ufo);
+
+  });
+			}
 
 			function init() {
 
@@ -286,8 +352,13 @@ scene.add( light );
 				camera.position.y = 10;
 				camera.position.z = 30;
 				scene = new THREE.Scene();
+				currentScene = scene;
+				scene1 = new THREE.Scene();
+				scene2 = new THREE.Scene();
 				scene.background = new THREE.Color( 0x000000 );
+				scene1.background = new THREE.Color( 0x000000 );
 				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+				scene1.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
 				light.position.set( 0.5, 1, 0.75 );
@@ -297,6 +368,9 @@ scene.add( light );
 
 				var blocker = document.getElementById( 'blocker' );
 				var instructions = document.getElementById( 'instructions' );
+				var footer = document.getElementById( 'footer' );
+
+				footer.addEventListener( 'click', switchScenes, false );
 
 				instructions.addEventListener( 'click', function () {
 
@@ -306,14 +380,12 @@ scene.add( light );
 
 				document.body.addEventListener( 'touchstart', function () {
 
-controls.lock();
-console.log("touchstart");
-instructions.style.display = 'none';
-blocker.style.display = 'none';
-}, false );
+					controls.lock();
+					console.log("touchstart");
+					instructions.style.display = 'none';
+					blocker.style.display = 'none';
+				}, false );
 
-
-				
 
 				controls.addEventListener( 'lock', function () {
 
@@ -557,10 +629,19 @@ blocker.style.display = 'none';
 
 				
 
-				renderer.render( scene, camera );
+				renderer.render( currentScene, camera );
 
 			}
 
 		</script>
+
+
+
+<div id="footer">
+
+	Interior    Exteriror    Space
+
+</div>
+
 	</body>
 </html>
