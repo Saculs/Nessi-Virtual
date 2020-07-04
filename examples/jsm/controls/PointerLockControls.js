@@ -51,6 +51,7 @@ var tsClientX, tsClientY;
 tsClientX = e.touches[0].clientX;
 tsClientY = e.touches[0].clientY;
 Consloe.log("touchStart",tsClientX, tsClientY);
+Consloe.log("device/2",ww, wh);
 		}	
 		function onTouchMove( e ) {
 		  	clientY = e.touches[0].clientY;
@@ -67,7 +68,7 @@ Consloe.log("touchStart",tsClientX, tsClientY);
 			camera.quaternion.setFromEuler( euler );
 			scope.dispatchEvent( changeEvent );
 			//console.log(yfromtouch);
-Consloe.log("device/2",ww, wh);
+
 		};
 		function onTouchEnd( e ) {
 		};
