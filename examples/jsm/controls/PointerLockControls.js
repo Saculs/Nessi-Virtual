@@ -41,12 +41,15 @@ import {
 		var vec = new Vector3();
 		
 		var clientX, clientY;
+var tsClientX, tsClientY;
 		var xfromtouch = 0;
 		var yfromtouch = 0;
 		var lastxpos = 0;
 		var lastypos = 0;
 		
-		function onTouch(){
+		function onTouch(e){
+tsClientX = e.touches[0].clientX;
+tsClientY = e.touches[0].clientY;
 		}	
 		function onTouchMove( e ) {
 		  	clientY = e.touches[0].clientY;
@@ -57,7 +60,7 @@ import {
 			euler.y = lastxpos + xfromtouch * 0.005;
 			euler.x = lastypos + yfromtouch * 0.005;
 			euler.x = Math.max( - PI_2, Math.min( PI_2_mobile, euler.x ) );
-			//euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
+			euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
 			lastxpos = euler.x;
 			lastypos = euler.y;
 			camera.quaternion.setFromEuler( euler );
