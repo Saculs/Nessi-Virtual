@@ -51,23 +51,23 @@ var tsClientX, tsClientY;
 tsClientX = e.touches[0].clientX;
 tsClientY = e.touches[0].clientY;
 console.log(tsClientX, tsClientY);
-console.log("device/2",ww, wh);
+console.log("device/2",ww, h);
 		}	
 		function onTouchMove( e ) {
 		  	clientY = tsClientX - e.touches[0].clientY;
 		  	clientX = tsClientY - e.touches[0].clientX;
-		  	xfromtouch = clientX-ww;
-			yfromtouch = clientY-(h-100) ;
+		  	//xfromtouch = clientX-ww;
+			//yfromtouch = clientY-(h-100) ;
 			euler.setFromQuaternion( camera.quaternion );
-			euler.y += lastxpos + xfromtouch * 0.0005;
-			euler.x += lastypos + yfromtouch * 0.0005;
+			euler.y += lastxpos + xfromtouch +clientY * 0.0005;
+			euler.x += lastypos + yfromtouch +clientX * 0.0005;
 			euler.x = Math.max( - PI_2, Math.min( PI_2_mobile, euler.x ) );
 			euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
 			//lastxpos = euler.x;
 			//lastypos = euler.y;
 			camera.quaternion.setFromEuler( euler );
 			scope.dispatchEvent( changeEvent );
-			console.log(yfromtouch);
+			console.log(clientX, clientY);
 
 		};
 		function onTouchEnd( e ) {
