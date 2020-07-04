@@ -50,7 +50,7 @@ var tsClientX, tsClientY;
 		function onTouch(e){
 tsClientX = e.touches[0].clientX;
 tsClientY = e.touches[0].clientY;
-Consloe.log("touchStart",tsClientX.toString(), tsClientY.toString());
+Consloe.log(tsClientX, tsClientY);
 Consloe.log("device/2",ww, wh);
 		}	
 		function onTouchMove( e ) {
