@@ -9,7 +9,7 @@ import {
 	var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); 
 
 	var ww = document.body.clientWidth/2;
-	var wh = document.body.clientHeight/.2;
+	var wh = document.body.clientHeight/2;
 
 	var h = window.innerHeight;
 
@@ -54,20 +54,20 @@ console.log(tsClientX, tsClientY);
 console.log("device/2",ww, wh);
 		}	
 		function onTouchMove( e ) {
-		  	clientY = e.touches[0].clientY;
-		  	clientX = e.touches[0].clientX;
+		  	clientY = tsClientX - e.touches[0].clientY;
+		  	clientX = tsClienty - e.touches[0].clientX;
 		  	xfromtouch = clientX-ww;
 			yfromtouch = clientY-(h-100) ;
 			euler.setFromQuaternion( camera.quaternion );
-			euler.y = lastxpos + xfromtouch * 0.0005;
-			euler.x = lastypos + yfromtouch * 0.0005;
+			euler.y += lastxpos + xfromtouch * 0.0005;
+			euler.x += lastypos + yfromtouch * 0.0005;
 			euler.x = Math.max( - PI_2, Math.min( PI_2_mobile, euler.x ) );
 			euler.y = Math.max( - PI_2y, Math.min( PI_2y, euler.y ) );
-			lastxpos = euler.x;
-			lastypos = euler.y;
+			//lastxpos = euler.x;
+			//lastypos = euler.y;
 			camera.quaternion.setFromEuler( euler );
 			scope.dispatchEvent( changeEvent );
-			//console.log(yfromtouch);
+			console.log(yfromtouch);
 
 		};
 		function onTouchEnd( e ) {
