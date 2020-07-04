@@ -50,8 +50,8 @@ var tsClientX, tsClientY;
 		function onTouch(e){
 tsClientX = e.touches[0].clientX;
 tsClientY = e.touches[0].clientY;
-Console.log(tsClientX, tsClientY);
-Console.log("device/2",ww, wh);
+console.log(tsClientX, tsClientY);
+console.log("device/2",ww, wh);
 		}	
 		function onTouchMove( e ) {
 		  	clientY = e.touches[0].clientY;
