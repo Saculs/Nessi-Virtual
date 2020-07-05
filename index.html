@@ -25,6 +25,12 @@
 				font-size: 17px;
 				margin-bottom: 10px;
 				cursor: pointer;
+
+
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+
 			}
 
 			#blocker {
@@ -293,7 +299,7 @@ scene.add( light );
     scene.add(ufo);
 
   });
-    }
+    }	
 
 			function switchScenes(){
 				camera.position.y = 10;
@@ -320,6 +326,9 @@ currentScene.add(controls.getObject());
 
 				scene1.add(floor);
 
+				var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
+light.position.set(- 0, 35, 80);
+scene1.add( light );
 				
 
 
@@ -327,9 +336,9 @@ currentScene.add(controls.getObject());
      ufoloader.load( "models/Spaceship.glb", function(gltf){
 	var ufo = gltf.scene;
 
-      ufo.scale.set(20,20,20);
+      ufo.scale.set(25,25,25);
 
-    ufo.position.set(- 100, 4, 60);
+    ufo.position.set(- 160, 6, 80);
 	ufo.rotation.y = getRadian(-90);
 
     ufo.visible = true;
