@@ -119,6 +119,8 @@
 
 			var currentScene;
 
+			var scene1loaded = false;
+
 			var objects = [];
 
 			var raycaster;
@@ -175,7 +177,7 @@ scene.add( light );
 			function initUfo(){
 			
 				 var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/interior4.glb", function(gltf){
+     ufoloader.load( "models/interior7.glb", function(gltf){
 	var ufo = gltf.scene;
 
       ufo.scale.set(15,15,15);
@@ -304,7 +306,7 @@ scene.add( light );
 			function switchScenes(){
 				camera.position.y = 10;
 				camera.position.z = 30;
-				initScene1();
+				if(scene1loaded == false) initScene1();
 console.log("switch scenes");
 if(currentScene == scene) {
 	currentScene = scene1;
@@ -313,6 +315,8 @@ currentScene.add(controls.getObject());
 			}
 
 			function initScene1(){
+
+				scene1loaded = true;
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
 				light.position.set( 0.5, 1, 0.75 );
