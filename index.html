@@ -335,7 +335,6 @@ light.position.set(- 0, 35, 80);
 scene1.add( light );
 				
 
-var geometry = new THREE.SphereGeometry(3000, 60, 40);  
 /*
 var uniforms = {  
   texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/SkyDomeTest.jpg') }
@@ -348,11 +347,12 @@ var material = new THREE.ShaderMaterial( {
 });*/
 
 var material = new THREE.MeshBasicMaterial();
-		material.map = new THREE.TextureLoader().load("textures/SkyDomeTest.jpg");
+		//material.map = new THREE.TextureLoader().load("textures/SkyDomeTest.jpg");
+		material.color = new THREE.Color( 0xFFFFFF );
 		material.side = THREE.BackSide;
 
-var skyBox = new THREE.Mesh(geometry, material);  
-
+var skyBox = new THREE.Mesh(new THREE.SphereGeometry(3000, 60, 40), material);  
+skyBox.position.set(- 260, 40, 100);
 scene1.add(skyBox);  
 
 
@@ -415,7 +415,7 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
 				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
-				scene1.fog = new THREE.Fog( 0xffffff, 0, 1100 );
+				//scene1.fog = new THREE.Fog( 0xffffff, 0, 1100 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
 				light.position.set( 0.5, 3, 0.75 );
