@@ -121,6 +121,8 @@
 
 			var scene1loaded = false;
 
+			var scene2loaded = false;
+
 			var objects = [];
 
 			var raycaster;
@@ -310,7 +312,11 @@ scene.add( light );
 console.log("switch scenes");
 if(currentScene == scene) {
 	currentScene = scene1;
-} else{currentScene = scene;}
+} else if(currentScene == scene1){
+	if(scene2loaded == false) initScene2();
+	currentScene = scene2;
+}
+else{currentScene = scene;}
 currentScene.add(controls.getObject());
 			}
 
@@ -331,29 +337,9 @@ currentScene.add(controls.getObject());
 				scene1.add(floor);
 
 				var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
-light.position.set(- 0, 35, 80);
-scene1.add( light );
-				
-
-/*
-var uniforms = {  
-  texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/SkyDomeTest.jpg') }
-};
-
-var material = new THREE.ShaderMaterial( {  
-  uniforms:       uniforms,
-  vertexShader:   document.getElementById('sky-vertex').textContent,
-  fragmentShader: document.getElementById('sky-fragment').textContent
-});*/
-
-var material = new THREE.MeshBasicMaterial();
-		//material.map = new THREE.TextureLoader().load("textures/SkyDomeTest.jpg");
-		material.color = new THREE.Color( 0xFFFFFF );
-		material.side = THREE.BackSide;
-
-var skyBox = new THREE.Mesh(new THREE.SphereGeometry(3000, 60, 40), material);  
-skyBox.position.set(- 260, 40, 100);
-scene1.add(skyBox);  
+				light.position.set(- 0, 35, 80);
+				scene1.add( light );
+			
 
 
 var somaloader = new GLTFLoader(manager);
@@ -401,7 +387,41 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
     scene1.add(ufo);
 
   });
+
 			}
+
+			function initScene2(){
+
+scene2loaded = true;
+
+var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+light.position.set( 0.5, 1, 0.75 );
+scene2.add( light );
+
+var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
+light.position.set(- 0, 35, 80);
+scene2.add( light );
+
+
+
+var uniforms = {  
+texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/Nebula.png') }
+};
+
+var material = new THREE.ShaderMaterial( {  
+uniforms:       uniforms,
+vertexShader:   document.getElementById('sky-vertex').textContent,
+fragmentShader: document.getElementById('sky-fragment').textContent
+});
+
+//var material = new THREE.MeshBasicMaterial();
+//material.map = new THREE.TextureLoader().load("textures/SkyDomeTest.jpg");
+//material.color = new THREE.Color( 0xFFFFFF );
+material.side = THREE.BackSide;
+
+scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) ); 
+
+}
 
 			function init() {
 
