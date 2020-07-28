@@ -178,25 +178,25 @@ scene.add( light );
 
 			function initUfo(){
 			
-				 var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/interior7.glb", function(gltf){
-	var ufo = gltf.scene;
+				 var intloader = new GLTFLoader(manager);
+				 intloader.load( "models/interior7.glb", function(gltf){
+	var int = gltf.scene;
 
-      ufo.scale.set(15,15,15);
+	int.scale.set(15,15,15);
 
-    ufo.position.set(- 0, 0.50, 60);
-	ufo.rotation.y = getRadian(-90);
+    int.position.set(- 0, 0.50, 60);
+	int.rotation.y = getRadian(-90);
 
-    ufo.visible = true;
+    int.visible = true;
 
 
 
-    ufo.traverse(function (o) {
+    int.traverse(function (o) {
       if (o.isMesh) {
-	  console.log("UFO");
+	  console.log("interrior");
       }
     });
-    scene.add(ufo);
+    scene.add(int);
 
   });
 
@@ -402,7 +402,31 @@ var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
 light.position.set(- 0, 35, 80);
 scene2.add( light );
 
+var somaloader = new GLTFLoader(manager);
+somaloader.load( "models/moon4.glb", function(gltf){
+	var soma = gltf.scene;
 
+	soma.scale.set(0.5,0.5,0.5);
+
+    //soma.position.set(- 160, 6, 80);
+	soma.rotation.y = getRadian(-90);
+
+    soma.visible = true;
+
+
+
+    soma.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("soma");
+      }
+    });
+    scene2.add(soma);
+
+  });
+
+
+
+/*
 
 var uniforms = {  
 texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/Nebula.png') }
@@ -413,10 +437,10 @@ uniforms:       uniforms,
 vertexShader:   document.getElementById('sky-vertex').textContent,
 fragmentShader: document.getElementById('sky-fragment').textContent
 });
-
-//var material = new THREE.MeshBasicMaterial();
-//material.map = new THREE.TextureLoader().load("textures/SkyDomeTest.jpg");
-//material.color = new THREE.Color( 0xFFFFFF );
+*/
+var material = new THREE.MeshBasicMaterial();
+material.map = new THREE.TextureLoader().load("textures/Nebula.png");
+material.color = new THREE.Color( 0xFFFFFF );
 material.side = THREE.BackSide;
 
 scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) ); 
