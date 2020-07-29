@@ -1,0 +1,15 @@
+{
+    "background_color": "black",
+    "description": "Nessi Nezzila / Virtual Exhibition",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "favicon.ico",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "Nessi Nezzila",
+    "short_name": "Nessi",
+    "start_url": "/index.html"
+}
