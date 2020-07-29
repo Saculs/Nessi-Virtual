@@ -115,13 +115,17 @@
 
 			var loader = new GLTFLoader();
 
-			var camera, scene, scene1, scene2, renderer, controls;
+			var camera, scene, scene1, scene2, scene3,renderer, controls;
 
 			var currentScene;
+
+			var ufo;
 
 			var scene1loaded = false;
 
 			var scene2loaded = false;
+
+			var scene3loaded = false;
 
 			var objects = [];
 
@@ -198,7 +202,14 @@ scene.add( light );
     });
     scene.add(int);
 
-  });
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( 'interior ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	}
+	);
 
 			}
 
@@ -284,7 +295,7 @@ scene.add( light );
       }
 	  var ufoloader = new GLTFLoader(manager);
      ufoloader.load( "models/interior4.glb", function(gltf){
-	var ufo = gltf.scene;
+	 ufo = gltf.scene;
 
       ufo.scale.set(15,15,15);
 
@@ -302,7 +313,14 @@ scene.add( light );
     });
     scene.add(ufo);
 
-  });
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	}
+	);
     }	
 
 			function switchScenes(){
@@ -315,6 +333,10 @@ if(currentScene == scene) {
 } else if(currentScene == scene1){
 	if(scene2loaded == false) initScene2();
 	currentScene = scene2;
+}
+else if(currentScene == scene2){
+	if(scene3loaded == false) initScene3();
+	currentScene = scene3;
 }
 else{currentScene = scene;}
 currentScene.add(controls.getObject());
@@ -385,8 +407,14 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
       }
     });
     scene1.add(ufo);
+  },
+	// called while loading is progressing
+	function ( xhr ) {
 
-  });
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	}
+	);
 
 			}
 
@@ -402,29 +430,37 @@ var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
 light.position.set(- 0, 35, 80);
 scene2.add( light );
 
-var somaloader = new GLTFLoader(manager);
-somaloader.load( "models/moon4.glb", function(gltf){
-	var soma = gltf.scene;
 
-	soma.scale.set(0.5,0.5,0.5);
+scene2.add(ufo);
 
-    //soma.position.set(- 160, 6, 80);
-	soma.rotation.y = getRadian(-90);
+var ufoloader = new GLTFLoader(manager);
+     ufoloader.load( "models/Spaceship.glb", function(gltf){
+	var ufo = gltf.scene;
 
-    soma.visible = true;
+	  ufo.scale.set(45,45,45);
+
+    ufo.position.set(- 260, 40, 100);
+	ufo.rotation.y = getRadian(-80);
+	ufo.rotation.x = getRadian(-10);
+
+    ufo.visible = true;
 
 
 
-    soma.traverse(function (o) {
+    ufo.traverse(function (o) {
       if (o.isMesh) {
-	  console.log("soma");
+	  console.log("UFO");
       }
     });
-    scene2.add(soma);
+    scene2.add(ufo);
+  },
+	// called while loading is progressing
+	function ( xhr ) {
 
-  });
+		console.log('ufo ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
-
+	}
+	);
 
 /*
 
@@ -447,6 +483,67 @@ scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) );
 
 }
 
+function initScene3(){
+
+scene3loaded = true;
+/*
+var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+light.position.set( 1, 6, 0.75 );
+scene3.add( light );
+*/
+
+var light2 = new THREE.PointLight( 0xFFFFFF, 1, 300 );
+light2.position.set(0.5, 6, 3);
+scene3.add( light2 );
+
+var moonloader = new GLTFLoader(manager);
+moonloader.load( "models/moon4.glb", function(gltf){
+	var moon = gltf.scene;
+
+	moon.scale.set(0.5,0.5,0.5);
+
+    //moon.position.set(- 160, 6, 80);
+	moon.rotation.y = getRadian(-90);
+
+    moon.visible = true;
+
+
+
+    moon.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("moon");
+      }
+    });
+    scene3.add(moon);
+
+  });
+
+
+
+/*
+
+var uniforms = {  
+texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/Nebula.png') }
+};
+
+var material = new THREE.ShaderMaterial( {  
+uniforms:       uniforms,
+vertexShader:   document.getElementById('sky-vertex').textContent,
+fragmentShader: document.getElementById('sky-fragment').textContent
+});
+*/
+var material = new THREE.MeshBasicMaterial();
+material.map = new THREE.TextureLoader().load("textures/Aurora3.png");
+material.color = new THREE.Color( 0xFFFFFF );
+material.side = THREE.BackSide;
+
+scene3.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) ); 
+
+}
+
+
+
+
 			function init() {
 
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -456,6 +553,8 @@ scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) );
 				currentScene = scene;
 				scene1 = new THREE.Scene();
 				scene2 = new THREE.Scene();
+				scene3 = new THREE.Scene();
+				ufo = new THREE.Object3D();
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
 				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
@@ -760,7 +859,7 @@ scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) );
 
 <div id="footer">
 
-	Interior    Exteriror    Space
+	Interior    Exteriror    Space	Moon
 
 </div>
 
