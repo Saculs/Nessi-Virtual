@@ -294,7 +294,7 @@ var ufoloader = new GLTFLoader(manager);
 
 	  ufo.scale.set(45,45,45);
 
-    ufo.position.set(- 260, 10, 100);
+    ufo.position.set(100, 10, 250);
 	ufo.rotation.y = getRadian(-80);
 	ufo.rotation.x = getRadian(-10);
 
@@ -442,9 +442,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
   var txt = $(e.target).text();
   console.log(txt);
 goToScene(txt);
-controls.unlock();
-instructions.style.display = 'block';
-					
+controls.unlock();					
 });
 
 
