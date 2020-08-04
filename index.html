@@ -221,7 +221,8 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
     //soma.position.set(- 160, 6, 80);
 	soma.rotation.y = getRadian(-90);
 
-    soma.visible = true;
+	soma.visible = true;
+	soma.position.set(0,0,20);
 
 
 
@@ -247,9 +248,10 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 
 	  ufo.scale.set(45,45,45);
 
-    ufo.position.set(- 260, 40, 100);
+	  ufo.position.set(-100, 20, -250);
 	ufo.rotation.y = getRadian(-80);
-	ufo.rotation.x = getRadian(-10);
+	ufo.rotation.x = getRadian(10);
+
 
     ufo.visible = true;
 
@@ -294,9 +296,9 @@ var ufoloader = new GLTFLoader(manager);
 
 	  ufo.scale.set(45,45,45);
 
-    ufo.position.set(100, 10, 250);
+    ufo.position.set(-100, 10, -250);
 	ufo.rotation.y = getRadian(-80);
-	ufo.rotation.x = getRadian(-10);
+	ufo.rotation.x = getRadian(10);
 
     ufo.visible = true;
 
@@ -334,8 +336,9 @@ var material = new THREE.MeshBasicMaterial();
 material.map = new THREE.TextureLoader().load("textures/Nebula.png");
 material.color = new THREE.Color( 0xFFFFFF );
 material.side = THREE.BackSide;
-
-scene2.add(new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material) ); 
+var sky = new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material);
+sky.rotation.y = getRadian(100);
+scene2.add(sky); 
 
 }
 
@@ -420,8 +423,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				ufo = new THREE.Object3D();
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
-				scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
-				//scene1.fog = new THREE.Fog( 0xffffff, 0, 1100 );
+				//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+				scene1.fog = new THREE.Fog( 0xffffff, 0, 2000 );
 				scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
