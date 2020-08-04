@@ -213,7 +213,7 @@ currentScene.add(controls.getObject());
 
 
 var somaloader = new GLTFLoader(manager);
-somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
+somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	var soma = gltf.scene;
 
 	soma.scale.set(0.5,0.5,0.5);
@@ -242,7 +242,7 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
 
 
 				var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/Spaceship.glb", function(gltf){
+     ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
 	var ufo = gltf.scene;
 
 	  ufo.scale.set(45,45,45);
@@ -286,15 +286,15 @@ light.position.set(- 0, 35, 80);
 scene2.add( light );
 
 
-scene2.add(ufo);
+//scene2.add(ufo);
 
 var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/Spaceship.glb", function(gltf){
+     ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
 	var ufo = gltf.scene;
 
 	  ufo.scale.set(45,45,45);
 
-    ufo.position.set(- 260, 40, 100);
+    ufo.position.set(- 260, 10, 100);
 	ufo.rotation.y = getRadian(-80);
 	ufo.rotation.x = getRadian(-10);
 
@@ -313,8 +313,8 @@ var ufoloader = new GLTFLoader(manager);
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'ufo ' + ( xhr.loaded ) + 'loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 13590768 * 100 ) + '% loaded<br><br> click to ENTER');
+		console.log( 'ufo ' + ( xhr.loaded ) + ' loaded' );
+		$("#loadText").html( Math.floor( xhr.loaded / 2561968 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
@@ -442,7 +442,9 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
   var txt = $(e.target).text();
   console.log(txt);
 goToScene(txt);
-controls.unlock();					
+controls.unlock();
+instructions.style.display = 'block';
+					
 });
 
 
