@@ -132,7 +132,7 @@ scene.add( light );
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'interior ' + ( xhr.loaded) +'% loaded' );
-		$("#loadText").html( ( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
@@ -236,7 +236,7 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'soma ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( ( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
@@ -313,7 +313,7 @@ var ufoloader = new GLTFLoader(manager);
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'ufo ' + ( xhr.loaded ) + 'loaded' );
-		$("#loadText").html( ( xhr.loaded / 13590768 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 13590768 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
@@ -378,7 +378,7 @@ moonloader.load( "models/moon4.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( ( xhr.loaded / 45492188 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 45492188 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
