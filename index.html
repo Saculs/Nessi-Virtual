@@ -344,11 +344,9 @@ function initScene3(){
 scene3loaded = true;
 scene3.add(controls.getObject());
 
-var light = new THREE.HemisphereLight( 0xFFFFFF, 5,  300 );
-light.position.set( 1, 10, 0.75 );
-scene3.add( light );
 
-var amblight = new THREE.AmbientLight( 0x02FD01,4 ); // soft white light
+
+var amblight = new THREE.AmbientLight( 0x02FD01,0.1); // soft white light
 scene3.add( amblight );
 
 var light2 = new THREE.PointLight( 0xFFFFFF, 1, 1600 );
@@ -356,7 +354,7 @@ light2.position.set(0.5, 10, 3);
 scene3.add( light2 );
 
 var moonloader = new GLTFLoader(manager);
-moonloader.load( "models/moon5.glb", function(gltf){
+moonloader.load( "models/moon9.glb", function(gltf){
 	var moon = gltf.scene;
 
 	moon.scale.set(0.5,0.5,0.5);
@@ -379,7 +377,7 @@ moonloader.load( "models/moon5.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 45492188 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
