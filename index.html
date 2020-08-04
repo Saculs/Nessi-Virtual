@@ -99,7 +99,7 @@ manager.onError = function () {
 var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
 var cube = new THREE.Mesh( geometry, material );
 cube.position.set(100, 20, -103);
-scene.add(cube);
+//scene.add(cube);
 
 var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
 light.position.set(- 0, 35, 80);
@@ -445,7 +445,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
   var txt = $(e.target).text();
   console.log(txt);
 goToScene(txt);
-controls.unlock();					
+//controls.unlock();					
 });
 
 
