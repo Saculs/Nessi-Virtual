@@ -235,8 +235,8 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( ( xhr.loaded / xhr.total * 100 ) + '% loaded<br><br> click to ENTER');
+		console.log( 'soma ' + ( xhr.loaded) + '% loaded' );
+		$("#loadText").html( ( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
@@ -307,7 +307,8 @@ var ufoloader = new GLTFLoader(manager);
 	  console.log("UFO");
       }
     });
-    scene2.add(ufo);
+	scene2.add(ufo);
+	console.log( 'ufo added to scene' );
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -377,7 +378,7 @@ moonloader.load( "models/moon4.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( ( xhr.loaded / xhr.total * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( ( xhr.loaded / 45492188 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
 
