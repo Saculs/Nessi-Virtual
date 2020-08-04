@@ -231,7 +231,7 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
       }
     });
     scene1.add(soma);
-
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -309,6 +309,7 @@ var ufoloader = new GLTFLoader(manager);
     });
 	scene2.add(ufo);
 	console.log( 'ufo added to scene' );
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -373,7 +374,7 @@ moonloader.load( "models/moon4.glb", function(gltf){
       }
     });
     scene3.add(moon);
-
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -442,7 +443,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				$('#footer a').click(function(e) {
   var txt = $(e.target).text();
   console.log(txt);
-goToScene(txt);					
+goToScene(txt);
+controls.lock();					
 });
 
 
