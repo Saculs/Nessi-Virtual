@@ -131,7 +131,7 @@ scene.add( light );
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'interior ' + ( xhr.loaded) +'% loaded' );
+		console.log( 'interior ' + Math.floor( xhr.loaded / 25107276 * 100 ) +'% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
@@ -265,7 +265,7 @@ somaloader.load( "models/somaTierenRetopo3.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		//console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 	}
 	);
