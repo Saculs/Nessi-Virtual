@@ -131,7 +131,7 @@ scene.add( light );
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'interior ' + ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		console.log( 'interior ' + ( xhr.loaded  * 100 ) + xhr.total +'% loaded' );
 		$("#loadText").html( ( xhr.loaded / xhr.total * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
