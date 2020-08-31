@@ -382,6 +382,38 @@ scene2.add( light );
 
 //scene2.add(ufo);
 
+var rocksloader = new GLTFLoader(manager);
+     rocksloader.load( "models/betonSpace.glb", function(gltf){
+	var rocks = gltf.scene;
+
+	//rocks.scale.set(0.05,0.05,0.05);
+
+    rocks.position.set(0, 10, -250);
+	rocks.rotation.y = getRadian(-80);
+	rocks.rotation.x = getRadian(10);
+
+    rocks.visible = true;
+
+    rocks.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("rocks " + o.name);
+	  if(o.name.includes("Beton") ) {
+	o.position.set(200, 0, 0);
+	o.scale.set(0.3,0.3,0.3)
+	  }
+	  }
+    });
+	scene2.add(rocks);
+	console.log( 'rocks added to scene' );
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( 'rocks ' + ( xhr.loaded ) + ' loaded' );
+		$("#loadText").html( Math.floor( xhr.loaded / 36516848 * 100 ) + '% loaded<br><br> click to ENTER');
+	}
+	);
+
 var ufoloader = new GLTFLoader(manager);
      ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
 	var ufo = gltf.scene;
@@ -430,7 +462,7 @@ material.color = new THREE.Color( 0xFFFFFF );
 material.side = THREE.BackSide;
 var sky = new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material);
 sky.rotation.y = getRadian(100);
-scene2.add(sky); 
+//scene2.add(sky); 
 
 }
 
