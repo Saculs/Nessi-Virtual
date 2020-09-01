@@ -70,7 +70,7 @@ console.log("device/2",ww, h);
 			tsClientX = e.touches[0].clientX;
 			camera.quaternion.setFromEuler( euler );
 			scope.dispatchEvent( changeEvent );
-			//console.log("TouchMove",clientX,clientY);
+			console.log("TouchMove",clientX,clientY);
 			
 		};
 		function onTouchEnd( e ) {
