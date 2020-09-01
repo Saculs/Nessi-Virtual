@@ -11,8 +11,6 @@
 		<link rel="manifest" href="mani.webmanifest"/>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		
-
 		<style>
 			
 		</style>
@@ -40,7 +38,6 @@
 			import { PointerLockControls } from './examples/jsm/controls/PointerLockControls.js';
 			import { GLTFLoader } from './examples/jsm/loaders/GLTFLoader.js';
 
-			import { FireShader } from './FireShader.js';
 
 			var loader = new GLTFLoader();
 
@@ -59,9 +56,6 @@
 			var objects = [];
 
 			var raycaster;
-
-			var clock;
-			var fire;
 
 			var moveForward = false;
 			var moveBackward = false;
@@ -87,6 +81,7 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
+<<<<<<< HEAD
 
 var Fire = function ( fireTex, color ) {
 
@@ -138,6 +133,20 @@ this.material.uniforms.scale.value = this.scale;
 
 	init();
 	animate();
+=======
+			init();
+			animate();
+
+			function getRadian(x) {
+				return (Math.PI*x)/180;
+			}
+
+
+
+			function initEnv(){
+
+			
+>>>>>>> parent of 9096ada... Fire and door + Progress
 
 	function getRadian(x) {
 		return (Math.PI*x)/180;
@@ -192,7 +201,7 @@ this.material.uniforms.scale.value = this.scale;
 		function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
-				camera.position.z = 30;
+	camera.position.z = 30;
 	var index = 0;
 	switch(txt) {
   case "Space":
@@ -215,10 +224,8 @@ case "AtomGas":
 	currentScene = scene3;
     break;
   default:
-	switchScenes();
+    switchScenes();
 }
-
-currentScene.add(controls.getObject());
 
 }
 
@@ -248,24 +255,17 @@ else{currentScene = scene;}
 				light.position.set( 0.5, 1, 0.75 );
 				scene1.add( light );
 
-				var light2 = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-				light2.position.set(-100, 25, -250);
-				//scene1.add( light2 );
-
 				var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide, color: 0x000000} );
 
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-				//scene1.add(floor);
+				scene1.add(floor);
 
 				var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
 				light.position.set(- 0, 35, 80);
 				scene1.add( light );
-
-				
-
 			
 
 
@@ -280,7 +280,7 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 
 	soma.visible = true;
 	soma.position.set(0,0,20);
-	
+
 
 
     soma.traverse(function (o) {
@@ -295,34 +295,6 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'soma ' + ( xhr.loaded) + '% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
-	}
-	);
-
-
-	var moonloader = new GLTFLoader(manager);
-moonloader.load( "models/moon9.glb", function(gltf){
-	var moon = gltf.scene;
-
-	moon.scale.set(2,2,2);
-
-    //moon.position.set(- 160, 6, 80);
-	moon.rotation.y = getRadian(-90);
-
-    moon.visible = true;
-
-
-
-    moon.traverse(function (o) {
-      if (o.isMesh) {
-	  console.log("moon");
-      }
-    });
-    scene1.add(moon);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
-  },
-	// called while loading is progressing
-	function ( xhr ) {
-		
 	}
 	);
 
@@ -475,7 +447,7 @@ var moonloader = new GLTFLoader(manager);
 moonloader.load( "models/moon9.glb", function(gltf){
 	var moon = gltf.scene;
 
-	moon.scale.set(1,1,1);
+	moon.scale.set(0.5,0.5,0.5);
 
     //moon.position.set(- 160, 6, 80);
 	moon.rotation.y = getRadian(-90);
@@ -498,35 +470,6 @@ moonloader.load( "models/moon9.glb", function(gltf){
 		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
-
-	var  doorloader = new GLTFLoader(manager);
-doorloader.load( "models/Door4.glb", function(gltf){
-	var door = gltf.scene;
-
-	door.scale.set(6,6,6);
-
-    //door.position.set(- 160, 6, 80);
-	//door.rotation.y = getRadian(-90);
-
-    door.visible = true;
-
-
-
-    door.traverse(function (o) {
-      if (o.isMesh) {
-	  console.log("door");
-      }
-    });
-    scene3.add(door);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
-  },
-	// called while loading is progressing
-	function ( xhr ) {
-		console.log( 'door ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
-	}
-	);
-
 
 
 
@@ -553,7 +496,11 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 
 
 			function init() {
+<<<<<<< HEAD
 				 //clock = new THREE.Clock();
+=======
+
+>>>>>>> parent of 9096ada... Fire and door + Progress
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
 				camera.position.y = 10;
 				camera.position.z = 30;
@@ -773,6 +720,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				//initEnv();
 				initUfo();
 
+<<<<<<< HEAD
 				var fireTex = new THREE.TextureLoader().load("./Fire.png");
 				fire = new Fire(fireTex);
 				fire.scale.set(25,25,25);
@@ -780,6 +728,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				scene1.add(fire);
 
 
+=======
+>>>>>>> parent of 9096ada... Fire and door + Progress
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -799,14 +749,16 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
 			}
-			var t = 0;
 
 			function animate() {
 
 				requestAnimationFrame( animate );
+<<<<<<< HEAD
 				t = t + 0.01;
                 fire.update(t);
 
+=======
+>>>>>>> parent of 9096ada... Fire and door + Progress
 
 				if ( controls.isLocked === true ) {
 
