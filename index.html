@@ -11,6 +11,8 @@
 		<link rel="manifest" href="mani.webmanifest"/>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		
+
 		<style>
 			
 		</style>
@@ -38,6 +40,7 @@
 			import { PointerLockControls } from './examples/jsm/controls/PointerLockControls.js';
 			import { GLTFLoader } from './examples/jsm/loaders/GLTFLoader.js';
 
+			import { FireShader } from './FireShader.js';
 
 			var loader = new GLTFLoader();
 
@@ -57,6 +60,9 @@
 
 			var raycaster;
 
+			var clock;
+			var fire;
+
 			var moveForward = false;
 			var moveBackward = false;
 			var moveLeft = false;
@@ -71,15 +77,65 @@
 
 			var manager = new THREE.LoadingManager();
 
-			manager.onProgress = function (item, loaded, total) {
+manager.onProgress = function (item, loaded, total) {
     console.log(item, loaded, total);
 };
-			manager.onLoad = function () {
+manager.onLoad = function () {
     console.log('all items loaded');
 };
-			manager.onError = function () {
+manager.onError = function () {
     console.log('there has been an error');
 };
+
+var Fire = function ( fireTex, color ) {
+
+var fireMaterial = new THREE.ShaderMaterial( {
+	defines         : FireShader.defines,
+	uniforms        : THREE.UniformsUtils.clone( FireShader.uniforms ),
+	vertexShader    : FireShader.vertexShader,
+	fragmentShader  : FireShader.fragmentShader,
+	transparent     : true,
+	depthWrite      : false,
+	depthTest       : true
+} );
+
+// initialize uniforms 
+
+fireTex.magFilter = fireTex.minFilter = THREE.LinearFilter;
+fireTex.wrapS = fireTex.wrapT = THREE.ClampToEdgeWrapping;
+
+fireMaterial.uniforms.fireTex.value = fireTex;
+fireMaterial.uniforms.color.value = color || new THREE.Color( 0xeeeeee );
+fireMaterial.uniforms.invModelMatrix.value = new THREE.Matrix4();
+fireMaterial.uniforms.scale.value = new THREE.Vector3( 1, 1, 1 );
+fireMaterial.uniforms.seed.value = Math.random() * 19.19;
+fireMaterial.uniforms.magnitude.value = 2.6;
+
+
+THREE.Mesh.call( this, new THREE.BoxGeometry( 1.0, 1.0, 1.0 ), fireMaterial );
+};
+
+Fire.prototype = Object.create( THREE.Mesh.prototype );
+Fire.prototype.constructor = THREE.Fire;
+
+Fire.prototype.update = function ( time ) {
+
+var invModelMatrix = this.material.uniforms.invModelMatrix.value;
+
+this.updateMatrixWorld();
+invModelMatrix.getInverse( this.matrixWorld );
+
+if( time !== undefined ) {
+	this.material.uniforms.time.value = time;
+}
+
+this.material.uniforms.invModelMatrix.value = invModelMatrix;
+
+this.material.uniforms.scale.value = this.scale;
+
+
+};
+
 
 			init();
 			animate();
@@ -87,28 +143,24 @@
 			function getRadian(x) {
 				return (Math.PI*x)/180;
 			}
-
+			
 
 
 			function initEnv(){
 
 			
 
-			function getRadian(x) {
-		return (Math.PI*x)/180;
-	}
 
-			function initEnv(){
-		var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
-		var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
-		var cube = new THREE.Mesh( geometry, material );
-		cube.position.set(100, 20, -103);
-		//scene.add(cube);
+				var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
+var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
+var cube = new THREE.Mesh( geometry, material );
+cube.position.set(100, 20, -103);
+//scene.add(cube);
 
-		var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
-		light.position.set(- 0, 35, 80);
-		scene.add( light );
-	}
+var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
+light.position.set(- 0, 35, 80);
+scene.add( light );
+			}
 
 			function initUfo(){
 			
@@ -140,14 +192,14 @@
 	}
 	);
 
-}
+			}
 
 			 
 
-			function goToScene(txt){
+function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
-	camera.position.z = 30;
+				camera.position.z = 30;
 	var index = 0;
 	switch(txt) {
   case "Space":
@@ -170,8 +222,10 @@ case "AtomGas":
 	currentScene = scene3;
     break;
   default:
-    switchScenes();
+	switchScenes();
 }
+
+currentScene.add(controls.getObject());
 
 }
 
@@ -201,17 +255,24 @@ else{currentScene = scene;}
 				light.position.set( 0.5, 1, 0.75 );
 				scene1.add( light );
 
+				var light2 = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+				light2.position.set(-100, 25, -250);
+				//scene1.add( light2 );
+
 				var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
 				floorGeometry.rotateX( - Math.PI / 2 );
 				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide, color: 0x000000} );
 
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 
-				scene1.add(floor);
+				//scene1.add(floor);
 
 				var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
 				light.position.set(- 0, 35, 80);
 				scene1.add( light );
+
+				
+
 			
 
 
@@ -226,7 +287,7 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 
 	soma.visible = true;
 	soma.position.set(0,0,20);
-
+	
 
 
     soma.traverse(function (o) {
@@ -241,6 +302,34 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'soma ' + ( xhr.loaded) + '% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
+	}
+	);
+
+
+	var moonloader = new GLTFLoader(manager);
+moonloader.load( "models/moon9.glb", function(gltf){
+	var moon = gltf.scene;
+
+	moon.scale.set(2,2,2);
+
+    //moon.position.set(- 160, 6, 80);
+	moon.rotation.y = getRadian(-90);
+
+    moon.visible = true;
+
+
+
+    moon.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("moon");
+      }
+    });
+    scene1.add(moon);
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+		
 	}
 	);
 
@@ -275,56 +364,24 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	}
 	);
 
-}
+			}
 
 			function initScene2(){
 
 scene2loaded = true;
 scene2.add(controls.getObject());
 
-var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2);
+var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
 light.position.set( 0.5, 1, 0.75 );
 scene2.add( light );
 
-var light = new THREE.PointLight( 0xFFFFFF, 60, 600 );
+var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
 light.position.set(- 0, 35, 80);
 scene2.add( light );
 
 
 //scene2.add(ufo);
-/*
-var rocksloader = new GLTFLoader(manager);
-     rocksloader.load( "models/betonSpace.glb", function(gltf){
-	var rocks = gltf.scene;
 
-	//rocks.scale.set(0.05,0.05,0.05);
-
-    rocks.position.set(0, 10, -250);
-	rocks.rotation.y = getRadian(-80);
-	rocks.rotation.x = getRadian(10);
-
-    rocks.visible = true;
-
-    rocks.traverse(function (o) {
-      if (o.isMesh) {
-	  console.log("rocks " + o.name);
-	  if(o.name.includes("Beton") ) {
-	o.position.set(200, 0, 0);
-	o.scale.set(0.2,0.2,0.2)
-	  }
-	  }
-    });
-	scene2.add(rocks);
-	console.log( 'rocks added to scene' );
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
-  },
-	// called while loading is progressing
-	function ( xhr ) {
-		console.log( 'rocks ' + ( xhr.loaded ) + ' loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 36516848 * 100 ) + '% loaded<br><br> click to ENTER');
-	}
-	);
-*/
 var ufoloader = new GLTFLoader(manager);
      ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
 	var ufo = gltf.scene;
@@ -336,6 +393,8 @@ var ufoloader = new GLTFLoader(manager);
 	ufo.rotation.x = getRadian(10);
 
     ufo.visible = true;
+
+
 
     ufo.traverse(function (o) {
       if (o.isMesh) {
@@ -371,11 +430,11 @@ material.color = new THREE.Color( 0xFFFFFF );
 material.side = THREE.BackSide;
 var sky = new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material);
 sky.rotation.y = getRadian(100);
-//scene2.add(sky); 
+scene2.add(sky); 
 
 }
 
-			function initScene3(){
+function initScene3(){
 
 scene3loaded = true;
 scene3.add(controls.getObject());
@@ -393,7 +452,7 @@ var moonloader = new GLTFLoader(manager);
 moonloader.load( "models/moon9.glb", function(gltf){
 	var moon = gltf.scene;
 
-	moon.scale.set(0.5,0.5,0.5);
+	moon.scale.set(1,1,1);
 
     //moon.position.set(- 160, 6, 80);
 	moon.rotation.y = getRadian(-90);
@@ -416,6 +475,35 @@ moonloader.load( "models/moon9.glb", function(gltf){
 		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
+
+	var  doorloader = new GLTFLoader(manager);
+doorloader.load( "models/Door4.glb", function(gltf){
+	var door = gltf.scene;
+
+	door.scale.set(6,6,6);
+
+    //door.position.set(- 160, 6, 80);
+	//door.rotation.y = getRadian(-90);
+
+    door.visible = true;
+
+
+
+    door.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("door");
+      }
+    });
+    scene3.add(door);
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( 'door ' + ( xhr.loaded) + '% loaded' );
+		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
+	}
+	);
+
 
 
 
@@ -441,8 +529,10 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 }
 
 
+
+
 			function init() {
-				 //clock = new THREE.Clock();
+				 clock = new THREE.Clock();
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
 				camera.position.y = 10;
 				camera.position.z = 30;
@@ -451,12 +541,12 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				scene1 = new THREE.Scene();
 				scene2 = new THREE.Scene();
 				scene3 = new THREE.Scene();
-				//ufo = new THREE.Object3D();
+				ufo = new THREE.Object3D();
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
 				//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 				scene1.fog = new THREE.Fog( 0xffffff, 0, 2000 );
-				//scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
+				scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
 				light.position.set( 0.5, 3, 0.75 );
@@ -473,11 +563,11 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 */
 
 				$('#footer a').click(function(e) {
- 					var txt = $(e.target).text();
-  					console.log(txt);
-					goToScene(txt);
-					//controls.unlock();					
-				});
+  var txt = $(e.target).text();
+  console.log(txt);
+goToScene(txt);
+//controls.unlock();					
+});
 
 
 				instructions.addEventListener( 'click', function () {
@@ -619,8 +709,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 				var ceiling = new THREE.Mesh( floorGeometry, floorMaterial );
 				scene.add( floor );
-				//scene.add( ceiling);
-				//ceiling.position.set(0, 80, 0);
+				scene.add( ceiling);
+				ceiling.position.set(0, 80, 0);
 
 				 
 
@@ -659,8 +749,20 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				//
 
 				//initPaintings();
-				//initEnv();
+				initEnv();
 				initUfo();
+
+				var fireTex = new THREE.TextureLoader().load("./Fire.png");
+				fire = new Fire(fireTex);
+				fire.scale.set(25,25,25);
+				fire.position.set(0,10,-30);
+				scene1.add(fire);
+
+				
+
+    
+
+
 
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -682,10 +784,14 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
 			}
+			var t = 0;
 
 			function animate() {
 
 				requestAnimationFrame( animate );
+				t = t + 0.02;
+                fire.update(t);
+
 
 				if ( controls.isLocked === true ) {
 
@@ -735,6 +841,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 					prevTime = time;
 
 				}
+
+				
 
 				renderer.render( currentScene, camera );
 
