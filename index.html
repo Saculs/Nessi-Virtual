@@ -81,59 +81,6 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
-<<<<<<< HEAD
-
-var Fire = function ( fireTex, color ) {
-
-var fireMaterial = new THREE.ShaderMaterial( {
-	defines         : FireShader.defines,
-	uniforms        : THREE.UniformsUtils.clone( FireShader.uniforms ),
-	vertexShader    : FireShader.vertexShader,
-	fragmentShader  : FireShader.fragmentShader,
-	transparent     : true,
-	depthWrite      : false,
-	depthTest       : true
-} );
-
-// initialize uniforms 
-
-fireTex.magFilter = fireTex.minFilter = THREE.LinearFilter;
-fireTex.wrapS = fireTex.wrapT = THREE.ClampToEdgeWrapping;
-
-fireMaterial.uniforms.fireTex.value = fireTex;
-fireMaterial.uniforms.color.value = color || new THREE.Color( 0xeeeeee );
-fireMaterial.uniforms.invModelMatrix.value = new THREE.Matrix4();
-fireMaterial.uniforms.scale.value = new THREE.Vector3( 1, 1, 1 );
-fireMaterial.uniforms.seed.value = Math.random() * 19.19;
-fireMaterial.uniforms.magnitude.value = 2.6;
-
-
-THREE.Mesh.call( this, new THREE.BoxGeometry( 1.0, 1.0, 1.0 ), fireMaterial );
-};
-
-Fire.prototype = Object.create( THREE.Mesh.prototype );
-Fire.prototype.constructor = THREE.Fire;
-
-Fire.prototype.update = function ( time ) {
-
-var invModelMatrix = this.material.uniforms.invModelMatrix.value;
-
-this.updateMatrixWorld();
-invModelMatrix.getInverse( this.matrixWorld );
-
-if( time !== undefined ) {
-	this.material.uniforms.time.value = time;
-}
-
-this.material.uniforms.invModelMatrix.value = invModelMatrix;
-
-this.material.uniforms.scale.value = this.scale;
-};
-
-
-	init();
-	animate();
-=======
 			init();
 			animate();
 
@@ -146,7 +93,6 @@ this.material.uniforms.scale.value = this.scale;
 			function initEnv(){
 
 			
->>>>>>> parent of 9096ada... Fire and door + Progress
 
 	function getRadian(x) {
 		return (Math.PI*x)/180;
@@ -496,11 +442,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 
 
 			function init() {
-<<<<<<< HEAD
 				 //clock = new THREE.Clock();
-=======
-
->>>>>>> parent of 9096ada... Fire and door + Progress
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
 				camera.position.y = 10;
 				camera.position.z = 30;
@@ -720,16 +662,6 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				//initEnv();
 				initUfo();
 
-<<<<<<< HEAD
-				var fireTex = new THREE.TextureLoader().load("./Fire.png");
-				fire = new Fire(fireTex);
-				fire.scale.set(25,25,25);
-				fire.position.set(0,10,-30);
-				scene1.add(fire);
-
-
-=======
->>>>>>> parent of 9096ada... Fire and door + Progress
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -753,12 +685,6 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 			function animate() {
 
 				requestAnimationFrame( animate );
-<<<<<<< HEAD
-				t = t + 0.01;
-                fire.update(t);
-
-=======
->>>>>>> parent of 9096ada... Fire and door + Progress
 
 				if ( controls.isLocked === true ) {
 
