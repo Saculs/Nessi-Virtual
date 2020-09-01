@@ -371,13 +371,13 @@ var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2);
 light.position.set( 0.5, 1, 0.75 );
 scene2.add( light );
 
-var light = new THREE.PointLight( 0xFFFFFF, 60, 600 );
+var light = new THREE.PointLight( 0xFFFFFF, 60, 100 );
 light.position.set(- 0, 35, 80);
 scene2.add( light );
 
 
 //scene2.add(ufo);
-/*
+
 var rocksloader = new GLTFLoader(manager);
      rocksloader.load( "models/betonSpace.glb", function(gltf){
 	var rocks = gltf.scene;
@@ -393,9 +393,32 @@ var rocksloader = new GLTFLoader(manager);
     rocks.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("rocks " + o.name);
-	  if(o.name.includes("Beton") ) {
-	o.position.set(200, 0, 0);
-	o.scale.set(0.2,0.2,0.2)
+	  if(o.name == 'Sphere001'){
+		o.scale.set(50,50,50);
+		o.position.set(80, -60, -30);
+	  } else if(o.name == 'Sphere') {
+		o.scale.set(600,600,600);
+	  }
+	  else if(o.name.includes("Beton") ) {
+		  switch(o.name) {
+			case 'Beton_1':
+			o.position.set(200, 0, 100);
+				break;
+			case 'Beton_2':
+			o.position.set(200, 0, -100);
+				break;
+				case 'Beton_3':
+			o.position.set(230, -80, 0);
+				break;
+				case 'Beton_4':
+			o.position.set(-200, 0, 100);
+				break;
+				case 'Beton_5':
+			o.position.set(100, 0, -100);
+				break;
+		  }
+		
+		o.scale.set(0.2,0.2,0.2);
 	  }
 	  }
     });
@@ -409,16 +432,16 @@ var rocksloader = new GLTFLoader(manager);
 		$("#loadText").html( Math.floor( xhr.loaded / 36516848 * 100 ) + '% loaded<br><br> click to ENTER');
 	}
 	);
-*/
+
 var ufoloader = new GLTFLoader(manager);
      ufoloader.load( "models/SpaceshipJPG3.glb", function(gltf){
 	var ufo = gltf.scene;
 
-	  ufo.scale.set(45,45,45);
+	  ufo.scale.set(30,30,30);
 
-    ufo.position.set(-100, 10, -250);
+    ufo.position.set(-50, 20, -250);
 	ufo.rotation.y = getRadian(-80);
-	ufo.rotation.x = getRadian(10);
+	ufo.rotation.x = getRadian(-10);
 
     ufo.visible = true;
 
