@@ -87,6 +87,7 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
+
 var Fire = function ( fireTex, color ) {
 
 var fireMaterial = new THREE.ShaderMaterial( {
@@ -132,35 +133,27 @@ if( time !== undefined ) {
 this.material.uniforms.invModelMatrix.value = invModelMatrix;
 
 this.material.uniforms.scale.value = this.scale;
-
-
 };
 
 
-			init();
-			animate();
+	init();
+	animate();
 
-			function getRadian(x) {
-				return (Math.PI*x)/180;
-			}
-			
+	function getRadian(x) {
+		return (Math.PI*x)/180;
+	}
 
+	function initEnv(){
+		var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
+		var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
+		var cube = new THREE.Mesh( geometry, material );
+		cube.position.set(100, 20, -103);
+		//scene.add(cube);
 
-			function initEnv(){
-
-			
-
-
-				var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
-var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
-var cube = new THREE.Mesh( geometry, material );
-cube.position.set(100, 20, -103);
-//scene.add(cube);
-
-var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
-light.position.set(- 0, 35, 80);
-scene.add( light );
-			}
+		var light = new THREE.PointLight( 0xFFFFFF, 1, 200 );
+		light.position.set(- 0, 35, 80);
+		scene.add( light );
+	}
 
 			function initUfo(){
 			
@@ -192,7 +185,7 @@ scene.add( light );
 	}
 	);
 
-			}
+}
 
 			 
 
@@ -364,7 +357,7 @@ moonloader.load( "models/moon9.glb", function(gltf){
 	}
 	);
 
-			}
+}
 
 			function initScene2(){
 
@@ -426,8 +419,6 @@ var ufoloader = new GLTFLoader(manager);
 
     ufo.visible = true;
 
-
-
     ufo.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("UFO");
@@ -466,7 +457,7 @@ sky.rotation.y = getRadian(100);
 
 }
 
-function initScene3(){
+			function initScene3(){
 
 scene3loaded = true;
 scene3.add(controls.getObject());
@@ -561,10 +552,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 }
 
 
-
-
 			function init() {
-				 clock = new THREE.Clock();
+				 //clock = new THREE.Clock();
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
 				camera.position.y = 10;
 				camera.position.z = 30;
@@ -573,12 +562,12 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				scene1 = new THREE.Scene();
 				scene2 = new THREE.Scene();
 				scene3 = new THREE.Scene();
-				ufo = new THREE.Object3D();
+				//ufo = new THREE.Object3D();
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
 				//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 				scene1.fog = new THREE.Fog( 0xffffff, 0, 2000 );
-				scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
+				//scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
 				light.position.set( 0.5, 3, 0.75 );
@@ -741,8 +730,8 @@ goToScene(txt);
 				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 				var ceiling = new THREE.Mesh( floorGeometry, floorMaterial );
 				scene.add( floor );
-				scene.add( ceiling);
-				ceiling.position.set(0, 80, 0);
+				//scene.add( ceiling);
+				//ceiling.position.set(0, 80, 0);
 
 				 
 
@@ -781,7 +770,7 @@ goToScene(txt);
 				//
 
 				//initPaintings();
-				initEnv();
+				//initEnv();
 				initUfo();
 
 				var fireTex = new THREE.TextureLoader().load("./Fire.png");
@@ -789,12 +778,6 @@ goToScene(txt);
 				fire.scale.set(25,25,25);
 				fire.position.set(0,10,-30);
 				scene1.add(fire);
-
-				
-
-    
-
-
 
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -821,7 +804,7 @@ goToScene(txt);
 			function animate() {
 
 				requestAnimationFrame( animate );
-				t = t + 0.02;
+				t = t + 0.01;
                 fire.update(t);
 
 
@@ -873,8 +856,6 @@ goToScene(txt);
 					prevTime = time;
 
 				}
-
-				
 
 				renderer.render( currentScene, camera );
 
