@@ -328,7 +328,7 @@ moonloader.load( "models/moon9.glb", function(gltf){
 
 
 				var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
+     ufoloader.load( "models/SpaceshipJPG3.glb", function(gltf){
 	var ufo = gltf.scene;
 
 	  ufo.scale.set(45,45,45);
@@ -345,6 +345,9 @@ moonloader.load( "models/moon9.glb", function(gltf){
     ufo.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("UFO");
+	  if(o.name == 'Emmisive'){
+		//o.material.set(new THREE.MeshLambertMaterial( { color: 0xbbbbbb} ));
+	  }
       }
     });
     scene1.add(ufo);
@@ -408,7 +411,7 @@ var rocksloader = new GLTFLoader(manager);
 	);
 */
 var ufoloader = new GLTFLoader(manager);
-     ufoloader.load( "models/SpaceshipJPG2.glb", function(gltf){
+     ufoloader.load( "models/SpaceshipJPG3.glb", function(gltf){
 	var ufo = gltf.scene;
 
 	  ufo.scale.set(45,45,45);
