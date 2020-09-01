@@ -189,7 +189,7 @@ this.material.uniforms.scale.value = this.scale;
 
 			 
 
-function goToScene(txt){
+		function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
 				camera.position.z = 30;
@@ -364,11 +364,11 @@ moonloader.load( "models/moon9.glb", function(gltf){
 scene2loaded = true;
 scene2.add(controls.getObject());
 
-var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2);
 light.position.set( 0.5, 1, 0.75 );
 scene2.add( light );
 
-var light = new THREE.PointLight( 0xFFFFFF, 2, 300 );
+var light = new THREE.PointLight( 0xFFFFFF, 60, 600 );
 light.position.set(- 0, 35, 80);
 scene2.add( light );
 
@@ -584,11 +584,11 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 */
 
 				$('#footer a').click(function(e) {
-  var txt = $(e.target).text();
-  console.log(txt);
-goToScene(txt);
-//controls.unlock();					
-});
+ 					var txt = $(e.target).text();
+  					console.log(txt);
+					goToScene(txt);
+					//controls.unlock();					
+				});
 
 
 				instructions.addEventListener( 'click', function () {
