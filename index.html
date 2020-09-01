@@ -71,13 +71,13 @@
 
 			var manager = new THREE.LoadingManager();
 
-manager.onProgress = function (item, loaded, total) {
+			manager.onProgress = function (item, loaded, total) {
     console.log(item, loaded, total);
 };
-manager.onLoad = function () {
+			manager.onLoad = function () {
     console.log('all items loaded');
 };
-manager.onError = function () {
+			manager.onError = function () {
     console.log('there has been an error');
 };
 
@@ -94,11 +94,11 @@ manager.onError = function () {
 
 			
 
-	function getRadian(x) {
+			function getRadian(x) {
 		return (Math.PI*x)/180;
 	}
 
-	function initEnv(){
+			function initEnv(){
 		var geometry = new THREE.BoxGeometry( 1400, 200, 2 );
 		var material = new THREE.MeshLambertMaterial( {color: 0x111111} );
 		var cube = new THREE.Mesh( geometry, material );
@@ -144,7 +144,7 @@ manager.onError = function () {
 
 			 
 
-		function goToScene(txt){
+			function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
 	camera.position.z = 30;
@@ -661,6 +661,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				//initPaintings();
 				//initEnv();
 				initUfo();
+
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
