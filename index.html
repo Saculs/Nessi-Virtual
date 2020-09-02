@@ -493,9 +493,13 @@ scene3.add(controls.getObject());
 var amblight = new THREE.AmbientLight( 0x02FD01,0.1); // soft white light
 scene3.add( amblight );
 
-var light2 = new THREE.PointLight( 0xFFFFFF, 1, 1600 );
+var light2 = new THREE.PointLight( 0xFFFFFF, 3, 1600 );
 light2.position.set(0.5, 10, 3);
 scene3.add( light2 );
+
+var light3 = new THREE.PointLight( 0xFFFFFF, 1, 1600 );
+light3.position.set(-80, 10, 200);
+scene3.add( light3 );
 
 var moonloader = new GLTFLoader(manager);
 moonloader.load( "models/moon9.glb", function(gltf){
@@ -526,13 +530,13 @@ moonloader.load( "models/moon9.glb", function(gltf){
 	);
 
 	var  doorloader = new GLTFLoader(manager);
-doorloader.load( "models/Door4.glb", function(gltf){
+doorloader.load( "models/DoorRetopo.glb", function(gltf){
 	var door = gltf.scene;
 
-	door.scale.set(6,6,6);
+	door.scale.set(5,5,5);
 
-    //door.position.set(- 160, 6, 80);
-	//door.rotation.y = getRadian(-90);
+    door.position.set(-30, 0, 0);
+	door.rotation.y = getRadian(-45);
 
     door.visible = true;
 
@@ -593,7 +597,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				//scene1.background = new THREE.Color( 0x000000 );
 				//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 				scene1.fog = new THREE.Fog( 0xffffff, 0, 2000 );
-				//scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
+				scene3.fog = new THREE.Fog( 0x02FD01, 0, 900 );
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
 				light.position.set( 0.5, 3, 0.75 );
