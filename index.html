@@ -273,7 +273,7 @@ var somaloader = new GLTFLoader(manager);
 somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	var soma = gltf.scene;
 
-	soma.scale.set(0.5,0.5,0.5);
+	soma.scale.set(0.3,0.3,0.3);
 
     //soma.position.set(- 160, 6, 80);
 	soma.rotation.y = getRadian(-90);
@@ -298,14 +298,40 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	}
 	);
 
+	var bildloader = new GLTFLoader(manager);
+bildloader.load( "models/FireBilds1.glb", function(gltf){
+	var bild = gltf.scene;
+
+	bild.scale.set(0.3,0.3,0.3);
+    //bild.position.set(- 40, -1.5, 50);
+
+	bild.rotation.y = getRadian(-90);
+
+	bild.visible = true;
+
+    bild.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("bild");
+      }
+    });
+    scene1.add(bild);
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( 'bild ' + ( xhr.loaded) + '% loaded' );
+		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
+	}
+	);
+
 
 	var moonloader = new GLTFLoader(manager);
-moonloader.load( "models/moon9.glb", function(gltf){
+moonloader.load( "models/Debris.glb", function(gltf){
 	var moon = gltf.scene;
 
-	moon.scale.set(2,2,2);
+	moon.scale.set(20,20,20);
 
-    //moon.position.set(- 160, 6, 80);
+    moon.position.set(-10, 0 ,40);
 	moon.rotation.y = getRadian(-90);
 
     moon.visible = true;
