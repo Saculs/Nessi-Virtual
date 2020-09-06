@@ -18,9 +18,18 @@
 
 
 
-		<style>
-			
-		</style>
+<style type="text/css">
+	.ldBar path.mainline {
+	  stroke-width: 10; 
+	  stroke:  #f1f2f3;
+	}
+	.ldBar path.baseline {
+	  stroke-width: 18;
+	  stroke: #272727;
+	}
+  </style>
+
+
 	</head>
 	<body>
 
@@ -28,8 +37,7 @@
 
 			<div id="instructions">
 				<span id='loadText' style="font-size:36px">Loading...</br> </br>Click to enter</span>
-				<div class="ldBar" data-value="50">
-				</div>
+				<div id="loadBar" class="ldBar" style="width:100px;height:60px", data-value="50"> </div>
 				<br /><br />
 				Move: ARROWS / WASD<br/>
 				Jump: SPACE<br/>
@@ -189,6 +197,7 @@ this.material.uniforms.scale.value = this.scale;
 	function ( xhr ) {
 		console.log( 'interior ' + Math.floor( xhr.loaded / 25107276 * 100 ) +'% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadBar").replaceWith($('<div id="loadBar" class="ldBar", data-value=' + Math.floor( xhr.loaded / 25107276 * 100 ) + '> </div>'));
 	}
 	);
 
