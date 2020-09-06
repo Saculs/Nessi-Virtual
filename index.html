@@ -111,6 +111,7 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
+initFire();
 
 	init();
 	animate();
@@ -660,7 +661,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				light.position.set( 0.5, 3, 0.75 );
 				scene.add( light );
 
-				initFire();
+				
 
 				controls = new PointerLockControls( camera, document.body );
 
