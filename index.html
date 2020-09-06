@@ -37,7 +37,7 @@
 
 			<div id="instructions">
 				<span id='loadText' style="font-size:36px">Loading...</br> </br>Click to enter</span>
-				<div id="loadBar" class="ldBar" style="width:100px;height:60px", data-value="50"> </div>
+				<div class="myBar label-center"></div>
 				<br /><br />
 				Move: ARROWS / WASD<br/>
 				Jump: SPACE<br/>
@@ -57,6 +57,13 @@
 
 			import { FireShader } from './FireShader.js';
 
+			var bar = new ldBar(".myBar", {
+   "stroke": '#f00',
+  // "stroke-width": 10,
+   "value": 0
+  });
+
+
 			var loader = new GLTFLoader();
 
 			var camera, scene, scene1, scene2, scene3,renderer, controls;
@@ -64,10 +71,12 @@
 			var currentScene;
 
 			var ufo;
+			  
+			var scene0loaded=false;
 
 			var scene1loaded = false;
 
-			var scene2loaded = false;
+			var scene2loaded = true;
 
 			var scene3loaded = false;
 
@@ -197,7 +206,7 @@ this.material.uniforms.scale.value = this.scale;
 	function ( xhr ) {
 		console.log( 'interior ' + Math.floor( xhr.loaded / 25107276 * 100 ) +'% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
-		$("#loadBar").replaceWith($('<div id="loadBar" class="ldBar", data-value=' + Math.floor( xhr.loaded / 25107276 * 100 ) + '> </div>'));
+		bar.set( Math.floor( xhr.loaded / 25107276 * 100 ));
 	}
 	);
 
@@ -208,11 +217,11 @@ this.material.uniforms.scale.value = this.scale;
 		function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
-				camera.position.z = 30;
+	camera.position.z = 30;
 	var index = 0;
 	switch(txt) {
   case "Space":
-  index = 0;
+  index = 2;
   if(scene2loaded == false) initScene2();
 	currentScene = scene2;
     break;
@@ -222,6 +231,7 @@ this.material.uniforms.scale.value = this.scale;
 	currentScene = scene1;
     break;
   case "UFO":
+  if(scene0loaded == false)initScene0();
   index = 2;
   currentScene = scene;
   break;
@@ -254,6 +264,10 @@ else if(currentScene == scene2){
 	currentScene = scene3;
 }
 else{currentScene = scene;}
+			}
+
+			function initScene0(){
+				initUfo();
 			}
 
 			function initScene1(){
@@ -630,10 +644,13 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				camera.position.y = 10;
 				camera.position.z = 30;
 				scene = new THREE.Scene();
-				currentScene = scene;
+				
 				scene1 = new THREE.Scene();
 				scene2 = new THREE.Scene();
 				scene3 = new THREE.Scene();
+
+				currentScene = scene2;
+
 				//ufo = new THREE.Object3D();
 				scene.background = new THREE.Color( 0x000000 );
 				//scene1.background = new THREE.Color( 0x000000 );
@@ -843,7 +860,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 
 				//initPaintings();
 				//initEnv();
-				initUfo();
+				initScene2();
 
 				var fireTex = new THREE.TextureLoader().load("./Fire.png");
 				fire = new Fire(fireTex);
