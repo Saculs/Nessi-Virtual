@@ -112,6 +112,10 @@ manager.onError = function () {
 };
 
 
+	init();
+	animate();
+
+	function initFire() {
 var Fire = function ( fireTex, color ) {
 
 var fireMaterial = new THREE.ShaderMaterial( {
@@ -159,9 +163,7 @@ this.material.uniforms.invModelMatrix.value = invModelMatrix;
 this.material.uniforms.scale.value = this.scale;
 };
 
-
-	init();
-	animate();
+}
 
 	function getRadian(x) {
 		return (Math.PI*x)/180;
@@ -211,14 +213,11 @@ this.material.uniforms.scale.value = this.scale;
 	);
 
 }
-
-			 
-
-		function goToScene(txt){
+			function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
 	camera.position.z = 30;
-	var index = 0;
+	var index = 2;
 	switch(txt) {
   case "Space":
   index = 2;
@@ -378,7 +377,7 @@ moonloader.load( "models/Debris.glb", function(gltf){
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		
+		console.log( 'debris ' + ( xhr.loaded ) + ' loaded' );
 	}
 	);
 
@@ -637,7 +636,6 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 
 }
 
-
 			function init() {
 				 //clock = new THREE.Clock();
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
@@ -661,6 +659,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2 );
 				light.position.set( 0.5, 3, 0.75 );
 				scene.add( light );
+
+				initFire();
 
 				controls = new PointerLockControls( camera, document.body );
 
@@ -775,91 +775,11 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				document.addEventListener( 'keydown', onKeyDown, false );
 				document.addEventListener( 'keyup', onKeyUp, false );
 
-				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
-
-				// floor
-
-				var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
-				floorGeometry.rotateX( - Math.PI / 2 );
-
-				// vertex displacement
-				/*
-
-				var position = floorGeometry.attributes.position;
-
-				for ( var i = 0, l = position.count; i < l; i ++ ) {
-
-					vertex.fromBufferAttribute( position, i );
-
-					vertex.x += Math.random() * 20 - 10;
-					vertex.y += Math.random() * 2;
-					vertex.z += Math.random() * 20 - 10;
-
-					position.setXYZ( i, vertex.x, vertex.y, vertex.z );
-
-				}
-
-				floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-				position = floorGeometry.attributes.position;
-				var colors = [];
-
-				for ( var i = 0, l = position.count; i < l; i ++ ) {
-
-					color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-					colors.push( color.r, color.g, color.b );
-
-				}
-
-				floorGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 0 ) );
-				*/
-
-				var floorMaterial = new THREE.MeshLambertMaterial( { side: THREE.DoubleSide, color: 0x000000} );
-
-				var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-				var ceiling = new THREE.Mesh( floorGeometry, floorMaterial );
-				scene.add( floor );
-				//scene.add( ceiling);
-				//ceiling.position.set(0, 80, 0);
-
-				 
-
-				// objects
-				/*
-				var boxGeometry = new THREE.BoxBufferGeometry( 20, 20, 20 );
-				boxGeometry = boxGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-				position = boxGeometry.attributes.position;
-				colors = [];
-
-				for ( var i = 0, l = position.count; i < l; i ++ ) {
-
-					color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-					colors.push( color.r, color.g, color.b );
-
-				}
-
-				boxGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
-
-				for ( var i = 0; i < 500; i ++ ) {
-
-					var boxMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, flatShading: true, vertexColors: true } );
-					boxMaterial.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-
-					var box = new THREE.Mesh( boxGeometry, boxMaterial );
-					box.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
-					box.position.y = Math.floor( Math.random() * 20 ) * 20 + 10;
-					box.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
-
-					scene.add( box );
-					objects.push( box );
-
-				}
-				*/
-				//
+				//raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
 				//initPaintings();
 				//initEnv();
+
 				initScene2();
 
 				var fireTex = new THREE.TextureLoader().load("./Fire.png");
@@ -874,20 +794,17 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
 
-				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
-
 			}
 
 			function onWindowResize() {
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
-
 			}
+			
 			var t = 0;
 
 			function animate() {
