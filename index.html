@@ -111,12 +111,7 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
-initFire();
 
-	init();
-	animate();
-
-	function initFire() {
 var Fire = function ( fireTex, color ) {
 
 var fireMaterial = new THREE.ShaderMaterial( {
@@ -163,6 +158,12 @@ this.material.uniforms.invModelMatrix.value = invModelMatrix;
 
 this.material.uniforms.scale.value = this.scale;
 };
+
+	init();
+	animate();
+
+	function initFire() {
+
 
 }
 
