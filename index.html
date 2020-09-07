@@ -210,7 +210,7 @@ this.material.uniforms.scale.value = this.scale;
 	function ( xhr ) {
 		console.log( 'interior ' + Math.floor( xhr.loaded / 25107276 * 100 ) +'% loaded' );
 		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
-		bar.set( Math.floor( xhr.loaded / 25107276 * 100 ));
+		bar.set( Math.floor( xhr.loaded / 25107276 * 100 ), true);
 	}
 	);
 
@@ -436,7 +436,7 @@ scene2.add( light );
 //scene2.add(ufo);
 
 var rocksloader = new GLTFLoader(manager);
-     rocksloader.load( "models/betonSpace.glb", function(gltf){
+     rocksloader.load( "models/betonSpace1024.glb", function(gltf){
 	var rocks = gltf.scene;
 
 	//rocks.scale.set(0.05,0.05,0.05);
@@ -486,7 +486,8 @@ var rocksloader = new GLTFLoader(manager);
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'rocks ' + ( xhr.loaded ) + ' loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 36516848 * 100 ) + '% loaded<br><br> click to ENTER');
+		$("#loadText").html( Math.floor( xhr.loaded / 6521912 * 100 ) + '% loaded<br><br> click to ENTER');
+		bar.set(Math.floor( xhr.loaded / 6521912 * 100 ));
 	}
 	);
 
