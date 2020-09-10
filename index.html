@@ -32,6 +32,22 @@
 	  stroke-width: 18;
 	  stroke: #272727;
 	}
+
+	#myProgress {
+  width: 40%;
+  background-color: black;
+  outline-style: outset;
+  outline-width:1px;
+  outline-color:white;
+  padding: 2px;
+}
+
+#myBar {
+  width: 1%;
+  height: 20px;
+  background-color: white;
+}
+
   </style>
 
 
@@ -39,14 +55,22 @@
 	<body>
 
 		<div id="blocker">
-
+			
 			<div id="instructions">
-				<span id='loadText' style="font-size:36px">Loading...</br> </br>Click to enter</span>
-				<div class="myBar label-center"></div>
+				<div>
+					<span id='loadText' style="font-size:36px">Loading...</br></span>
+				</div>
+
+
+				<div id="myProgress">
+					<div id="myBar"></div>
+				</div>
+
+				<div>
 				<br /><br />
 				Move: ARROWS / WASD<br/>
-				Jump: SPACE<br/>
 				Look: MOUSE
+				</div>
 			</div>
 
 		</div>
@@ -55,18 +79,14 @@
 
 		<script type="module">
 
+(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+
 			import * as THREE from './build/three.module.js';
 
 			import { PointerLockControls } from './examples/jsm/controls/PointerLockControls.js';
 			import { GLTFLoader } from './examples/jsm/loaders/GLTFLoader.js';
 
 			import { FireShader } from './FireShader.js';
-
-			var bar = new ldBar(".myBar", {
-   "stroke": '#f00',
-  // "stroke-width": 10,
-   "value": 0
-  });
 
 
 			var loader = new GLTFLoader();
@@ -116,6 +136,7 @@ manager.onError = function () {
     console.log('there has been an error');
 };
 
+var elem = document.getElementById("myBar");
 
 var Fire = function ( fireTex, color ) {
 
@@ -201,8 +222,6 @@ this.material.uniforms.scale.value = this.scale;
 
     int.visible = true;
 
-
-
     int.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("interrior");
@@ -213,13 +232,20 @@ this.material.uniforms.scale.value = this.scale;
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'interior ' + Math.floor( xhr.loaded / 25107276 * 100 ) +'% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 25107276 * 100 ) + '% loaded<br><br> click to ENTER');
-		bar.set( Math.floor( xhr.loaded / 25107276 * 100 ), true);
+		var prc =  Math.floor( xhr.loaded / 25107276 * 100 );
+		console.log( 'interior ' + xhr +' loaded' );
+		$("#loadText").html( prc + '% loaded<br>');
+		updateLoadBar(prc);
 	}
 	);
 
 }
+
+function updateLoadBar(prc){
+	elem.style.width = prc + "%";
+}
+
+
 			function goToScene(txt){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
@@ -329,8 +355,10 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
   },
 	// called while loading is progressing
 	function ( xhr ) {
-		console.log( 'soma ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
+		console.log( 'soma ' + ( xhr.loaded) + 'loaded' );
+		var prc = Math.floor( xhr.loaded / 4372972 * 100 );
+		$("#loadText").html( Math.floor( xhr.loaded / 4372972 * 100 ) + '% loaded<br>');
+		updateLoadBar(prc);
 	}
 	);
 
@@ -356,35 +384,38 @@ bildloader.load( "models/FireBilds1.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'bild ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 18102840 * 100 ) + '% loaded<br><br> click to ENTER');
+		var prc = Math.floor( xhr.loaded / 18102840 * 100 );
+		$("#loadText").html( prc + '% loaded<br>');
 	}
 	);
 
 
-	var moonloader = new GLTFLoader(manager);
-moonloader.load( "models/Debris.glb", function(gltf){
-	var moon = gltf.scene;
+	var Debrisloader = new GLTFLoader(manager);
+Debrisloader.load( "models/Debris.glb", function(gltf){
+	var Debris = gltf.scene;
 
-	moon.scale.set(20,20,20);
+	Debris.scale.set(20,20,20);
 
-    moon.position.set(-10, 0 ,40);
-	moon.rotation.y = getRadian(-90);
+    Debris.position.set(-10, 0 ,40);
+	Debris.rotation.y = getRadian(-90);
 
-    moon.visible = true;
+    Debris.visible = true;
 
 
 
-    moon.traverse(function (o) {
+    Debris.traverse(function (o) {
       if (o.isMesh) {
-	  console.log("moon");
+	  console.log("Debris");
       }
     });
-    scene1.add(moon);
+    scene1.add(Debris);
 	$("#loadText").html(  'loaded<br><br> click to ENTER');
   },
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'debris ' + ( xhr.loaded ) + ' loaded' );
+		var prc = Math.floor( xhr.loaded / 32162816 * 100 );
+		
 	}
 	);
 
@@ -491,8 +522,9 @@ var rocksloader = new GLTFLoader(manager);
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'rocks ' + ( xhr.loaded ) + ' loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 6521912 * 100 ) + '% loaded<br><br> click to ENTER');
-		bar.set(Math.floor( xhr.loaded / 6521912 * 100 ));
+		var prc = Math.floor( xhr.loaded / 6521912 * 100 );
+		$("#loadText").html( prc + '% loaded<br>');
+		updateLoadBar(prc);
 	}
 	);
 
@@ -520,7 +552,8 @@ var ufoloader = new GLTFLoader(manager);
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'ufo ' + ( xhr.loaded ) + ' loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 2561968 * 100 ) + '% loaded<br><br> click to ENTER');
+		var prc = Math.floor( xhr.loaded / 2561968 * 100 );
+		$("#loadText").html( prc + '% loaded<br>');
 	}
 	);
 
@@ -558,10 +591,12 @@ scene3.add( amblight );
 
 var light2 = new THREE.PointLight( 0xFFFFFF, 3, 1600 );
 light2.position.set(0.5, 10, 3);
+light2.castShadow = true;
 scene3.add( light2 );
 
 var light3 = new THREE.PointLight( 0xFFFFFF, 1, 1600 );
 light3.position.set(-80, 10, 200);
+light3.castShadow = true;
 scene3.add( light3 );
 
 var moonloader = new GLTFLoader(manager);
@@ -575,7 +610,7 @@ moonloader.load( "models/moon9.glb", function(gltf){
 
     moon.visible = true;
 
-
+	moon.receiveShadow = true;
 
     moon.traverse(function (o) {
       if (o.isMesh) {
@@ -588,7 +623,9 @@ moonloader.load( "models/moon9.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
+		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
+		$("#loadText").html(  prc + '% loaded<br>');
+		updateLoadBar(prc);
 	}
 	);
 
@@ -603,7 +640,7 @@ doorloader.load( "models/DoorRetopo.glb", function(gltf){
 
     door.visible = true;
 
-
+	door.castShadow = true;
 
     door.traverse(function (o) {
       if (o.isMesh) {
@@ -616,7 +653,37 @@ doorloader.load( "models/DoorRetopo.glb", function(gltf){
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'door ' + ( xhr.loaded) + '% loaded' );
-		$("#loadText").html( Math.floor( xhr.loaded / 3027156 * 100 ) + '% loaded<br><br> click to ENTER');
+		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
+		$("#loadText").html( prc + '% loaded<br>');
+	}
+	);
+
+	var  Statueloader = new GLTFLoader(manager);
+Statueloader.load( "models/Statue1Test.glb", function(gltf){
+	var Statue = gltf.scene;
+
+	Statue.scale.set(8,8,8);
+
+    Statue.position.set(15, 0, 0);
+	Statue.rotation.y = getRadian(140);
+
+    Statue.visible = true;
+
+
+
+    Statue.traverse(function (o) {
+      if (o.isMesh) {
+	  console.log("Statue");
+      }
+    });
+    scene3.add(Statue);
+	$("#loadText").html(  'loaded<br><br> click to ENTER');
+  },
+	// called while loading is progressing
+	function ( xhr ) {
+		console.log( 'Statue ' + ( xhr.loaded) + '% loaded' );
+		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
+		$("#loadText").html( prc + '% loaded<br>');
 	}
 	);
 
@@ -800,6 +867,12 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				renderer.shadowMap.enabled = true;
+				renderer.shadowMap.type = THREE.BasicShadowMap;
+				//renderer.gammaOutput = true;
+				//renderer.gammaFactor = 2.2;
+
 				document.body.appendChild( renderer.domElement );
 
 
@@ -883,6 +956,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 <div id="footer">
 
 	<a>Space</a> <a>Fire</a> <a>UFO</a> <a>AtomGas</a>
+
 </div>
 
 	</body>
