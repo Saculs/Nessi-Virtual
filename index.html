@@ -58,19 +58,15 @@
 			
 			<div id="instructions">
 				<div>
-					<span id='loadText' style="font-size:36px">Loading...</br></span>
+				<span id='loadText' style="font-size:36px">Loading...</br></span>
 				</div>
-
-
 				<div id="myProgress">
 					<div id="myBar"></div>
 				</div>
 
-				<div>
 				<br /><br />
 				Move: ARROWS / WASD<br/>
 				Look: MOUSE
-				</div>
 			</div>
 
 		</div>
@@ -137,6 +133,7 @@ manager.onError = function () {
 };
 
 var elem = document.getElementById("myBar");
+var loading = document.getElementById("myProgress");
 
 var Fire = function ( fireTex, color ) {
 
@@ -234,7 +231,7 @@ this.material.uniforms.scale.value = this.scale;
 	function ( xhr ) {
 		var prc =  Math.floor( xhr.loaded / 25107276 * 100 );
 		console.log( 'interior ' + xhr +' loaded' );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 		updateLoadBar(prc);
 	}
 	);
@@ -243,6 +240,10 @@ this.material.uniforms.scale.value = this.scale;
 
 function updateLoadBar(prc){
 	elem.style.width = prc + "%";
+	/*
+	if (prc == 100) loading.style.display = 'none';
+	else loading.style.display = 'block';
+	*/
 }
 
 
@@ -357,7 +358,7 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'soma ' + ( xhr.loaded) + 'loaded' );
 		var prc = Math.floor( xhr.loaded / 4372972 * 100 );
-		$("#loadText").html( Math.floor( xhr.loaded / 4372972 * 100 ) + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 		updateLoadBar(prc);
 	}
 	);
@@ -385,7 +386,7 @@ bildloader.load( "models/FireBilds1.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'bild ' + ( xhr.loaded) + '% loaded' );
 		var prc = Math.floor( xhr.loaded / 18102840 * 100 );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 	}
 	);
 
@@ -409,7 +410,7 @@ Debrisloader.load( "models/Debris.glb", function(gltf){
       }
     });
     scene1.add(Debris);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	$("#loadText").html(  'loaded<br>');
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -523,7 +524,7 @@ var rocksloader = new GLTFLoader(manager);
 	function ( xhr ) {
 		console.log( 'rocks ' + ( xhr.loaded ) + ' loaded' );
 		var prc = Math.floor( xhr.loaded / 6521912 * 100 );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 		updateLoadBar(prc);
 	}
 	);
@@ -547,13 +548,13 @@ var ufoloader = new GLTFLoader(manager);
     });
 	scene2.add(ufo);
 	console.log( 'ufo added to scene' );
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	$("#loadText").html(  'loaded<br>');
   },
 	// called while loading is progressing
 	function ( xhr ) {
 		console.log( 'ufo ' + ( xhr.loaded ) + ' loaded' );
 		var prc = Math.floor( xhr.loaded / 2561968 * 100 );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 	}
 	);
 
@@ -610,11 +611,12 @@ moonloader.load( "models/moon9.glb", function(gltf){
 
     moon.visible = true;
 
-	moon.receiveShadow = true;
+
 
     moon.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("moon");
+	  o.receiveShadow = true;
       }
     });
     scene3.add(moon);
@@ -624,7 +626,7 @@ moonloader.load( "models/moon9.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'moon ' + ( xhr.loaded) + '% loaded' );
 		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
-		$("#loadText").html(  prc + '% loaded<br>');
+		$("#loadText").html(  prc + '% loading<br>');
 		updateLoadBar(prc);
 	}
 	);
@@ -640,11 +642,12 @@ doorloader.load( "models/DoorRetopo.glb", function(gltf){
 
     door.visible = true;
 
-	door.castShadow = true;
+	
 
     door.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("door");
+	  o.castShadow = true;
       }
     });
     scene3.add(door);
@@ -654,7 +657,7 @@ doorloader.load( "models/DoorRetopo.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'door ' + ( xhr.loaded) + '% loaded' );
 		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 	}
 	);
 
@@ -683,7 +686,7 @@ Statueloader.load( "models/Statue1Test.glb", function(gltf){
 	function ( xhr ) {
 		console.log( 'Statue ' + ( xhr.loaded) + '% loaded' );
 		var prc = Math.floor( xhr.loaded / 3027156 * 100 );
-		$("#loadText").html( prc + '% loaded<br>');
+		$("#loadText").html( prc + '% loading<br>');
 	}
 	);
 
@@ -867,6 +870,9 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				//renderer.toneMapping = THREE.ReinhardToneMapping;
+				//renderer.toneMappingExposure = 2.3;
 
 				renderer.shadowMap.enabled = true;
 				renderer.shadowMap.type = THREE.BasicShadowMap;
