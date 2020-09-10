@@ -767,7 +767,8 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
  					var txt = $(e.target).text();
   					console.log(txt);
 					goToScene(txt);
-					controls.unlock();
+					blocker.style.display = 'block';
+					instructions.style.display = 'box';
 					//controls.unlock();					
 				});
 
@@ -828,7 +829,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
 							break;
 
 						case 32: // space
-							if ( canJump === true ) velocity.y += 300;
+							if ( canJump === true ) velocity.y += 250;
 							canJump = false;
 							break;
 
