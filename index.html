@@ -84,6 +84,12 @@
 
 			import { FireShader } from './FireShader.js';
 
+			import {
+				Euler,
+				EventDispatcher,
+				Vector3
+			} from "./build/three.module.js";
+
 
 			var loader = new GLTFLoader();
 
@@ -251,6 +257,8 @@ function updateLoadBar(prc){
 	console.log("go To Scene" + txt);
 	camera.position.y = 10;
 	camera.position.z = 30;
+	var euler = new Euler( 0, 0, 0, 'YXZ' );
+	camera.quaternion.setFromEuler( euler );
 	var index = 2;
 	switch(txt) {
   case "Space":
@@ -306,6 +314,9 @@ else{currentScene = scene;}
 			function initScene1(){
 				scene1.add(controls.getObject());
 				scene1loaded = true;
+
+				var amblight = new THREE.AmbientLight( 0x02FD01,0.05);
+				scene1.add(amblight);
 
 				var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
 				light.position.set( 0.5, 1, 0.75 );
@@ -461,14 +472,16 @@ Debrisloader.load( "models/Debris.glb", function(gltf){
 scene2loaded = true;
 scene2.add(controls.getObject());
 
-var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 2);
+var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 1);
 light.position.set( 0.5, 1, 0.75 );
 scene2.add( light );
 
-var light = new THREE.PointLight( 0xFFFFFF, 60, 100 );
-light.position.set(- 0, 35, 80);
-scene2.add( light );
+var light1 = new THREE.PointLight( 0xFFFFFF, 60, 100 );
+light1.position.set(- 0, 35, 80);
+//scene2.add( light1 );
 
+var amblight = new THREE.AmbientLight( 0xFFFFFF,0.1);
+scene2.add(amblight);
 
 //scene2.add(ufo);
 
@@ -754,6 +767,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
  					var txt = $(e.target).text();
   					console.log(txt);
 					goToScene(txt);
+					controls.unlock();
 					//controls.unlock();					
 				});
 
