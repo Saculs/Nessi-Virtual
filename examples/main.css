@@ -9,7 +9,7 @@ body {
 }
 
 a {
-	color: #ff0;
+	color: rgb(216, 83, 198);;
 	text-decoration: none;
 }
 
@@ -109,7 +109,6 @@ body{
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-
 }
 
 #blocker {
