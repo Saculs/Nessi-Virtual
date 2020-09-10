@@ -40,6 +40,9 @@
   outline-width:1px;
   outline-color:white;
   padding: 2px;
+  position: absolute;
+  bottom: 30%;
+  left:30%;
 }
 
 #myBar {
@@ -63,10 +66,11 @@
 				<div id="myProgress">
 					<div id="myBar"></div>
 				</div>
-
+				<!--
 				<br /><br />
 				Move: ARROWS / WASD<br/>
 				Look: MOUSE
+			-->
 			</div>
 
 		</div>
@@ -768,7 +772,7 @@ scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material) );
   					console.log(txt);
 					goToScene(txt);
 					blocker.style.display = 'block';
-					instructions.style.display = '';
+					instructions.style.display = 'block';
 					//controls.unlock();					
 				});
 
