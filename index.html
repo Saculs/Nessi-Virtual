@@ -51,6 +51,14 @@
   background-color: white;
 }
 
+#loadText{
+	font-size:36px;
+	position:absolute;
+	top:30%;
+	left: 0;
+	right: 0;
+}
+
   </style>
 
 
@@ -61,7 +69,7 @@
 			
 			<div id="instructions">
 				<div>
-				<span id='loadText' style="font-size:36px">Loading...</br></span>
+				<span id='loadText' >Loading...</br></span>
 				</div>
 				<div id="myProgress">
 					<div id="myBar"></div>
@@ -263,26 +271,41 @@ function updateLoadBar(prc){
 	camera.position.z = 30;
 	var euler = new Euler( 0, 0, 0, 'YXZ' );
 	camera.quaternion.setFromEuler( euler );
+
+
 	var index = 2;
 	switch(txt) {
   case "Space":
   index = 2;
-  if(scene2loaded == false) initScene2();
+  if(scene2loaded == false) {
+	  initScene2();
+	  updateLoadBar(0);
+  }
 	currentScene = scene2;
     break;
   case "Fire":
   index = 1;
-  if(scene1loaded == false) initScene1();
+  if(scene1loaded == false){
+	  initScene1();
+	  updateLoadBar(0);
+  }
 	currentScene = scene1;
     break;
   case "UFO":
-  if(scene0loaded == false)initScene0();
+  if(scene0loaded == false){
+	initScene0();
+	updateLoadBar(0);
+  }
+  
   index = 2;
   currentScene = scene;
   break;
 case "AtomGas":
   index = 3;
-  if(scene3loaded == false) initScene3();
+  if(scene3loaded == false) {
+	  initScene3();
+	  updateLoadBar(0);
+  }
 	currentScene = scene3;
     break;
   default:
