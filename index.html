@@ -243,7 +243,7 @@ this.material.uniforms.scale.value = this.scale;
       }
     });
     scene.add(int);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -262,6 +262,10 @@ function updateLoadBar(prc){
 	if (prc == 100) loading.style.display = 'none';
 	else loading.style.display = 'block';
 	*/
+}
+
+function loaded(){
+	$("#loadText").html('loaded<br/>click To Enter');
 }
 
 
@@ -390,7 +394,7 @@ somaloader.load( "models/somaTierenRetopoJPG.glb", function(gltf){
       }
     });
     scene1.add(soma);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -418,7 +422,7 @@ bildloader.load( "models/FireBilds1.glb", function(gltf){
       }
     });
     scene1.add(bild);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -558,7 +562,7 @@ var rocksloader = new GLTFLoader(manager);
     });
 	scene2.add(rocks);
 	console.log( 'rocks added to scene' );
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -660,7 +664,7 @@ moonloader.load( "models/moon9.glb", function(gltf){
       }
     });
     scene3.add(moon);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -691,7 +695,7 @@ doorloader.load( "models/DoorRetopo.glb", function(gltf){
       }
     });
     scene3.add(door);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
@@ -712,15 +716,14 @@ Statueloader.load( "models/Statue1Test.glb", function(gltf){
 
     Statue.visible = true;
 
-
-
     Statue.traverse(function (o) {
       if (o.isMesh) {
 	  console.log("Statue");
+	  o.castShadow = true;
       }
     });
     scene3.add(Statue);
-	$("#loadText").html(  'loaded<br><br> click to ENTER');
+	loaded();
   },
 	// called while loading is progressing
 	function ( xhr ) {
