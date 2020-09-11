@@ -243,6 +243,8 @@
 
 		function initUfo() {
 
+			scene0loaded = true;
+
 			var intloader = new GLTFLoader(manager);
 			intloader.load("models/interior7.glb", function (gltf) {
 				var int = gltf.scene;
@@ -313,12 +315,11 @@
 					currentScene = scene1;
 					break;
 				case "UFO":
+				index = 0;
 					if (scene0loaded == false) {
 						initScene0();
 						updateLoadBar(0);
 					}
-
-					index = 2;
 					currentScene = scene;
 					break;
 				case "AtomGas":
