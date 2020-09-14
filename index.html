@@ -143,8 +143,8 @@
 		var raycaster;
 
 		var clock;
-		var fire;
-		var fire2;
+		var fire, fire2, fire3;
+		
 
 		var moveForward = false;
 		var moveBackward = false;
@@ -373,7 +373,7 @@
 
 			var light2 = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
 			light2.position.set(-100, 25, -250);
-			//scene1.add( light2 );
+			scene1.add( light2 );
 
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
 			floorGeometry.rotateX(- Math.PI / 2);
@@ -947,6 +947,13 @@
 			fire2.scale.set(25, 25, 25);
 			fire2.position.set(-40, 10, -30);
 			scene1.add(fire2);
+			fire3 = new Fire(fireTex);
+			fire3.scale.set(40, 40, 40);
+			fire3.position.set(40, 20, -110);
+			scene1.add(fire3);
+
+
+
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
@@ -1052,9 +1059,12 @@
 
 			requestAnimationFrame(animate);
 			t = t + 0.01;
+			if(currentScene == scene1){
 			fire.update(t);
 			fire2.update(t);
-
+			fire3.update(t);
+			}
+			
 			if (controls.isLocked === true) {
 
 				raycaster.ray.origin.copy(controls.getObject().position);
