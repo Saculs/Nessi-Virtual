@@ -280,6 +280,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
+			$("#loadText").html('0% loading');
 			/*
 			if (prc == 100) loading.style.display = 'none';
 			else loading.style.display = 'block';
@@ -304,16 +305,17 @@
 				case "Space":
 					index = 2;
 					if (scene2loaded == false) {
-						initScene2();
 						updateLoadBar(0);
+						initScene2();
+						
 					}
 					currentScene = scene2;
 					break;
 				case "Fire":
 					index = 1;
 					if (scene1loaded == false) {
-						initScene1();
 						updateLoadBar(0);
+						initScene1();
 					}
 					currentScene = scene1;
 					break;
@@ -573,7 +575,7 @@
 
 							rocksGeo.push(o.geometry);
 							rocksMats.push(o.material);
-							
+
 							switch (o.name) {
 								case 'Beton_1':
 									o.position.set(200, 0, 100);
