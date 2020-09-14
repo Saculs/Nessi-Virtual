@@ -271,7 +271,7 @@
 				function (xhr) {
 					var prc = Math.floor(xhr.loaded / 25107276 * 100);
 					console.log('interior ' + xhr + ' loaded');
-					$("#loadText").html(prc + '% loading<br>');
+					
 					updateLoadBar(prc);
 				}
 			);
@@ -280,7 +280,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html('0% loading');
+			$("#loadText").html(prc + '% loading<br>');
 			/*
 			if (prc == 100) loading.style.display = 'none';
 			else loading.style.display = 'block';
@@ -423,7 +423,7 @@
 				function (xhr) {
 					console.log('soma ' + (xhr.loaded) + 'loaded');
 					var prc = Math.floor(xhr.loaded / 4372972 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+				
 					updateLoadBar(prc);
 				}
 			);
@@ -451,7 +451,7 @@
 				function (xhr) {
 					console.log('bild ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 18102840 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 				}
 			);
 
@@ -608,7 +608,7 @@
 				function (xhr) {
 					console.log('rocks ' + (xhr.loaded) + ' loaded');
 					var prc = Math.floor(xhr.loaded / 6521912 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 					updateLoadBar(prc);
 				}
 			);
@@ -638,7 +638,7 @@
 				function (xhr) {
 					console.log('ufo ' + (xhr.loaded) + ' loaded');
 					var prc = Math.floor(xhr.loaded / 2561968 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 				}
 			);
 
@@ -710,7 +710,7 @@
 				function (xhr) {
 					console.log('moon ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 					updateLoadBar(prc);
 				}
 			);
@@ -741,7 +741,7 @@
 				function (xhr) {
 					console.log('door ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 				}
 			);
 
@@ -769,7 +769,7 @@
 				function (xhr) {
 					console.log('Statue ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					$("#loadText").html(prc + '% loading<br>');
+					
 				}
 			);
 
