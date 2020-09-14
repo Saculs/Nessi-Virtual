@@ -140,11 +140,14 @@
 
 		var objects = [];
 
+		var rocksGeo = [];
+		var rocksMats = [];
+
 		var raycaster;
 
 		var clock;
 		var fire, fire2, fire3;
-		
+
 
 		var moveForward = false;
 		var moveBackward = false;
@@ -315,7 +318,7 @@
 					currentScene = scene1;
 					break;
 				case "UFO":
-				index = 0;
+					index = 0;
 					if (scene0loaded == false) {
 						initScene0();
 						updateLoadBar(0);
@@ -369,11 +372,11 @@
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
 			light.position.set(0.5, 1, 0.75);
-			//scene1.add(light);
+			scene1.add(light);
 
 			var light2 = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
 			light2.position.set(-100, 25, -250);
-			scene1.add( light2 );
+			scene1.add(light2);
 
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
 			floorGeometry.rotateX(- Math.PI / 2);
@@ -496,9 +499,9 @@
 			ufoloader.load("models/SpaceshipJPG4.glb", function (gltf) {
 				var ufo = gltf.scene;
 
-				ufo.scale.set(45, 45, 45);
+				ufo.scale.set(40, 40, 40);
 
-				ufo.position.set(-100, 80, -250);
+				ufo.position.set(-80, 80, -210);
 				ufo.rotation.y = getRadian(-80);
 				ufo.rotation.x = getRadian(10);
 
@@ -546,7 +549,7 @@
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/betonSpace1024.glb", function (gltf) {
+			rocksloader.load("models/betonSpaceHD5.glb", function (gltf) {
 				var rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -567,6 +570,10 @@
 							o.scale.set(600, 600, 600);
 						}
 						else if (o.name.includes("Beton")) {
+
+							rocksGeo.push(o.geometry);
+							rocksMats.push(o.material);
+							
 							switch (o.name) {
 								case 'Beton_1':
 									o.position.set(200, 0, 100);
@@ -585,12 +592,14 @@
 									break;
 							}
 
-							o.scale.set(0.2, 0.2, 0.2);
+							o.scale.set(0.5, 0.5, 0.5);
 						}
 					}
 				});
 				scene2.add(rocks);
 				console.log('rocks added to scene');
+				rocksGeo.forEach(makeInstancedRocks);
+
 				loaded();
 			},
 				// called while loading is progressing
@@ -664,12 +673,12 @@
 			scene3.add(amblight);
 
 			var light2 = new THREE.PointLight(0xFFFFFF, 3, 1600);
-			light2.position.set(0.5, 10, 3);
+			light2.position.set(0.5, 15, 3);
 			light2.castShadow = true;
 			scene3.add(light2);
 
 			var light3 = new THREE.PointLight(0xFFFFFF, 1, 1600);
-			light3.position.set(-80, 10, 200);
+			light3.position.set(-80, 15, 200);
 			light3.castShadow = true;
 			scene3.add(light3);
 
@@ -677,7 +686,7 @@
 			moonloader.load("models/moon9.glb", function (gltf) {
 				var moon = gltf.scene;
 
-				moon.scale.set(1, 1, 1);
+				moon.scale.set(0.8, 0.8, 0.8);
 
 				//moon.position.set(- 160, 6, 80);
 				moon.rotation.y = getRadian(-90);
@@ -782,7 +791,7 @@
 			material.color = new THREE.Color(0xFFFFFF);
 			material.side = THREE.BackSide;
 
-			scene3.add(new THREE.Mesh(new THREE.SphereGeometry(260, 60, 40), material));
+			scene3.add(new THREE.Mesh(new THREE.SphereGeometry(80, 60, 40), material));
 
 		}
 
@@ -801,10 +810,11 @@
 
 			//ufo = new THREE.Object3D();
 			scene.background = new THREE.Color(0x000000);
-			//scene1.background = new THREE.Color( 0x000000 );
+			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
-			scene1.fog = new THREE.Fog(0xffffff, 0, 2000);
-			scene3.fog = new THREE.Fog(0x02FD01, 0, 900);
+			scene1.fog = new THREE.Fog(0x000000, 0, 300);
+			scene2.fog = new THREE.Fog(0xD1D1D1, 0, 4000);
+			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 2);
 			light.position.set(0.5, 3, 0.75);
@@ -992,7 +1002,7 @@
 			composer.addPass(renderScene);
 			composer.addPass(fxaaPass);
 			composer.addPass(bloomPass);
-			
+
 
 		}
 
@@ -1034,6 +1044,38 @@
 
 		}();
 
+
+		var randomizeMatrixRocks = function () {
+
+			var position = new THREE.Vector3();
+			var rotation = new THREE.Euler();
+			var quaternion = new THREE.Quaternion();
+			var scale = new THREE.Vector3();
+
+			return function (matrix) {
+
+				position.x = Math.random() * 260 - 130;
+				position.y = Math.random() * 260 - 130;
+				position.z = 0;
+
+				//rotation.x = Math.random() * 2 * Math.PI;
+				//rotation.y = Math.random() * 2 * Math.PI;
+				rotation.z = Math.random() * 2 * Math.PI;
+
+				rotation.z = getRadian(90);
+
+
+				quaternion.setFromEuler(rotation);
+				var max = 0.5;
+				var min = 0.1;
+				scale.x = scale.y = scale.z = 0.01;
+
+				matrix.compose(position, quaternion, scale);
+
+			};
+
+		}();
+
 		function makeInstanced(geometry, material) {
 			var count = 300;
 			var matrix = new THREE.Matrix4();
@@ -1051,6 +1093,47 @@
 
 		}
 
+		function makeInstancedRock(geometry, material) {
+			var count = 1;
+			var matrix = new THREE.Matrix4();
+			var mesh = new THREE.InstancedMesh(geometry, material, count);
+
+			var position = new THREE.Vector3();
+			var rotation = new THREE.Euler();
+			var quaternion = new THREE.Quaternion();
+			var scale = new THREE.Vector3();
+
+			position.x = Math.random() * 60 - 30;
+			position.y = 0;
+			position.z = Math.random() * 60 - 30;
+
+			rotation.x = 0;
+			rotation.y = 0;
+			//rotation.z = Math.random() * 2 * Math.PI;
+			rotation.z = 0;
+			//rotation.z = getRadian(90);
+
+			quaternion.setFromEuler(rotation);
+			var max = 0.05;
+			var min = 0.01;
+			scale.x = scale.y = scale.z = 0.1;
+
+
+			matrix.compose(position, quaternion, scale);
+
+			mesh.setMatrixAt(0, matrix);
+
+			//mesh.scale.set(1,1,1);
+			//mesh.rotation.x = getRadian(90);
+			mesh.position.set(0, 0, 0);
+			scene3.add(mesh);
+
+		}
+
+		function makeInstancedRocks(item, i) {
+			makeInstancedRock(rocksGeo[i], rocksMats[i]);
+		}
+
 
 
 		var t = 0;
@@ -1059,12 +1142,12 @@
 
 			requestAnimationFrame(animate);
 			t = t + 0.01;
-			if(currentScene == scene1){
-			fire.update(t);
-			fire2.update(t);
-			fire3.update(t);
+			if (currentScene == scene1) {
+				fire.update(t);
+				fire2.update(t);
+				fire3.update(t);
 			}
-			
+
 			if (controls.isLocked === true) {
 
 				raycaster.ray.origin.copy(controls.getObject().position);
