@@ -376,8 +376,8 @@
 			light.position.set(0.5, 1, 0.75);
 			scene1.add(light);
 
-			var light2 = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
-			light2.position.set(-100, 25, -250);
+			var light2 = new THREE.PointLight(0xeeeeff, 0x777788, 0.75);
+			light2.position.set(-40, 60, -140);
 			scene1.add(light2);
 
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
@@ -503,9 +503,9 @@
 
 				ufo.scale.set(40, 40, 40);
 
-				ufo.position.set(-80, 80, -210);
+				ufo.position.set(-60, 60, -190);
 				ufo.rotation.y = getRadian(-80);
-				ufo.rotation.x = getRadian(10);
+				ufo.rotation.x = getRadian(5);
 
 
 				ufo.visible = true;
