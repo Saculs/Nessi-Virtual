@@ -59,6 +59,16 @@
 			left: 0;
 			right: 0;
 		}
+
+		@keyframes rotation {
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(359deg);
+			}
+		}
 	</style>
 
 
@@ -70,16 +80,19 @@
 
 		<div id="instructions">
 			<div>
-				<span id='loadText'>Loading...</br></span>
+
+				<span id='loadText'>Loading...</br><img src="./SomaIcov1.png"
+						style="width: 150px; height:150px" /></span>
+
 			</div>
 			<div id="myProgress">
 				<div id="myBar"></div>
 			</div>
-			<!--
-				<br /><br />
-				Move: ARROWS / WASD<br/>
-				Look: MOUSE
-			-->
+
+			<br /><br />
+			Move: ARROWS / WASD<br />
+			Look: MOUSE
+
 		</div>
 
 	</div>
@@ -140,7 +153,7 @@
 
 		var scene3loaded = false;
 
-	
+
 
 		var objects = [];
 
@@ -284,7 +297,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html(prc + '% loading<br>');
+			$("#loadText").html(prc + '% loading<br><img src="./SomaIcov1.png" style="width: 150px; height:150px; animation: rotation 3s infinite linear;"/>');
 			/*
 			if (prc == 100) loading.style.display = 'none';
 			else loading.style.display = 'block';
@@ -293,7 +306,7 @@
 
 		function loaded() {
 			if (tutorial == true) {
-				$("#loadText").html('loaded<br/>click To Enter');
+				$("#loadText").html('loaded<br/>click To Enter<br/><img src="./SomaIcov1.png" style="width: 150px; height:150px; animation: rotation 3s infinite linear;"/>');
 				tutorial = false;
 
 			} else {
@@ -514,7 +527,7 @@
 				}
 			);
 
-			 // this centers the glow at the mesh
+			// this centers the glow at the mesh
 
 
 			var ufoloader = new GLTFLoader(manager);
@@ -543,21 +556,21 @@
 
 				scene1.add(ufo);
 
-				var spriteMap = new THREE.TextureLoader().load( "glow.png" );
-			var spriteMaterial = new THREE.SpriteMaterial(
-				{
-					map: spriteMap,useScreenCoordinates: false, 
-		color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
-					
-				});
-			var sprite  = new THREE.Sprite(spriteMaterial);
-			sprite.scale.set(2.5, 2.5, 1.0);
-			sprite.position.set(0, 0.3, 0);
-			ufo.add(sprite);
-			var sprite2  = new THREE.Sprite(spriteMaterial);
-			sprite2.scale.set(1.5, 1.5, 1.0);
-			sprite2.position.set(0, -0.1, 0);
-			ufo.add(sprite2);
+				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMaterial = new THREE.SpriteMaterial(
+					{
+						map: spriteMap, useScreenCoordinates: false,
+						color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+
+					});
+				var sprite = new THREE.Sprite(spriteMaterial);
+				sprite.scale.set(2.5, 2.5, 1.0);
+				sprite.position.set(0, 0.3, 0);
+				ufo.add(sprite);
+				var sprite2 = new THREE.Sprite(spriteMaterial);
+				sprite2.scale.set(1.5, 1.5, 1.0);
+				sprite2.position.set(0, -0.1, 0);
+				ufo.add(sprite2);
 
 
 
@@ -570,7 +583,7 @@
 				}
 			);
 
-			
+
 
 
 
@@ -676,17 +689,17 @@
 				});
 				scene2.add(ufo);
 
-				var spriteMap = new THREE.TextureLoader().load( "glow.png" );
-			var spriteMaterial = new THREE.SpriteMaterial(
-				{
-					map: spriteMap,useScreenCoordinates: false, 
-		color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
-					
-				});
-			var sprite  = new THREE.Sprite(spriteMaterial);
-			sprite.scale.set(2, 2, 1.0);
-			sprite.position.set(0, 0.2, 0);
-			ufo.add(sprite);
+				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMaterial = new THREE.SpriteMaterial(
+					{
+						map: spriteMap, useScreenCoordinates: false,
+						color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+
+					});
+				var sprite = new THREE.Sprite(spriteMaterial);
+				sprite.scale.set(2, 2, 1.0);
+				sprite.position.set(0, 0.2, 0);
+				ufo.add(sprite);
 
 				console.log('ufo added to scene');
 				$("#loadText").html('loaded<br>');
@@ -803,7 +816,7 @@
 			);
 
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/2StatuesJkcf.glb", function (gltf) {
+			Statueloader.load("models/StatuesR.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
@@ -811,15 +824,27 @@
 				Statue.position.set(15, 0, 0);
 				Statue.rotation.y = getRadian(140);
 
+
 				Statue.visible = true;
 
 				Statue.traverse(function (o) {
 					if (o.isMesh) {
 						console.log(o.name);
+
 						o.castShadow = true;
-						if (o.name == "Statue2" || o.name == "Statue2Head")
-							o.position.set(5, -0.2, 0);
 						o.rotation.y = getRadian(90);
+						o.rotation.x = getRadian(90);
+
+						if (o.name == "Statue2" || o.name == "Statue2Head") {
+							o.position.set(5, -0.2, 0);
+						}
+						else if (o.name == "Statue3") {
+							o.position.set(1, -0.2, -5);
+							o.rotation.y = getRadian(100);
+							//o.rotation.z = getRadian(120);
+						}
+						
+						
 					}
 				});
 				scene3.add(Statue);
@@ -827,8 +852,8 @@
 			},
 				// called while loading is progressing
 				function (xhr) {
-					console.log('Statue ' + (xhr.loaded) + '% loaded');
-					var prc = Math.floor(xhr.loaded / 3027156 * 100);
+					console.log('Statue ' + (xhr.loaded) + 'B loaded');
+					var prc = Math.floor(xhr.loaded /10260068 * 100);
 
 				}
 			);
@@ -875,7 +900,7 @@
 			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 			scene1.fog = new THREE.Fog(0x000000, 0, 400);
-			scene2.fog = new THREE.Fog(0xD1D1D1, 0, 4000);
+			scene2.fog = new THREE.Fog(0xD1D1D1, 0, 6000);
 			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 2);
