@@ -11,5 +11,5 @@
     ],
     "name": "Nessi Nezzila",
     "short_name": "Nessi",
-    "start_url": "/index.html"
+    "start_url": "./index.html"
 }
