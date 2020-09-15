@@ -746,7 +746,7 @@
 			);
 
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/Statue1Test.glb", function (gltf) {
+			Statueloader.load("models/2StatuesJkcf.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
@@ -758,8 +758,11 @@
 
 				Statue.traverse(function (o) {
 					if (o.isMesh) {
-						console.log("Statue");
+						console.log(o.name);
 						o.castShadow = true;
+						if(o.name=="Statue2" || o.name=="Statue2Head")
+							o.position.set(5,-0.2,0);
+						o.rotation.y = getRadian(90);
 					}
 				});
 				scene3.add(Statue);
@@ -860,6 +863,9 @@
 				console.log("touchstart");
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
+
+				
+
 			}, false);
 
 
@@ -867,6 +873,21 @@
 
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
+
+				var listener = new THREE.AudioListener();
+camera.add( listener );
+
+// create a global audio source
+var sound = new THREE.Audio( listener );
+
+// load a sound and set it as the Audio object's buffer
+var audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'ambient.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.3 );
+	sound.play();
+});
 
 			});
 
