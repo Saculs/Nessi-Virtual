@@ -128,6 +128,8 @@
 
 		var currentScene;
 
+		var tutorial = true;
+
 		var ufo;
 
 		var scene0loaded = false;
@@ -137,6 +139,8 @@
 		var scene2loaded = true;
 
 		var scene3loaded = false;
+
+	
 
 		var objects = [];
 
@@ -271,7 +275,7 @@
 				function (xhr) {
 					var prc = Math.floor(xhr.loaded / 25107276 * 100);
 					console.log('interior ' + xhr + ' loaded');
-					
+
 					updateLoadBar(prc);
 				}
 			);
@@ -288,7 +292,21 @@
 		}
 
 		function loaded() {
-			$("#loadText").html('loaded<br/>click To Enter');
+			if (tutorial == true) {
+				$("#loadText").html('loaded<br/>click To Enter');
+				tutorial = false;
+
+			} else {
+				$("#loadText").html('loaded<br/>LOL');
+				/*
+				controls.lock();
+				console.log("touchstart");
+				instructions.style.display = 'none';
+				blocker.style.display = 'none';
+				*/
+
+			}
+
 		}
 
 
@@ -307,8 +325,8 @@
 					if (scene2loaded == false) {
 						updateLoadBar(0);
 						initScene2();
-						
-					}
+					} else loaded();
+
 					currentScene = scene2;
 					break;
 				case "Fire":
@@ -316,7 +334,7 @@
 					if (scene1loaded == false) {
 						updateLoadBar(0);
 						initScene1();
-					}
+					} else loaded();
 					currentScene = scene1;
 					break;
 				case "UFO":
@@ -324,7 +342,7 @@
 					if (scene0loaded == false) {
 						initScene0();
 						updateLoadBar(0);
-					}
+					} else loaded();
 					currentScene = scene;
 					break;
 				case "AtomGas":
@@ -332,7 +350,7 @@
 					if (scene3loaded == false) {
 						initScene3();
 						updateLoadBar(0);
-					}
+					} else loaded();
 					currentScene = scene3;
 					break;
 				default:
@@ -423,7 +441,7 @@
 				function (xhr) {
 					console.log('soma ' + (xhr.loaded) + 'loaded');
 					var prc = Math.floor(xhr.loaded / 4372972 * 100);
-				
+
 					updateLoadBar(prc);
 				}
 			);
@@ -451,13 +469,13 @@
 				function (xhr) {
 					console.log('bild ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 18102840 * 100);
-					
+
 				}
 			);
 
 
 			var Debrisloader = new GLTFLoader(manager);
-			Debrisloader.load("models/Debris.glb", function (gltf) {
+			Debrisloader.load("models/Debris2.glb", function (gltf) {
 				var Debris = gltf.scene;
 
 				Debris.scale.set(20, 20, 20);
@@ -496,6 +514,8 @@
 				}
 			);
 
+			 // this centers the glow at the mesh
+
 
 			var ufoloader = new GLTFLoader(manager);
 			ufoloader.load("models/SpaceshipJPG4.glb", function (gltf) {
@@ -520,7 +540,27 @@
 						}
 					}
 				});
+
 				scene1.add(ufo);
+
+				var spriteMap = new THREE.TextureLoader().load( "glow.png" );
+			var spriteMaterial = new THREE.SpriteMaterial(
+				{
+					map: spriteMap,useScreenCoordinates: false, 
+		color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+					
+				});
+			var sprite  = new THREE.Sprite(spriteMaterial);
+			sprite.scale.set(2.5, 2.5, 1.0);
+			sprite.position.set(0, 0.5, 0);
+			ufo.add(sprite);
+			var sprite2  = new THREE.Sprite(spriteMaterial);
+			sprite2.scale.set(1.5, 1.5, 1.0);
+			sprite2.position.set(0, -0.1, 0);
+			ufo.add(sprite2);
+
+
+
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -529,6 +569,10 @@
 
 				}
 			);
+
+			
+
+
 
 		}
 
@@ -608,7 +652,7 @@
 				function (xhr) {
 					console.log('rocks ' + (xhr.loaded) + ' loaded');
 					var prc = Math.floor(xhr.loaded / 6521912 * 100);
-					
+
 					updateLoadBar(prc);
 				}
 			);
@@ -631,6 +675,19 @@
 					}
 				});
 				scene2.add(ufo);
+
+				var spriteMap = new THREE.TextureLoader().load( "glow.png" );
+			var spriteMaterial = new THREE.SpriteMaterial(
+				{
+					map: spriteMap,useScreenCoordinates: false, 
+		color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+					
+				});
+			var sprite  = new THREE.Sprite(spriteMaterial);
+			sprite.scale.set(2, 2, 1.0);
+			sprite.position.set(0, 0.2, 0);
+			ufo.add(sprite);
+
 				console.log('ufo added to scene');
 				$("#loadText").html('loaded<br>');
 			},
@@ -638,7 +695,7 @@
 				function (xhr) {
 					console.log('ufo ' + (xhr.loaded) + ' loaded');
 					var prc = Math.floor(xhr.loaded / 2561968 * 100);
-					
+
 				}
 			);
 
@@ -710,7 +767,7 @@
 				function (xhr) {
 					console.log('moon ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					
+
 					updateLoadBar(prc);
 				}
 			);
@@ -741,7 +798,7 @@
 				function (xhr) {
 					console.log('door ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					
+
 				}
 			);
 
@@ -760,8 +817,8 @@
 					if (o.isMesh) {
 						console.log(o.name);
 						o.castShadow = true;
-						if(o.name=="Statue2" || o.name=="Statue2Head")
-							o.position.set(5,-0.2,0);
+						if (o.name == "Statue2" || o.name == "Statue2Head")
+							o.position.set(5, -0.2, 0);
 						o.rotation.y = getRadian(90);
 					}
 				});
@@ -772,7 +829,7 @@
 				function (xhr) {
 					console.log('Statue ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 3027156 * 100);
-					
+
 				}
 			);
 
@@ -817,7 +874,7 @@
 			scene.background = new THREE.Color(0x000000);
 			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
-			scene1.fog = new THREE.Fog(0x000000, 0, 300);
+			scene1.fog = new THREE.Fog(0x000000, 0, 400);
 			scene2.fog = new THREE.Fog(0xD1D1D1, 0, 4000);
 			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
@@ -844,11 +901,14 @@
 			$('#footer a').click(function (e) {
 				var txt = $(e.target).text();
 				console.log(txt);
+				controls.unlock();
 				goToScene(txt);
 				blocker.style.display = 'block';
 				instructions.style.display = 'block';
 				//controls.unlock();					
 			});
+
+
 
 
 			instructions.addEventListener('click', function () {
@@ -864,7 +924,7 @@
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
 
-				
+
 
 			}, false);
 
@@ -874,20 +934,19 @@
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
 
+
 				var listener = new THREE.AudioListener();
-camera.add( listener );
-
-// create a global audio source
-var sound = new THREE.Audio( listener );
-
-// load a sound and set it as the Audio object's buffer
-var audioLoader = new THREE.AudioLoader();
-audioLoader.load( 'ambient.ogg', function( buffer ) {
-	sound.setBuffer( buffer );
-	sound.setLoop( true );
-	sound.setVolume( 0.3 );
-	sound.play();
-});
+				camera.add(listener);
+				// create a global audio source
+				var sound = new THREE.Audio(listener);
+				// load a sound and set it as the Audio object's buffer
+				var audioLoader = new THREE.AudioLoader();
+				audioLoader.load('ambient.ogg', function (buffer) {
+					sound.setBuffer(buffer);
+					sound.setLoop(true);
+					sound.setVolume(0.5);
+					sound.play();
+				});
 
 			});
 
@@ -963,6 +1022,7 @@ audioLoader.load( 'ambient.ogg', function( buffer ) {
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
+			document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 			raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
@@ -1045,9 +1105,9 @@ audioLoader.load( 'ambient.ogg', function( buffer ) {
 
 			return function (matrix) {
 
-				position.x = Math.random() * 260 - 130;
+				position.x = 0;
 				position.y = Math.random() * 260 - 130;
-				position.z = 0;
+				position.z = Math.random() * 260 - 130;
 
 				//rotation.x = Math.random() * 2 * Math.PI;
 				//rotation.y = Math.random() * 2 * Math.PI;
@@ -1085,7 +1145,7 @@ audioLoader.load( 'ambient.ogg', function( buffer ) {
 				//rotation.y = Math.random() * 2 * Math.PI;
 				rotation.z = Math.random() * 2 * Math.PI;
 
-				rotation.z = getRadian(90);
+				rotation.y = getRadian(90);
 
 
 				quaternion.setFromEuler(rotation);
@@ -1110,7 +1170,7 @@ audioLoader.load( 'ambient.ogg', function( buffer ) {
 				mesh.setMatrixAt(i, matrix);
 
 			}
-			mesh.rotation.x = getRadian(90);
+			mesh.rotation.z = getRadian(90);
 			mesh.position.set(0, -1, 0);
 			scene1.add(mesh);
 
@@ -1155,6 +1215,24 @@ audioLoader.load( 'ambient.ogg', function( buffer ) {
 
 		function makeInstancedRocks(item, i) {
 			makeInstancedRock(rocksGeo[i], rocksMats[i]);
+		}
+
+		function onDocumentMouseMove(event) {
+			/*
+			var mouse = new THREE.Vector2();
+			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+			
+			var raycaster = new THREE.Raycaster();
+			raycaster.setFromCamera( mouse, camera );
+			var intersects = raycaster.intersectObjects( planes );
+			
+			if(intersects.length > 0) {
+				$('html,body').css('cursor', 'pointer');
+			} else {
+				$('html,body').css('cursor', 'default');
+			}
+			*/
 		}
 
 
