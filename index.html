@@ -150,6 +150,7 @@
 
 
 		var tutorial = true;
+		var transition =true;
 
 		var ufo, door;
 
@@ -976,6 +977,7 @@
 				goToScene(txt);
 				blocker.style.display = 'block';
 				instructions.style.display = 'block';
+				transition= true;
 				//controls.unlock();					
 			});
 
@@ -985,6 +987,8 @@
 			instructions.addEventListener('click', function () {
 
 				controls.lock();
+
+
 
 			}, false);
 
@@ -1005,6 +1009,7 @@
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
 
+				transition = false;
 
 				var listener = new THREE.AudioListener();
 				camera.add(listener);
@@ -1025,6 +1030,8 @@
 
 				blocker.style.display = 'block';
 				instructions.style.display = '';
+
+				transition = true;
 
 			});
 
@@ -1357,7 +1364,7 @@
 
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-
+				if(transition == false)
 				clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
@@ -1372,24 +1379,28 @@
 					controls.unlock();
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
+					transition = true;
 					brek;
 				case "Ship":
 					goToScene("UFO");
 					controls.unlock();
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
+					transition = true;
 					break;
 				case "Emmisive":
 					goToScene("UFO");
 					controls.unlock();
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
+					transition = true;
 					break;
 				case "Moon":
 					goToScene("AtomGas");
 					controls.unlock();
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
+					transition = true;
 					break;
 				case "Plane002":
 					if (index == 1) {
@@ -1401,6 +1412,7 @@
 					controls.unlock();
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
+					transition = true;
 					break;
 			}
 
