@@ -994,7 +994,7 @@
 
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
-				
+
 				controls.lock();
 				console.log("touchstart");
 				instructions.style.display = 'none';
@@ -1365,7 +1365,7 @@
 
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-				if(transition == false) clicker(o);
+				if(transition == false && blocker.style.display == 'none') clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 			}
