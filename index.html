@@ -1327,6 +1327,8 @@
 
 
 		function onDocumentMouseDown(event) {
+			event.preventDefault();
+
 			if (blocker.style.display == 'block') {
 				//initTrans();
 				return;

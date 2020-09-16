@@ -48,6 +48,8 @@ var tsClientX, tsClientY;
 		var lastypos = 0;
 		
 		function onTouch(e){
+			e.preventDefault();
+
 tsClientX = e.touches[0].clientX;
 tsClientY = e.touches[0].clientY;
 console.log(tsClientX, tsClientY);
@@ -120,7 +122,7 @@ console.log("device/2",ww, h);
 		this.disconnect = function () {
 			document.removeEventListener( 'mousemove', onMouseMove, false );
 			document.removeEventListener( 'touchend', onTouchEnd, false );
-			document.removeEventListener( 'touchmove', onTouchmove, false);
+			document.removeEventListener( 'touchmove', onTouchMove, false);
 			document.removeEventListener( 'pointerlockchange', onPointerlockChange, false );
 			document.removeEventListener( 'pointerlockerror', onPointerlockError, false );
 		};
