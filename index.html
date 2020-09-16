@@ -1325,6 +1325,11 @@
 
 		function onDocumentMouseDown(event) {
 			event.preventDefault();
+			var e = event;
+			//if (e.stopPropagation) e.stopPropagation();
+			if (e.preventDefault) e.preventDefault();
+			e.cancelBubble = true;
+			e.returnValue = false;
 
 			if (blocker.style.display == 'block') {
 				//initTrans();
@@ -1347,9 +1352,9 @@
 
 			var o;
 			o = intersects[0].object;
-				if (o.name == "Fire" && intersects.length > 1) o = intersects[1].object;
+			if (o.name == "Fire" && intersects.length > 1) o = intersects[1].object;
 			if (intersects.length > 0) {
-				
+
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
 
