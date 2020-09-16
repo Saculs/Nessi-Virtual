@@ -161,6 +161,7 @@
 		var rocksMats = [];
 
 		var raycaster;
+		var mouse;
 
 		var clock;
 		var fire, fire2, fire3;
@@ -1045,11 +1046,17 @@
 
 			};
 
+			
+
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
 			document.addEventListener('mousemove', onDocumentMouseMove, false);
+			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
-			raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
+			raycaster = new THREE.Raycaster();
+      		mouse = new THREE.Vector2();
+
+			//raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
 			//initPaintings();
 			//initEnv();
@@ -1243,22 +1250,52 @@
 		}
 
 		function onDocumentMouseMove(event) {
-			/*
-			var mouse = new THREE.Vector2();
+			
 			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-			
-			var raycaster = new THREE.Raycaster();
 			raycaster.setFromCamera( mouse, camera );
-			var intersects = raycaster.intersectObjects( planes );
+			var intersects = raycaster.intersectObjects( currentScene.children, true );
 			
 			if(intersects.length > 0) {
 				$('html,body').css('cursor', 'pointer');
 			} else {
 				$('html,body').css('cursor', 'default');
 			}
-			*/
+		
 		}
+
+
+		function onDocumentMouseDown(event) {
+        if (false == true) {
+          initTrans();
+          return;
+        }
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(currentScene.children, true);
+        var to;
+        if (intersects.length > 0) var namee = intersects[0].object.name;
+        if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
+          clicker(intersects[0].object);
+          //lightbox_open();
+          //animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+        }
+	  }
+	  function clicker(o){
+		console.log(o.name);
+
+		if(o.name=="Sphere001"){
+			goToScene("Fire");
+		}
+		if(o.name=="Ship"){
+			goToScene("UFO");
+		}
+
+	  }
+
+
 
 
 
