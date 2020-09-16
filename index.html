@@ -52,6 +52,16 @@
 			background-color: white;
 		}
 
+		#crossHair {
+			width: 2%;
+			top: 50%;
+			left: 50%;
+			position: absolute;
+			margin-right: -50%;
+			transform: translate(-50%, -50%);
+			display: block;
+		}
+
 		#loadText {
 			font-size: 36px;
 			position: absolute;
@@ -75,7 +85,7 @@
 </head>
 
 <body>
-
+	<img src="mouse.png" id="crossHair">
 	<div id="blocker">
 
 		<div id="instructions">
@@ -122,11 +132,13 @@
 			Vector3
 		} from "./build/three.module.js";
 
-
+		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 		var loader = new GLTFLoader();
 
 		var camera, scene, scene1, scene2, scene3, renderer, controls;
+
+
 
 		var composer, mixer;
 
@@ -139,11 +151,16 @@
 			bloomRadius: 1
 		};
 
-		var currentScene;
+
 
 		var tutorial = true;
 
-		var ufo;
+		var ufo, door;
+
+
+		var currentScene;
+
+		var index = 2;
 
 		var scene0loaded = false;
 
@@ -153,7 +170,7 @@
 
 		var scene3loaded = false;
 
-
+		var crossHair;
 
 		var objects = [];
 
@@ -331,8 +348,6 @@
 			var euler = new Euler(0, 0, 0, 'YXZ');
 			camera.quaternion.setFromEuler(euler);
 
-
-			var index = 2;
 			switch (txt) {
 				case "Space":
 					index = 2;
@@ -512,7 +527,35 @@
 
 				//material that the geometry will use 
 
+				var doorloader = new GLTFLoader(manager);
+				doorloader.load("models/DoorRetopo.glb", function (gltf) {
+					var door = gltf.scene;
 
+					door.scale.set(5, 5, 5);
+
+					door.position.set(20, 0, -10);
+					door.rotation.y = getRadian(45);
+
+					door.visible = true;
+
+
+
+					door.traverse(function (o) {
+						if (o.isMesh) {
+							console.log("door");
+							o.castShadow = true;
+						}
+					});
+					scene1.add(door);
+					loaded();
+				},
+					// called while loading is progressing
+					function (xhr) {
+						console.log('door ' + (xhr.loaded) + '% loaded');
+						var prc = Math.floor(xhr.loaded / 3027156 * 100);
+
+					}
+				);
 
 
 				makeInstanced(geometry, material);
@@ -639,19 +682,19 @@
 
 							switch (o.name) {
 								case 'Beton_1':
-									o.position.set(200, 0, 100);
+									o.position.set(160, 15, 110);
 									break;
 								case 'Beton_2':
-									o.position.set(200, 0, -100);
+									o.position.set(180, 0, -70);
 									break;
 								case 'Beton_3':
-									o.position.set(230, -80, 0);
+									o.position.set(160, -40, 40);
 									break;
 								case 'Beton_4':
-									o.position.set(-200, 0, 100);
+									o.position.set(-100, 0, 100);
 									break;
 								case 'Beton_5':
-									o.position.set(100, 0, -100);
+									o.position.set(110, 50, -80);
 									break;
 							}
 
@@ -917,6 +960,7 @@
 
 			var blocker = document.getElementById('blocker');
 			var instructions = document.getElementById('instructions');
+			crossHair = document.getElementById('crossHair');
 			/*
 			var footer = document.getElementById( 'footer' );
 			
@@ -1229,7 +1273,7 @@
 			rotation.y = 0;
 			//rotation.z = Math.random() * 2 * Math.PI;
 			rotation.z = 0;
-			//rotation.z = getRadian(90);
+			rotation.x = getRadian(90);
 
 			quaternion.setFromEuler(rotation);
 			var max = 0.05;
@@ -1243,8 +1287,10 @@
 
 			//mesh.scale.set(1,1,1);
 			//mesh.rotation.x = getRadian(90);
-			mesh.position.set(0, 0, 0);
+			mesh.position.set(0, -0.2, 0);
+			//mesh.castShadow = true;
 			scene3.add(mesh);
+			//scene1.add(mesh);
 
 		}
 
@@ -1254,14 +1300,23 @@
 
 		function onDocumentMouseMove(event) {
 
-			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+			//mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			//mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+			mouse.x = 0;
+			mouse.y = 0;
 			raycaster.setFromCamera(mouse, camera);
 			var intersects = raycaster.intersectObjects(currentScene.children, true);
-
+			var oName = intersects[0].object.name;
 			if (intersects.length > 0) {
+				console.log("hover" + oName);
+
+				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") crossHair.style.display = 'block';
+				else crossHair.style.display = 'none';
+
 				$('html,body').css('cursor', 'pointer');
 			} else {
+				crossHair.style.display = 'none';
 				$('html,body').css('cursor', 'default');
 			}
 
@@ -1273,9 +1328,17 @@
 				//initTrans();
 				return;
 			}
+			if (isMobile == false) {
+				mouse.x = 0;
+				mouse.y = 0;
+			} else {
+				mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+				mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+			}
 
-			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+
+
 			raycaster.setFromCamera(mouse, camera);
 			var intersects = raycaster.intersectObjects(currentScene.children, true);
 			var to;
@@ -1288,31 +1351,42 @@
 		}
 		function clicker(o) {
 			console.log(o.name);
-			
+
 			switch (o.name) {
 				case "FirePlanet":
 					goToScene("Fire");
 					controls.unlock();
-			blocker.style.display = 'block';
-			instructions.style.display = 'block';
+					blocker.style.display = 'block';
+					instructions.style.display = 'block';
 					brek;
 				case "Ship":
 					goToScene("UFO");
 					controls.unlock();
-			blocker.style.display = 'block';
-			instructions.style.display = 'block';
+					blocker.style.display = 'block';
+					instructions.style.display = 'block';
+					break;
+				case "Emmisive":
+					goToScene("UFO");
+					controls.unlock();
+					blocker.style.display = 'block';
+					instructions.style.display = 'block';
 					break;
 				case "Moon":
-					goToScene("Moon");
+					goToScene("AtomGas");
 					controls.unlock();
-			blocker.style.display = 'block';
-			instructions.style.display = 'block';
+					blocker.style.display = 'block';
+					instructions.style.display = 'block';
 					break;
 				case "Plane002":
-					goToScene("Fire");
+					if (index == 1) {
+						goToScene("AtomGas");
+					} else if (index == 3) {
+						goToScene("Fire");
+					}
+
 					controls.unlock();
-			blocker.style.display = 'block';
-			instructions.style.display = 'block';
+					blocker.style.display = 'block';
+					instructions.style.display = 'block';
 					break;
 			}
 
@@ -1328,7 +1402,7 @@
 
 			requestAnimationFrame(animate);
 			t = t + 0.01;
-			if (currentScene == scene1) {
+			if (index == 1) {
 				fire.update(t);
 				fire2.update(t);
 				fire3.update(t);
