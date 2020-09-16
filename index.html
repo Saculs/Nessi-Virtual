@@ -609,7 +609,7 @@
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/betonSpaceHD5.glb", function (gltf) {
+			rocksloader.load("models/betonSpaceHD6.glb", function (gltf) {
 				var rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -623,11 +623,14 @@
 				rocks.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("rocks " + o.name);
-						if (o.name == 'Sphere001') {
+						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
-							o.position.set(80, -60, -30);
+							o.position.set(80, -30, -30);
 						} else if (o.name == 'Sphere') {
 							o.scale.set(600, 600, 600);
+						} else if (o.name == "Moon") {
+							o.scale.set(30, 30, 30);
+							o.position.set(60, -50, 70);
 						}
 						else if (o.name.includes("Beton")) {
 
@@ -665,7 +668,7 @@
 				// called while loading is progressing
 				function (xhr) {
 					console.log('rocks ' + (xhr.loaded) + ' loaded');
-					var prc = Math.floor(xhr.loaded / 6521912 * 100);
+					var prc = Math.floor(xhr.loaded / 7119612 * 100);
 
 					updateLoadBar(prc);
 				}
@@ -677,9 +680,9 @@
 
 				ufo.scale.set(30, 30, 30);
 
-				ufo.position.set(-50, 20, -250);
+				ufo.position.set(-50, 60, -250);
 				ufo.rotation.y = getRadian(-80);
-				ufo.rotation.x = getRadian(-10);
+				ufo.rotation.x = getRadian(4);
 
 				ufo.visible = true;
 
@@ -844,8 +847,8 @@
 							o.rotation.y = getRadian(100);
 							//o.rotation.z = getRadian(120);
 						}
-						
-						
+
+
 					}
 				});
 				scene3.add(Statue);
@@ -854,7 +857,7 @@
 				// called while loading is progressing
 				function (xhr) {
 					console.log('Statue ' + (xhr.loaded) + 'B loaded');
-					var prc = Math.floor(xhr.loaded /10260068 * 100);
+					var prc = Math.floor(xhr.loaded / 10260068 * 100);
 
 				}
 			);
@@ -1046,7 +1049,7 @@
 
 			};
 
-			
+
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
@@ -1054,7 +1057,7 @@
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 			raycaster = new THREE.Raycaster();
-      		mouse = new THREE.Vector2();
+			mouse = new THREE.Vector2();
 
 			//raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
@@ -1250,50 +1253,70 @@
 		}
 
 		function onDocumentMouseMove(event) {
-			
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-			raycaster.setFromCamera( mouse, camera );
-			var intersects = raycaster.intersectObjects( currentScene.children, true );
-			
-			if(intersects.length > 0) {
+
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+			raycaster.setFromCamera(mouse, camera);
+			var intersects = raycaster.intersectObjects(currentScene.children, true);
+
+			if (intersects.length > 0) {
 				$('html,body').css('cursor', 'pointer');
 			} else {
 				$('html,body').css('cursor', 'default');
 			}
-		
+
 		}
 
 
 		function onDocumentMouseDown(event) {
-        if (false == true) {
-          initTrans();
-          return;
-        }
+			if (blocker.style.display == 'block') {
+				//initTrans();
+				return;
+			}
 
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mouse, camera);
-        var intersects = raycaster.intersectObjects(currentScene.children, true);
-        var to;
-        if (intersects.length > 0) var namee = intersects[0].object.name;
-        if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-          clicker(intersects[0].object);
-          //lightbox_open();
-          //animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
-        }
-	  }
-	  function clicker(o){
-		console.log(o.name);
-
-		if(o.name=="Sphere001"){
-			goToScene("Fire");
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+			raycaster.setFromCamera(mouse, camera);
+			var intersects = raycaster.intersectObjects(currentScene.children, true);
+			var to;
+			if (intersects.length > 0) var namee = intersects[0].object.name;
+			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
+				clicker(intersects[0].object);
+				//lightbox_open();
+				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+			}
 		}
-		if(o.name=="Ship"){
-			goToScene("UFO");
-		}
+		function clicker(o) {
+			console.log(o.name);
+			
+			switch (o.name) {
+				case "FirePlanet":
+					goToScene("Fire");
+					controls.unlock();
+			blocker.style.display = 'block';
+			instructions.style.display = 'block';
+					brek;
+				case "Ship":
+					goToScene("UFO");
+					controls.unlock();
+			blocker.style.display = 'block';
+			instructions.style.display = 'block';
+					break;
+				case "Moon":
+					goToScene("Moon");
+					controls.unlock();
+			blocker.style.display = 'block';
+			instructions.style.display = 'block';
+					break;
+				case "Plane002":
+					goToScene("Fire");
+					controls.unlock();
+			blocker.style.display = 'block';
+			instructions.style.display = 'block';
+					break;
+			}
 
-	  }
+		}
 
 
 
