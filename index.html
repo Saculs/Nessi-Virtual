@@ -863,7 +863,7 @@
 			);
 
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/StatuesR.glb", function (gltf) {
+			Statueloader.load("models/StatuesRABC.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
@@ -880,15 +880,17 @@
 
 						o.castShadow = true;
 						o.rotation.y = getRadian(90);
-						o.rotation.x = getRadian(90);
+						//o.rotation.x = getRadian(90);
 
 						if (o.name == "Statue2" || o.name == "Statue2Head") {
 							o.position.set(5, -0.2, 0);
 						}
 						else if (o.name == "Statue3") {
 							o.position.set(1, -0.2, -5);
-							o.rotation.y = getRadian(100);
+							o.rotation.y = getRadian(-100);
 							//o.rotation.z = getRadian(120);
+						} else {
+							o.rotation.y = getRadian(10);
 						}
 
 
@@ -1123,9 +1125,9 @@
 			fire3.scale.set(40, 40, 40);
 			fire3.position.set(40, 20, -110);
 			scene1.add(fire3);
-
-
-
+			fire.name = "Fire";
+			fire2.name = "Fire";
+			fire3.name = "Fire";
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
@@ -1308,6 +1310,7 @@
 			raycaster.setFromCamera(mouse, camera);
 			var intersects = raycaster.intersectObjects(currentScene.children, true);
 			var oName = intersects[0].object.name;
+			if (oName == "Fire" && intersects.length > 1) oName = intersects[1].object.name;
 			if (intersects.length > 0) {
 				console.log("hover" + oName);
 
@@ -1342,9 +1345,16 @@
 			raycaster.setFromCamera(mouse, camera);
 			var intersects = raycaster.intersectObjects(currentScene.children, true);
 			var to;
-			if (intersects.length > 0) var namee = intersects[0].object.name;
+
+			var o;
+			o = intersects[0].object;
+				if (o.name == "Fire" && intersects.length > 1) o = intersects[1].object;
+			if (intersects.length > 0) {
+				
+			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-				clicker(intersects[0].object);
+
+				clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 			}
