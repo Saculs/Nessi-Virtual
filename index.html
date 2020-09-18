@@ -150,7 +150,10 @@
 
 
 		var tutorial = true;
-		var transition =true;
+		var transition = true;
+
+
+		var mixer;
 
 		var ufo, door;
 
@@ -860,7 +863,7 @@
 			);
 
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/StatuesRABC.glb", function (gltf) {
+			Statueloader.load("models/StatuesAnim5.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
@@ -872,6 +875,7 @@
 				Statue.visible = true;
 
 				Statue.traverse(function (o) {
+					
 					if (o.isMesh) {
 						console.log(o.name);
 
@@ -879,20 +883,25 @@
 						o.rotation.y = getRadian(90);
 						//o.rotation.x = getRadian(90);
 
-						if (o.name == "Statue2" || o.name == "Statue2Head") {
+						if (o.name == "Statue2") {
 							o.position.set(5, -0.2, 0);
 						}
-						else if (o.name == "Statue3") {
+						else if (o.name == "Statue3Mesh") {
+							
+							o.rotation.y = getRadian(120);
+						} else {
 							o.position.set(1, -0.2, -5);
 							o.rotation.y = getRadian(-100);
-							//o.rotation.z = getRadian(120);
-						} else {
-							o.rotation.y = getRadian(10);
 						}
 
 
 					}
 				});
+
+				mixer = new THREE.AnimationMixer( gltf.scene );
+				mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+
 				scene3.add(Statue);
 				loaded();
 			},
@@ -974,6 +983,7 @@
 				var txt = $(e.target).text();
 				console.log(txt);
 				controls.unlock();
+				
 				goToScene(txt);
 				blocker.style.display = 'block';
 				instructions.style.display = 'block';
@@ -987,7 +997,8 @@
 			instructions.addEventListener('click', function () {
 
 				controls.lock();
-				transition = false;
+				
+				transition = true;
 
 
 			}, false);
@@ -1036,37 +1047,44 @@
 
 			});
 
-			scene.add(controls.getObject());
+			scene2.add(controls.getObject());
 
 			var onKeyDown = function (event) {
-
+				if(transition == false){
 				switch (event.keyCode) {
 
-					case 38: // up
-					case 87: // w
-						moveForward = true;
-						break;
+						case 38: // up
+						case 87: // w
+							moveForward = true;
+							break;
 
-					case 37: // left
-					case 65: // a
-						moveLeft = true;
-						break;
+						case 37: // left
+						case 65: // a
+							moveLeft = true;
+							break;
 
-					case 40: // down
-					case 83: // s
-						moveBackward = true;
-						break;
+						case 40: // down
+						case 83: // s
+							moveBackward = true;
+							break;
 
-					case 39: // right
-					case 68: // d
-						moveRight = true;
-						break;
+						case 39: // right
+						case 68: // d
+							moveRight = true;
+							break;
 
-					case 32: // space
-						if (canJump === true) velocity.y += 250;
-						canJump = false;
-						break;
+						case 32: // space
+							if (canJump === true) velocity.y += 250;
+							canJump = false;
+							break;
 
+					}
+				}
+				else {
+							moveForward = false;
+							moveLeft = false;
+							moveBackward = false;
+							moveRight = false;
 				}
 
 			};
@@ -1365,13 +1383,20 @@
 
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-				if(transition == false && blocker.style.display == 'none') clicker(o);
+				if (transition == false && blocker.style.display == 'none') clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 			}
 		}
 		function clicker(o) {
 			console.log(o.name);
+			moveForward = false;
+
+			moveLeft = false;
+
+			moveBackward = false;
+
+			moveRight = false;
 
 			switch (o.name) {
 				case "FirePlanet":
@@ -1433,7 +1458,7 @@
 				fire2.update(t);
 				fire3.update(t);
 			}
-
+			
 			if (controls.isLocked === true) {
 
 				raycaster.ray.origin.copy(controls.getObject().position);
@@ -1445,6 +1470,8 @@
 
 				var time = performance.now();
 				var delta = (time - prevTime) / 1000;
+
+				if ( mixer ) mixer.update(delta);
 
 				velocity.x -= velocity.x * 10.0 * delta;
 				velocity.z -= velocity.z * 10.0 * delta;
@@ -1464,9 +1491,10 @@
 					canJump = true;
 
 				}
-
+				
 				controls.moveRight(- velocity.x * delta);
 				controls.moveForward(- velocity.z * delta);
+
 
 				controls.getObject().position.y += (velocity.y * delta); // new behavior
 
@@ -1481,6 +1509,13 @@
 
 				prevTime = time;
 
+			} else {
+				
+					direction.x = 0;
+					direction.y = 0;
+					velocity.y=0;
+					velocity.x = 0;
+					moveForward = false;
 			}
 
 			renderer.render(currentScene, camera);
