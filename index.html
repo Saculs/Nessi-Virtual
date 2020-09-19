@@ -282,7 +282,7 @@
 		function initUfo() {
 
 			scene0loaded = true;
-
+			initEnv();
 			var intloader = new GLTFLoader(manager);
 			intloader.load("models/interior8.glb", function (gltf) {
 				var int = gltf.scene;
@@ -293,10 +293,17 @@
 				int.rotation.y = getRadian(-90);
 
 				int.visible = true;
-
+				var floorMaterial = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color: 0x000000, roughness: 0, specular: 0});
 				int.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("interrior");
+						if(o.name =='Walls'){
+							o.material = floorMaterial;
+						} else if(o.name == "PlaneTop"){
+							var huTex = new THREE.TextureLoader().load("textures/UFO.png");
+        					var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+							o.material = huMat;
+						}
 					}
 				});
 				scene.add(int);
@@ -1162,7 +1169,7 @@
 			//raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
 			//initPaintings();
-			//initEnv();
+			
 
 			initScene2();
 
