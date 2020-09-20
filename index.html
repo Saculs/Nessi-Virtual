@@ -136,16 +136,7 @@
 
 
 
-		var composer, mixer;
-
-		var fxaaPass;
-
-		var params = {
-			exposure: 1,
-			bloomStrength: 2,
-			bloomThreshold: 0.3,
-			bloomRadius: 1
-		};
+		var mixer, mixer2, mixer3;
 
 
 
@@ -153,9 +144,8 @@
 		var transition = true;
 
 
-		var mixer;
 
-		var ufo, door;
+		var rocks, door, gasSphere;
 
 
 		var currentScene;
@@ -293,15 +283,15 @@
 				int.rotation.y = getRadian(-90);
 
 				int.visible = true;
-				var floorMaterial = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color: 0x000000, roughness: 0, specular: 0});
+				var floorMaterial = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color: 0x000000, roughness: 0, specular: 0 });
 				int.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("interrior");
-						if(o.name =='Walls'){
+						if (o.name == 'Walls') {
 							o.material = floorMaterial;
-						} else if(o.name == "PlaneTop"){
+						} else if (o.name == "PlaneTop") {
 							var huTex = new THREE.TextureLoader().load("textures/UFO.png");
-        					var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
+							var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
 							o.material = huMat;
 						}
 					}
@@ -691,7 +681,7 @@
 
 			var rocksloader = new GLTFLoader(manager);
 			rocksloader.load("models/betonSpaceHD6.glb", function (gltf) {
-				var rocks = gltf.scene;
+				rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
 
@@ -901,13 +891,13 @@
 			);
 
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/StatuesAnim5.glb", function (gltf) {
+			Statueloader.load("models/StatuesAnim3.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
 
 				Statue.position.set(15, 0, 0);
-				Statue.rotation.y = getRadian(140);
+				Statue.rotation.y = getRadian(260);
 
 
 				Statue.visible = true;
@@ -916,28 +906,16 @@
 					
 					if (o.isMesh) {
 						console.log(o.name);
-
 						o.castShadow = true;
-						o.rotation.y = getRadian(90);
+						//o.rotation.y = getRadian(90);
 						//o.rotation.x = getRadian(90);
-
-						if (o.name == "Statue2") {
-							o.position.set(5, -0.2, 0);
-						}
-						else if (o.name == "Statue3Mesh") {
-							
-							o.rotation.y = getRadian(120);
-						} else {
-							o.position.set(1, -0.2, -5);
-							o.rotation.y = getRadian(-100);
-						}
 
 
 					}
 				});
 
-				mixer = new THREE.AnimationMixer( gltf.scene );
-				mixer.clipAction( gltf.animations[ 0 ] ).play();
+				mixer = new THREE.AnimationMixer(gltf.scene);
+				mixer.clipAction(gltf.animations[0]).play();
 
 
 				scene3.add(Statue);
@@ -951,6 +929,73 @@
 				}
 			);
 
+			var Statue2loader = new GLTFLoader(manager);
+			Statue2loader.load("models/StatuesAnim2.glb", function (gltf) {
+				var Statue2 = gltf.scene;
+
+				Statue2.scale.set(8, 8, 8);
+
+				Statue2.position.set(-5, -0.4, -15);
+				Statue2.rotation.y = getRadian(180);
+
+				Statue2.visible = true;
+
+				Statue2.traverse(function (o) {
+					if (o.isMesh) {
+						console.log(o.name);
+						o.castShadow = true;
+						//o.rotation.y = getRadian(90);
+						//o.rotation.x = getRadian(90);
+					}
+				});
+
+				mixer2 = new THREE.AnimationMixer(gltf.scene);
+				mixer2.clipAction(gltf.animations[0]).play();
+
+				scene3.add(Statue2);
+				loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('Statue2 ' + (xhr.loaded) + 'B loaded');
+					var prc = Math.floor(xhr.loaded / 10260068 * 100);
+
+				}
+			);
+
+			var Statue3loader = new GLTFLoader(manager);
+			Statue3loader.load("models/StatuesAnim1.glb", function (gltf) {
+				var Statue3 = gltf.scene;
+
+				Statue3.scale.set(8, 8, 8);
+
+				Statue3.position.set(-17, -0.4, 18);
+				Statue3.rotation.y = getRadian(0);
+
+				Statue3.visible = true;
+
+				Statue3.traverse(function (o) {
+					if (o.isMesh) {
+						console.log(o.name);
+						o.castShadow = true;
+						//o.rotation.y = getRadian(90);
+						//o.rotation.x = getRadian(90);
+					}
+				});
+
+				mixer3 = new THREE.AnimationMixer(gltf.scene);
+				mixer3.clipAction(gltf.animations[0]).play();
+
+				scene3.add(Statue3);
+				loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('Statue3 ' + (xhr.loaded) + 'B loaded');
+					var prc = Math.floor(xhr.loaded / 10260068 * 100);
+
+				}
+			);
 
 
 
@@ -966,13 +1011,18 @@
 			fragmentShader: document.getElementById('sky-fragment').textContent
 			});
 			*/
-			var material = new THREE.MeshBasicMaterial();
-			material.map = new THREE.TextureLoader().load("textures/Aurora3.png");
+			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
+			var material = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: texture, transparent: true, opacity: 0.6});
+			var material2 = new THREE.MeshBasicMaterial();
+			material2.map = texture;
+			material.map = texture;
+			material2.side = THREE.BackSide;
 			material.color = new THREE.Color(0xFFFFFF);
 			material.side = THREE.BackSide;
-
-			scene3.add(new THREE.Mesh(new THREE.SphereGeometry(80, 60, 40), material));
-
+			gasSphere = new THREE.Mesh(new THREE.SphereGeometry(70, 60, 40), material);
+			var tsph = new THREE.Mesh(new THREE.SphereGeometry(80, 60, 40), material2);
+			scene3.add(gasSphere);
+			scene3.add(tsph);
 		}
 
 		function init() {
@@ -1021,7 +1071,7 @@
 				var txt = $(e.target).text();
 				console.log(txt);
 				controls.unlock();
-				
+
 				goToScene(txt);
 				blocker.style.display = 'block';
 				instructions.style.display = 'block';
@@ -1035,7 +1085,7 @@
 			instructions.addEventListener('click', function () {
 
 				controls.lock();
-				
+
 				transition = true;
 
 
@@ -1088,8 +1138,8 @@
 			scene2.add(controls.getObject());
 
 			var onKeyDown = function (event) {
-				if(transition == false){
-				switch (event.keyCode) {
+				if (transition == false) {
+					switch (event.keyCode) {
 
 						case 38: // up
 						case 87: // w
@@ -1119,10 +1169,10 @@
 					}
 				}
 				else {
-							moveForward = false;
-							moveLeft = false;
-							moveBackward = false;
-							moveRight = false;
+					moveForward = false;
+					moveLeft = false;
+					moveBackward = false;
+					moveRight = false;
 				}
 
 			};
@@ -1169,7 +1219,7 @@
 			//raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
 			//initPaintings();
-			
+
 
 			initScene2();
 
@@ -1206,27 +1256,6 @@
 
 
 			window.addEventListener('resize', onWindowResize, false);
-
-
-
-			var renderScene = new RenderPass(currentScene, camera);
-
-			var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-			bloomPass.threshold = params.bloomThreshold;
-			bloomPass.strength = params.bloomStrength;
-			bloomPass.radius = params.bloomRadius;
-
-			fxaaPass = new ShaderPass(FXAAShader);
-
-			var pixelRatio = renderer.getPixelRatio();
-
-			fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.offsetWidth * pixelRatio);
-			fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.offsetHeight * pixelRatio);
-
-			composer = new EffectComposer(renderer);
-			composer.addPass(renderScene);
-			composer.addPass(fxaaPass);
-			composer.addPass(bloomPass);
 
 
 		}
@@ -1373,7 +1402,7 @@
 			var oName = intersects[0].object.name;
 			if (oName == "Fire" && intersects.length > 1) oName = intersects[1].object.name;
 			if (intersects.length > 0) {
-				console.log("hover" + oName);
+				//console.log("hover" + oName);
 
 				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") crossHair.style.display = 'block';
 				else crossHair.style.display = 'none';
@@ -1496,7 +1525,19 @@
 				fire2.update(t);
 				fire3.update(t);
 			}
-			
+
+			if (rocks != null && index == 2) rocks.traverse(function (o) {
+				if (o.isMesh & o.name.includes("Beton")) {
+					o.rotation.x += 0.0009;
+					o.rotation.z -= 0.0008;
+					
+				}
+			});
+			if(gasSphere != null && index == 3){
+				gasSphere.rotation.x -= 0.0004;
+				gasSphere.rotation.y -= 0.001;
+			}
+
 			if (controls.isLocked === true) {
 
 				raycaster.ray.origin.copy(controls.getObject().position);
@@ -1509,7 +1550,9 @@
 				var time = performance.now();
 				var delta = (time - prevTime) / 1000;
 
-				if ( mixer ) mixer.update(delta);
+				if (mixer) mixer.update(delta);
+				if (mixer2) mixer2.update(delta);
+				if (mixer3) mixer3.update(delta);
 
 				velocity.x -= velocity.x * 10.0 * delta;
 				velocity.z -= velocity.z * 10.0 * delta;
@@ -1529,7 +1572,7 @@
 					canJump = true;
 
 				}
-				
+
 				controls.moveRight(- velocity.x * delta);
 				controls.moveForward(- velocity.z * delta);
 
@@ -1548,12 +1591,12 @@
 				prevTime = time;
 
 			} else {
-				
-					direction.x = 0;
-					direction.y = 0;
-					velocity.y=0;
-					velocity.x = 0;
-					moveForward = false;
+
+				direction.x = 0;
+				direction.y = 0;
+				velocity.y = 0;
+				velocity.x = 0;
+				moveForward = false;
 			}
 
 			renderer.render(currentScene, camera);
