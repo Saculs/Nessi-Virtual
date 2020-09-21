@@ -131,7 +131,7 @@
 
 	<script type="module">
 
-		(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+		//(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 
 		import * as THREE from './build/three.module.js';
 
@@ -761,7 +761,7 @@
 							o.scale.set(600, 600, 600);
 						} else if (o.name == "Moon") {
 							o.scale.set(30, 30, 30);
-							o.position.set(60, -50, 70);
+							o.position.set(30, -50, 70);
 						}
 						else if (o.name.includes("Beton")) {
 
@@ -812,7 +812,7 @@
 					});
 				var sprite2 = new THREE.Sprite(spriteMaterial2);
 				sprite2.scale.set(80, 80, 1.0);
-				sprite2.position.set(60, -50, 70);
+				sprite2.position.set(30, -50, 70);
 				rocks.add(sprite2);
 
 
@@ -1297,7 +1297,7 @@
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
-			document.addEventListener('mousemove', onDocumentMouseMove, false);
+			//document.addEventListener('mousemove', onDocumentMouseMove, false);
 			//document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 
