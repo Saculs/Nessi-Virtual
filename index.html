@@ -338,8 +338,8 @@
 
 				door.scale.set(2, 2, 2);
 
-				door.position.set(-55, 0, 5);
-				door.rotation.y = getRadian(-45);
+				door.position.set(-55, 1, 5);
+				door.rotation.y = getRadian(-30);
 
 				door.visible = true;
 
@@ -503,9 +503,12 @@
 			light.position.set(0.5, 1, 0.75);
 			//scene1.add(light);
 
-			var ufolight = new THREE.PointLight(0xeeeeff, 30, 50);
-			ufolight.position.set(-70, 55, -100);
+			var ufolight = new THREE.PointLight(0xeeeeff, 40, 50);
+			ufolight.position.set(-80, 55, -100);
 			scene1.add(ufolight);
+			var ufolight2 = new THREE.PointLight(0xeeeeff, 40, 50);
+			ufolight2.position.set(30, 70, -120);
+			scene1.add(ufolight2);
 
 			var light2 = new THREE.PointLight(0xf9c59d, 2, 60);
 			light2.position.set(10, 30, 30);
@@ -660,7 +663,7 @@
 
 
 			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/SpaceshipJPG8.glb", function (gltf) {
+			ufoloader.load("models/UFO.glb", function (gltf) {
 				var ufo = gltf.scene;
 
 				ufo.scale.set(40, 40, 40);
@@ -862,6 +865,10 @@
 				sprite.position.set(0, 0.2, 0);
 				ufo.add(sprite);
 
+				var light = new THREE.PointLight(0xFFFFFF, 60, 100);
+				light.position(-40, 60, -210)
+				scene2.add(light);
+
 				console.log('ufo added to scene');
 				$("#loadText").html('loaded<br>');
 			},
@@ -982,7 +989,7 @@
 
 				Statue.scale.set(8, 8, 8);
 
-				Statue.position.set(15, 0, 0);
+				Statue.position.set(15, 0, 10);
 				Statue.rotation.y = getRadian(260);
 
 
@@ -1056,8 +1063,8 @@
 
 				Statue3.scale.set(8, 8, 8);
 
-				Statue3.position.set(-17, -0.4, 18);
-				Statue3.rotation.y = getRadian(0);
+				Statue3.position.set(-20, -1.2, 30);
+				Statue3.rotation.y = getRadian(-20);
 
 				Statue3.visible = true;
 
@@ -1297,7 +1304,7 @@
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
-			//document.addEventListener('mousemove', onDocumentMouseMove, false);
+			document.addEventListener('mousemove', onDocumentMouseMove, false);
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 
