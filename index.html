@@ -1493,7 +1493,7 @@
 
 		function onDocumentMouseMove(event) {
 			event.preventDefault();
-			
+			event.returnValue = false;
 			//mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 			//mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
@@ -1517,8 +1517,8 @@
 				crossHair.style.display = 'none';
 				$('html,body').css('cursor', 'default');
 			}
+
 			
-			event.returnValue = false;
 		}
 
 
