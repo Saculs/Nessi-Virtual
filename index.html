@@ -348,7 +348,6 @@
 				door.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("door");
-						o.castShadow = true;
 					}
 				});
 				scene.add(door);
@@ -970,6 +969,9 @@
 					if (o.isMesh) {
 						console.log("door");
 						o.castShadow = true;
+						if(o.name == "Plane002"){
+							o.rotation.y = getRadian(90);
+						}
 					}
 				});
 				scene3.add(door);
@@ -1309,7 +1311,7 @@
 			} else {
 				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
-			document.addEventListener('mousedown', onDocumentMouseDown, false);
+			//document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 
 			raycaster = new THREE.Raycaster();
@@ -1503,7 +1505,10 @@
 			if (intersects.length > 0) {
 				//console.log("hover" + oName);
 
-				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") crossHair.style.display = 'block';
+				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") {
+					crossHair.style.display = 'block';
+					if(oName == "Plane002") intersects[0].object.rotation.y = getRadian(140);
+				}
 				else crossHair.style.display = 'none';
 
 				$('html,body').css('cursor', 'pointer');
