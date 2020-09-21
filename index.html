@@ -678,7 +678,7 @@
 					if (o.isMesh) {
 						console.log("UFO");
 						if (o.name == 'Light') {
-							o.material = new THREE.MeshPhongMaterial({color: 0xC440FF,opacity: 0.8,transparent: true,});
+							o.material = new THREE.MeshBasicMaterial({color: 0xC440FF,opacity: 0.6,transparent: true,});
 						} 
 					}
 				});
@@ -701,9 +701,10 @@
 				sprite2.position.set(0, -0.1, 0);
 				ufo.add(sprite2);
 					
-				var spotLight = new THREE.SpotLight( 0xffffff, 4,20 );
-				spotLight.position.set(0,-2,0);
-				ufo.add(spotLight);
+				var pLight = new THREE.PointLight( 0xC440FF, 8 ,130 );
+				pLight.rotation.x = getRadian(90);
+				pLight.position.set(-60, 50, -190);
+				scene1.add(pLight);
 
 			},
 				// called while loading is progressing
@@ -755,7 +756,7 @@
 						console.log("rocks " + o.name);
 						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
-							o.position.set(80, -30, -30);
+							o.position.set(80, -30, -50);
 						} else if (o.name == 'Sphere') {
 							o.scale.set(600, 600, 600);
 						} else if (o.name == "Moon") {
@@ -800,7 +801,7 @@
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
 				sprite.scale.set(140, 140, 1.0);
-				sprite.position.set(80, -30, -30);
+				sprite.position.set(80, -30, -50);
 				rocks.add(sprite);
 
 				var spriteMaterial2 = new THREE.SpriteMaterial(
@@ -857,8 +858,8 @@
 
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
-				sprite.scale.set(2, 2, 1.0);
-				sprite.position.set(0, 0.4, 0);
+				sprite.scale.set(2.2, 2.2, 1.0);
+				sprite.position.set(0, 0.2, 0);
 				ufo.add(sprite);
 
 				console.log('ufo added to scene');
