@@ -1297,8 +1297,8 @@
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
-			//document.addEventListener('mousemove', onDocumentMouseMove, false);
-			//document.addEventListener('mousedown', onDocumentMouseDown, false);
+			document.addEventListener('mousemove', onDocumentMouseMove, false);
+			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 
 			raycaster = new THREE.Raycaster();
@@ -1479,7 +1479,7 @@
 		}
 
 		function onDocumentMouseMove(event) {
-
+			event.preventDefault();
 			//mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 			//mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
