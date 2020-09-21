@@ -1165,6 +1165,9 @@
 
 
 			$('#footer a').click(function (e) {
+				e.returnValue = false;
+				e.preventDefault();
+
 				var txt = $(e.target).text();
 				console.log(txt);
 				controls.unlock();
@@ -1190,7 +1193,8 @@
 
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
-
+				e.returnValue = false;
+				
 				controls.lock();
 				console.log("touchstart");
 				instructions.style.display = 'none';
@@ -1523,7 +1527,6 @@
 
 
 		function onDocumentMouseDown(event) {
-			event.preventDefault();
 			var e = event;
 			//if (e.stopPropagation) e.stopPropagation();
 			if (e.preventDefault) e.preventDefault();
