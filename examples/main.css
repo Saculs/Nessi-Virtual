@@ -6,8 +6,6 @@ html{
       -ms-user-select: none;
 		  user-select: none;
 		  touch-action: none;
-
-		  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -27,6 +25,7 @@ body {
       -ms-user-select: none;
 		  user-select: none;
 		  touch-action: none;
+		  
 }
 
 a {
@@ -45,6 +44,7 @@ button {
 
 canvas {
 	display: block;
+	-webkit-tap-highlight-color: transparent;
 }
 
 #info {
