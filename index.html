@@ -1304,7 +1304,11 @@
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
-			document.addEventListener('mousemove', onDocumentMouseMove, false);
+			if (isMobile == false) {
+				document.addEventListener('mousemove', onDocumentMouseMove, false);
+			} else {
+				document.addEventListener('touchmove', onDocumentMouseMove, false);
+			}
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 
