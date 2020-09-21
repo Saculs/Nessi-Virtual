@@ -102,7 +102,31 @@
 		</div>
 
 	</div>
-
+	<script id="vertexShader" type="x-shader/x-vertex">
+		uniform vec3 viewVector;
+		uniform float c;
+		uniform float p;
+		varying float intensity;
+		void main() 
+		{
+			vec3 vNormal = normalize( normalMatrix * normal );
+			vec3 vNormel = normalize( normalMatrix * viewVector );
+			intensity = pow( c - dot(vNormal, vNormel), p );
+			
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+		</script>
+		
+		<!-- fragment shader a.k.a. pixel shader -->
+		<script id="fragmentShader" type="x-shader/x-vertex"> 
+		uniform vec3 glowColor;
+		varying float intensity;
+		void main() 
+		{
+			vec3 glow = glowColor * intensity;
+			gl_FragColor = vec4( glow, 1.0 );
+		}
+		</script>
 
 
 	<script type="module">
@@ -308,7 +332,35 @@
 				}
 			);
 
+			var doorloader = new GLTFLoader(manager);
+			doorloader.load("models/DoorRetopo.glb", function (gltf) {
+				var door = gltf.scene;
 
+				door.scale.set(2, 2, 2);
+
+				door.position.set(-55, 0, 5);
+				door.rotation.y = getRadian(-45);
+
+				door.visible = true;
+
+
+
+				door.traverse(function (o) {
+					if (o.isMesh) {
+						console.log("door");
+						o.castShadow = true;
+					}
+				});
+				scene.add(door);
+				loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('door ' + (xhr.loaded) + '% loaded');
+					var prc = Math.floor(xhr.loaded / 3027156 * 100);
+
+				}
+			);
 
 			var babyloader = new GLTFLoader(manager);
 			babyloader.load("models/Puppe1R.glb", function (gltf) {
@@ -444,15 +496,19 @@
 			scene1.add(controls.getObject());
 			scene1loaded = true;
 
-			var amblight = new THREE.AmbientLight(0xFFFFFf, 0.2);
+			var amblight = new THREE.AmbientLight(0xFFFFFf, 0.1);
 			scene1.add(amblight);
 
-			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+			var light = new THREE.HemisphereLight(0xeeeeff, 0.3, 0.75);
 			light.position.set(0.5, 1, 0.75);
-			scene1.add(light);
+			//scene1.add(light);
 
-			var light2 = new THREE.PointLight(0xeeeeff, 0x777788, 0.75);
-			light2.position.set(-40, 60, -140);
+			var ufolight = new THREE.PointLight(0xeeeeff, 30, 50);
+			ufolight.position.set(-70, 55, -100);
+			scene1.add(ufolight);
+
+			var light2 = new THREE.PointLight(0xf9c59d, 2, 60);
+			light2.position.set(10, 30, 30);
 			scene1.add(light2);
 
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
@@ -463,9 +519,9 @@
 
 			//scene1.add(floor);
 
-			var light = new THREE.PointLight(0xFFFFFF, 2, 300);
-			light.position.set(- 0, 0, 80);
-			scene1.add(light);
+			var light3 = new THREE.PointLight(0xd31313, 5, 26);
+			light3.position.set(0, 15, -30);
+			scene1.add(light3);
 
 
 
@@ -509,6 +565,7 @@
 
 				bild.scale.set(0.3, 0.3, 0.3);
 				bild.position.set(-40, 1, 50);
+				
 
 				bild.rotation.y = getRadian(-90);
 
@@ -603,7 +660,7 @@
 
 
 			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/SpaceshipJPG4.glb", function (gltf) {
+			ufoloader.load("models/SpaceshipJPG8.glb", function (gltf) {
 				var ufo = gltf.scene;
 
 				ufo.scale.set(40, 40, 40);
@@ -620,9 +677,9 @@
 				ufo.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("UFO");
-						if (o.name == 'Emmisive') {
-							//o.material.set(new THREE.MeshLambertMaterial( { color: 0xbbbbbb} ));
-						}
+						if (o.name == 'Light') {
+							o.material = new THREE.MeshPhongMaterial({color: 0xC440FF,opacity: 0.8,transparent: true,});
+						} 
 					}
 				});
 
@@ -632,7 +689,7 @@
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
-						color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+						color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
 
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
@@ -643,8 +700,10 @@
 				sprite2.scale.set(1.5, 1.5, 1.0);
 				sprite2.position.set(0, -0.1, 0);
 				ufo.add(sprite2);
-
-
+					
+				var spotLight = new THREE.SpotLight( 0xffffff, 4,20 );
+				spotLight.position.set(0,-2,0);
+				ufo.add(spotLight);
 
 			},
 				// called while loading is progressing
@@ -730,6 +789,32 @@
 						}
 					}
 				});
+
+
+				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMaterial = new THREE.SpriteMaterial(
+					{
+						map: spriteMap, useScreenCoordinates: false,
+						color: 0xd31313, transparent: true, blending: THREE.AdditiveBlending
+
+					});
+				var sprite = new THREE.Sprite(spriteMaterial);
+				sprite.scale.set(140, 140, 1.0);
+				sprite.position.set(80, -30, -30);
+				rocks.add(sprite);
+
+				var spriteMaterial2 = new THREE.SpriteMaterial(
+					{
+						map: spriteMap, useScreenCoordinates: false,
+						color: 0x1eff00, transparent: true, blending: THREE.AdditiveBlending
+
+					});
+				var sprite2 = new THREE.Sprite(spriteMaterial2);
+				sprite2.scale.set(80, 80, 1.0);
+				sprite2.position.set(60, -50, 70);
+				rocks.add(sprite2);
+
+
 				scene2.add(rocks);
 				console.log('rocks added to scene');
 				rocksGeo.forEach(makeInstancedRocks);
@@ -746,7 +831,7 @@
 			);
 
 			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/SpaceshipJPG4.glb", function (gltf) {
+			ufoloader.load("models/SpaceshipJPG3.glb", function (gltf) {
 				var ufo = gltf.scene;
 
 				ufo.scale.set(30, 30, 30);
@@ -768,12 +853,12 @@
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
-						color: 0xF2347F, transparent: true, blending: THREE.AdditiveBlending
+						color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
 
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
 				sprite.scale.set(2, 2, 1.0);
-				sprite.position.set(0, 0.2, 0);
+				sprite.position.set(0, 0.4, 0);
 				ufo.add(sprite);
 
 				console.log('ufo added to scene');
@@ -1045,7 +1130,7 @@
 			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 			scene1.fog = new THREE.Fog(0x000000, 0, 400);
-			scene2.fog = new THREE.Fog(0xD1D1D1, 0, 6000);
+			//scene2.fog = new THREE.Fog(0xD1D1D1, 0, 6000);
 			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 2);
@@ -1501,7 +1586,10 @@
 						goToScene("AtomGas");
 					} else if (index == 3) {
 						goToScene("Fire");
+					}  else if (index == 0) {
+						goToScene("AtomGas");
 					}
+
 
 					controls.unlock();
 					blocker.style.display = 'block';
