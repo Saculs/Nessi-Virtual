@@ -1309,7 +1309,7 @@
 			if (isMobile == false) {
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 			} else {
-				//document.addEventListener('touchmove', onDocumentMouseMove, false);
+				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
@@ -1493,6 +1493,7 @@
 
 		function onDocumentMouseMove(event) {
 			event.preventDefault();
+			event.returnValue = false;
 			//mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 			//mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
