@@ -102,31 +102,6 @@
 		</div>
 
 	</div>
-	<script id="vertexShader" type="x-shader/x-vertex">
-		uniform vec3 viewVector;
-		uniform float c;
-		uniform float p;
-		varying float intensity;
-		void main() 
-		{
-			vec3 vNormal = normalize( normalMatrix * normal );
-			vec3 vNormel = normalize( normalMatrix * viewVector );
-			intensity = pow( c - dot(vNormal, vNormel), p );
-			
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-		}
-		</script>
-		
-		<!-- fragment shader a.k.a. pixel shader -->
-		<script id="fragmentShader" type="x-shader/x-vertex"> 
-		uniform vec3 glowColor;
-		varying float intensity;
-		void main() 
-		{
-			vec3 glow = glowColor * intensity;
-			gl_FragColor = vec4( glow, 1.0 );
-		}
-		</script>
 
 
 	<script type="module">
@@ -183,6 +158,81 @@
 		var scene2loaded = true;
 
 		var scene3loaded = false;
+
+
+
+		
+
+		//Party
+
+		var TO_RADIANS = Math.PI / 180;
+		var particle;
+		var particles = [];
+		var Particle3D = function (material) {
+			THREE.Sprite.call(this, material);
+
+			//this.material = material instanceof Array ? material : [ material ];
+			// define properties
+			this.velocity = new THREE.Vector3(0, -1, 0);
+			this.velocity.rotateX(randomRange(-45, 45));
+			this.velocity.rotateY(randomRange(0, 360));
+			this.gravity = new THREE.Vector3(0, 0, 0);
+			this.drag = 1;
+			// methods...
+		};
+
+		Particle3D.prototype = new THREE.Sprite();
+		Particle3D.prototype.constructor = Particle3D;
+
+		Particle3D.prototype.updatePhysics = function () {
+			this.velocity.multiplyScalar(this.drag);
+			this.velocity.add(this.gravity);
+			this.position.add(this.velocity);
+		}
+
+		THREE.Vector3.prototype.rotateY = function(angle) {
+        var cosRY = Math.cos(angle * TO_RADIANS);
+        var sinRY = Math.sin(angle * TO_RADIANS);
+
+        var tempz = this.z;;
+        var tempx = this.x;
+
+        this.x = (tempx * cosRY) + (tempz * sinRY);
+        this.z = (tempx * -sinRY) + (tempz * cosRY);
+    }
+
+    THREE.Vector3.prototype.rotateX = function(angle) {
+        var cosRY = Math.cos(angle * TO_RADIANS);
+        var sinRY = Math.sin(angle * TO_RADIANS);
+
+        var tempz = this.z;;
+        var tempy = this.y;
+
+        this.y = (tempy * cosRY) + (tempz * sinRY);
+        this.z = (tempy * -sinRY) + (tempz * cosRY);
+    }
+
+    THREE.Vector3.prototype.rotateZ = function(angle) {
+        var cosRY = Math.cos(angle * TO_RADIANS);
+        var sinRY = Math.sin(angle * TO_RADIANS);
+
+        var tempx = this.x;;
+        var tempy = this.y;
+
+        this.y = (tempy * cosRY) + (tempx * sinRY);
+        this.x = (tempy * -sinRY) + (tempx * cosRY);
+    }
+
+    // returns a random number between the two limits provided
+
+    function randomRange(min, max) {
+        return ((Math.random() * (max - min)) + min);
+    }
+	//Party End
+
+
+
+
 
 		var crossHair;
 
@@ -567,7 +617,7 @@
 
 				bild.scale.set(0.3, 0.3, 0.3);
 				bild.position.set(-40, 1, 50);
-				
+
 
 				bild.rotation.y = getRadian(-90);
 
@@ -680,8 +730,8 @@
 					if (o.isMesh) {
 						console.log("UFO");
 						if (o.name == 'Light') {
-							o.material = new THREE.MeshBasicMaterial({color: 0xC440FF,opacity: 0.6,transparent: true,});
-						} 
+							o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.6, transparent: true, });
+						}
 					}
 				});
 
@@ -702,8 +752,8 @@
 				sprite2.scale.set(1.5, 1.5, 1.0);
 				sprite2.position.set(0, -0.1, 0);
 				ufo.add(sprite2);
-					
-				var pLight = new THREE.PointLight( 0xC440FF, 8 ,130 );
+
+				var pLight = new THREE.PointLight(0xC440FF, 8, 130);
 				pLight.rotation.x = getRadian(90);
 				pLight.position.set(-60, 50, -190);
 				scene1.add(pLight);
@@ -864,8 +914,8 @@
 				sprite.position.set(0, 0.2, 0);
 				ufo.add(sprite);
 
-				var light = new THREE.PointLight(0xFFFFFF, 60, 100);
-				light.position(-40, 60, -210)
+				var light = new THREE.PointLight(0xFFFFFF, 30, 50);
+				light.position.set(-30, 60, -160)
 				scene2.add(light);
 
 				console.log('ufo added to scene');
@@ -969,7 +1019,7 @@
 					if (o.isMesh) {
 						console.log("door");
 						o.castShadow = true;
-						if(o.name == "Plane002"){
+						if (o.name == "Plane002") {
 							o.rotation.y = getRadian(90);
 						}
 					}
@@ -998,7 +1048,7 @@
 				Statue.visible = true;
 
 				Statue.traverse(function (o) {
-					
+
 					if (o.isMesh) {
 						console.log(o.name);
 						o.castShadow = true;
@@ -1010,7 +1060,7 @@
 				});
 
 				mixer = new THREE.AnimationMixer(gltf.scene);
-				mixer.clipAction(gltf.animations[0]).play();	
+				mixer.clipAction(gltf.animations[0]).play();
 				mixer.timeScale = 1.3;
 
 				scene3.add(Statue);
@@ -1109,7 +1159,7 @@
 			});
 			*/
 			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
-			var material = new THREE.MeshPhongMaterial({color: 0x000000, alphaMap: texture, transparent: true, opacity: 0.6});
+			var material = new THREE.MeshPhongMaterial({ color: 0x000000, alphaMap: texture, transparent: true, opacity: 0.6 });
 			var material2 = new THREE.MeshBasicMaterial();
 			material2.map = texture;
 			material.map = texture;
@@ -1160,6 +1210,21 @@
 			footer.addEventListener( 'click', switchScenes, false );
 */
 
+			//party
+			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/pill.png'), color:0xffffff });
+
+			for (var i = 0; i < 1000; i++) {
+
+				particle = new Particle3D(particleMat);
+				particle.position.x = Math.random() * 2000 - 1000;
+				particle.position.y = Math.random() * 2000 - 1000;
+				particle.position.z = Math.random() * 2000 - 1000;
+				particle.scale.x = 11;
+				particle.scale.y = 11;
+				scene1.add(particle);
+
+				particles.push(particle);
+			}
 
 
 
@@ -1194,7 +1259,7 @@
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
-				
+
 				controls.lock();
 				console.log("touchstart");
 				instructions.style.display = 'none';
@@ -1512,7 +1577,7 @@
 
 				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") {
 					crossHair.style.display = 'block';
-					if(oName == "Plane002") intersects[0].object.rotation.y = getRadian(140);
+					if (oName == "Plane002") intersects[0].object.rotation.y = getRadian(140);
 				}
 				else crossHair.style.display = 'none';
 
@@ -1522,7 +1587,7 @@
 				$('html,body').css('cursor', 'default');
 			}
 
-			
+
 		}
 
 
@@ -1581,7 +1646,7 @@
 					blocker.style.display = 'block';
 					instructions.style.display = 'block';
 					transition = true;
-					brek;
+					break;
 				case "Ship":
 					goToScene("UFO");
 					controls.unlock();
@@ -1608,7 +1673,7 @@
 						goToScene("AtomGas");
 					} else if (index == 3) {
 						goToScene("Fire");
-					}  else if (index == 0) {
+					} else if (index == 0) {
 						goToScene("AtomGas");
 					}
 
@@ -1631,6 +1696,28 @@
 		function animate() {
 
 			requestAnimationFrame(animate);
+
+			///party
+			for (var i = 0; i < particles.length; i++) {
+
+				var particle = particles[i];
+				particle.updatePhysics();
+				var p = particle.position;
+
+					if (p.y < -10) particle.position.y += 500;
+					if (p.x > 1000) particle.position.x -= 2000;
+					else if (p.x < -1000) particle.position.x += 2000;
+					if (p.z > 1000) particle.position.z -= 2000;
+					else if (p.z < -1000) particle.position.z += 2000;
+
+				
+			}
+
+
+
+
+
+
 			t = t + 0.01;
 			if (index == 1) {
 				fire.update(t);
@@ -1642,10 +1729,10 @@
 				if (o.isMesh & o.name.includes("Beton")) {
 					o.rotation.x += 0.0009;
 					o.rotation.z -= 0.0008;
-					
+
 				}
 			});
-			if(gasSphere != null && index == 3){
+			if (gasSphere != null && index == 3) {
 				gasSphere.rotation.x -= 0.0008;
 				gasSphere.rotation.y -= 0.002;
 			}
