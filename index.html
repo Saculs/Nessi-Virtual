@@ -1784,9 +1784,11 @@
 				var time = performance.now();
 				var delta = (time - prevTime) / 1000;
 
+				if(index == 3){
 				if (mixer) mixer.update(delta);
 				if (mixer2) mixer2.update(delta);
 				if (mixer3) mixer3.update(delta);
+			}
 
 				velocity.x -= velocity.x * 10.0 * delta;
 				velocity.z -= velocity.z * 10.0 * delta;
