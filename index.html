@@ -161,7 +161,7 @@
 
 
 
-		
+
 
 		//Party
 
@@ -173,10 +173,11 @@
 
 			//this.material = material instanceof Array ? material : [ material ];
 			// define properties
-			this.velocity = new THREE.Vector3(0, -1, 0);
+			this.velocity = new THREE.Vector3(0, -0.4, 0);
 			this.velocity.rotateX(randomRange(-45, 45));
 			this.velocity.rotateY(randomRange(0, 360));
 			this.gravity = new THREE.Vector3(0, 0, 0);
+			
 			this.drag = 1;
 			// methods...
 		};
@@ -190,45 +191,45 @@
 			this.position.add(this.velocity);
 		}
 
-		THREE.Vector3.prototype.rotateY = function(angle) {
-        var cosRY = Math.cos(angle * TO_RADIANS);
-        var sinRY = Math.sin(angle * TO_RADIANS);
+		THREE.Vector3.prototype.rotateY = function (angle) {
+			var cosRY = Math.cos(angle * TO_RADIANS);
+			var sinRY = Math.sin(angle * TO_RADIANS);
 
-        var tempz = this.z;;
-        var tempx = this.x;
+			var tempz = this.z;;
+			var tempx = this.x;
 
-        this.x = (tempx * cosRY) + (tempz * sinRY);
-        this.z = (tempx * -sinRY) + (tempz * cosRY);
-    }
+			this.x = (tempx * cosRY) + (tempz * sinRY);
+			this.z = (tempx * -sinRY) + (tempz * cosRY);
+		}
 
-    THREE.Vector3.prototype.rotateX = function(angle) {
-        var cosRY = Math.cos(angle * TO_RADIANS);
-        var sinRY = Math.sin(angle * TO_RADIANS);
+		THREE.Vector3.prototype.rotateX = function (angle) {
+			var cosRY = Math.cos(angle * TO_RADIANS);
+			var sinRY = Math.sin(angle * TO_RADIANS);
 
-        var tempz = this.z;;
-        var tempy = this.y;
+			var tempz = this.z;;
+			var tempy = this.y;
 
-        this.y = (tempy * cosRY) + (tempz * sinRY);
-        this.z = (tempy * -sinRY) + (tempz * cosRY);
-    }
+			this.y = (tempy * cosRY) + (tempz * sinRY);
+			this.z = (tempy * -sinRY) + (tempz * cosRY);
+		}
 
-    THREE.Vector3.prototype.rotateZ = function(angle) {
-        var cosRY = Math.cos(angle * TO_RADIANS);
-        var sinRY = Math.sin(angle * TO_RADIANS);
+		THREE.Vector3.prototype.rotateZ = function (angle) {
+			var cosRY = Math.cos(angle * TO_RADIANS);
+			var sinRY = Math.sin(angle * TO_RADIANS);
 
-        var tempx = this.x;;
-        var tempy = this.y;
+			var tempx = this.x;;
+			var tempy = this.y;
 
-        this.y = (tempy * cosRY) + (tempx * sinRY);
-        this.x = (tempy * -sinRY) + (tempx * cosRY);
-    }
+			this.y = (tempy * cosRY) + (tempx * sinRY);
+			this.x = (tempy * -sinRY) + (tempx * cosRY);
+		}
 
-    // returns a random number between the two limits provided
+		// returns a random number between the two limits provided
 
-    function randomRange(min, max) {
-        return ((Math.random() * (max - min)) + min);
-    }
-	//Party End
+		function randomRange(min, max) {
+			return ((Math.random() * (max - min)) + min);
+		}
+		//Party End
 
 
 
@@ -612,20 +613,49 @@
 			);
 
 			var bildloader = new GLTFLoader(manager);
-			bildloader.load("models/FireBilds1.glb", function (gltf) {
+			bildloader.load("models/All Bilds retopoGLTF.glb", function (gltf) {
 				var bild = gltf.scene;
 
-				bild.scale.set(0.3, 0.3, 0.3);
-				bild.position.set(-40, 1, 50);
+				bild.scale.set(0.17, 0.17, 0.17);
+				bild.position.set(0, 5, 0);
 
 
 				bild.rotation.y = getRadian(-90);
-
+				
 				bild.visible = true;
 
 				bild.traverse(function (o) {
 					if (o.isMesh) {
-						console.log("bild");
+						console.log(o.name);
+						var map = o.material.map;
+						var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
+						o.material = huMat;
+						o.rotation.z = getRadian(-90);
+						switch (o.name) {
+							case "Bild_5_Retopo":
+								o.position.set(-80, 5,250);
+								o.rotation.x = getRadian(45);
+								break;
+							case "Bild_2_Retopo":
+								o.position.set(-120, 5,-60);
+								o.rotation.x = getRadian(90);
+								o.rotation.z = getRadian(-30);
+								break;
+							case "Bild1_Retopo":
+								o.position.set(380, 30, -30);
+								o.rotation.z = getRadian(90);
+								break;
+							case "Bild_3_Retopo":
+								o.position.set(120, 3, 180);
+								o.rotation.x = getRadian(-20);
+								o.rotation.z = getRadian(0);
+								break;
+							case "Bild_4_retopo_Back":
+								o.position.set(120, 6.2, -150);
+								o.rotation.z = getRadian(-10);
+								o.rotation.x = getRadian(10);
+								break;
+						}
 					}
 				});
 				scene1.add(bild);
@@ -1211,16 +1241,17 @@
 */
 
 			//party
-			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/pill.png'), color:0xffffff });
+			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/pill.png'), color: 0xffffff });
 
-			for (var i = 0; i < 1000; i++) {
+			for (var i = 0; i < 100; i++) {
 
 				particle = new Particle3D(particleMat);
-				particle.position.x = Math.random() * 2000 - 1000;
-				particle.position.y = Math.random() * 2000 - 1000;
-				particle.position.z = Math.random() * 2000 - 1000;
-				particle.scale.x = 11;
-				particle.scale.y = 11;
+				particle.position.x = Math.random() * -60 - 30;
+				particle.position.y = Math.random() * 80 - 30;
+				particle.position.z = Math.random() * -190 - 80;
+				particle.scale.x = 6;
+				particle.scale.y = 6;
+
 				scene1.add(particle);
 
 				particles.push(particle);
@@ -1517,7 +1548,7 @@
 
 		}
 
-		function makeInstancedRock(geometry, material) {
+		function makeInstancedRock(geometry, material, i) {
 			var count = 1;
 			var matrix = new THREE.Matrix4();
 			var mesh = new THREE.InstancedMesh(geometry, material, count);
@@ -1703,14 +1734,18 @@
 				var particle = particles[i];
 				particle.updatePhysics();
 				var p = particle.position;
+				particle.material.rotation +=  randomRange(0.00001 , 0.0006);
+				if (p.y < -20){
+					particle.position.y = 60;
+					particle.position.x = -60;
+					particle.position.z = -190;
+				}
+				if (p.x > 500) particle.position.x -= 500;
+				else if (p.x < -500) particle.position.x += 500;
+				if (p.z > 500) particle.position.z -= 500;
+				else if (p.z < -500) particle.position.z += 500;
 
-					if (p.y < -10) particle.position.y += 500;
-					if (p.x > 1000) particle.position.x -= 2000;
-					else if (p.x < -1000) particle.position.x += 2000;
-					if (p.z > 1000) particle.position.z -= 2000;
-					else if (p.z < -1000) particle.position.z += 2000;
 
-				
 			}
 
 
