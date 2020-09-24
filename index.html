@@ -160,7 +160,7 @@
 		var scene3loaded = false;
 
 
-
+		var listener, sound;
 
 
 		//Party
@@ -387,7 +387,7 @@
 			doorloader.load("models/DoorRetopo.glb", function (gltf) {
 				var door = gltf.scene;
 
-				door.scale.set(2, 2, 2);
+				door.scale.set(3, 3, 3);
 
 				door.position.set(-55, 1, 5);
 				door.rotation.y = getRadian(-30);
@@ -455,7 +455,7 @@
 		function loaded() {
 			if (tutorial == true) {
 				$("#loadText").html('loaded<br/>click To Enter<br/><img src="./SomaIcov1.png" style="width: 150px; height:150px; animation: rotation 3s infinite linear;"/>');
-				tutorial = false;
+				//tutorial = false;
 
 			} else {
 				$("#loadText").html('loaded<br/>LOL');
@@ -515,9 +515,22 @@
 				default:
 					switchScenes();
 			}
-
+			playSound(txt);
 			currentScene.add(controls.getObject());
 
+		}
+
+		function playSound(txt){
+			// load a sound and set it as the Audio object's buffer
+			var audioLoader = new THREE.AudioLoader();
+				audioLoader.load('Sound/' + txt + '.ogg', function (buffer) {
+					sound.pause();
+					// how to reset?
+					sound.setBuffer(buffer);
+					sound.setLoop(true);
+					sound.setVolume(0.6);
+					sound.play();
+				});
 		}
 
 		function switchScenes() {
@@ -812,17 +825,17 @@
 			light.position.set(0.5, 1, 0.75);
 			scene2.add(light);
 
-			var light1 = new THREE.PointLight(0xFFFFFF, 60, 100);
+			var light1 = new THREE.PointLight(0xFFFFFF, 10, 200);
 			light1.position.set(- 0, 35, 80);
 			//scene2.add( light1 );
 
-			var amblight = new THREE.AmbientLight(0xFFFFFF, 0.1);
+			var amblight = new THREE.AmbientLight(0xFFFFFF, 0.2);
 			scene2.add(amblight);
 
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/betonSpaceHD6.glb", function (gltf) {
+			rocksloader.load("models/Space2.glb", function (gltf) {
 				rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -839,6 +852,7 @@
 						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
 							o.position.set(80, -30, -50);
+							
 						} else if (o.name == 'Sphere') {
 							o.scale.set(600, 600, 600);
 						} else if (o.name == "Moon") {
@@ -914,7 +928,7 @@
 			);
 
 			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/SpaceshipJPG3.glb", function (gltf) {
+			ufoloader.load("models/UFO.glb", function (gltf) {
 				var ufo = gltf.scene;
 
 				ufo.scale.set(30, 30, 30);
@@ -944,7 +958,7 @@
 				sprite.position.set(0, 0.2, 0);
 				ufo.add(sprite);
 
-				var light = new THREE.PointLight(0xFFFFFF, 30, 50);
+				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
 				light.position.set(-30, 60, -160)
 				scene2.add(light);
 
@@ -1215,6 +1229,11 @@
 
 			currentScene = scene2;
 
+			listener = new THREE.AudioListener();
+				camera.add(listener);
+				// create a global audio source
+			sound = new THREE.Audio(listener);
+
 			//ufo = new THREE.Object3D();
 			scene.background = new THREE.Color(0x000000);
 			//scene1.background = new THREE.Color( 0x000000);
@@ -1281,8 +1300,11 @@
 			instructions.addEventListener('click', function () {
 
 				controls.lock();
-
-				transition = true;
+				if(tutorial == true) {
+					playSound("Space");
+					tutorial = false;
+				}
+				transition = false;
 
 
 			}, false);
@@ -1308,18 +1330,8 @@
 
 				transition = false;
 
-				var listener = new THREE.AudioListener();
-				camera.add(listener);
-				// create a global audio source
-				var sound = new THREE.Audio(listener);
-				// load a sound and set it as the Audio object's buffer
-				var audioLoader = new THREE.AudioLoader();
-				audioLoader.load('ambient.ogg', function (buffer) {
-					sound.setBuffer(buffer);
-					sound.setLoop(true);
-					sound.setVolume(0.5);
-					sound.play();
-				});
+				
+				
 
 			});
 
