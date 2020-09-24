@@ -177,7 +177,7 @@
 			this.velocity.rotateX(randomRange(-45, 45));
 			this.velocity.rotateY(randomRange(0, 360));
 			this.gravity = new THREE.Vector3(0, 0, 0);
-			
+
 			this.drag = 1;
 			// methods...
 		};
@@ -520,17 +520,17 @@
 
 		}
 
-		function playSound(txt){
+		function playSound(txt) {
 			// load a sound and set it as the Audio object's buffer
 			var audioLoader = new THREE.AudioLoader();
-				audioLoader.load('Sound/' + txt + '.ogg', function (buffer) {
-					sound.pause();
-					// how to reset?
-					sound.setBuffer(buffer);
-					sound.setLoop(true);
-					sound.setVolume(0.6);
-					sound.play();
-				});
+			audioLoader.load('Sound/' + txt + '.ogg', function (buffer) {
+				sound.pause();
+				// how to reset?
+				sound.setBuffer(buffer);
+				sound.setLoop(true);
+				sound.setVolume(0.6);
+				sound.play();
+			});
 		}
 
 		function switchScenes() {
@@ -634,7 +634,7 @@
 
 
 				bild.rotation.y = getRadian(-90);
-				
+
 				bild.visible = true;
 
 				bild.traverse(function (o) {
@@ -646,11 +646,11 @@
 						o.rotation.z = getRadian(-90);
 						switch (o.name) {
 							case "Bild_5_Retopo":
-								o.position.set(-80, 5,250);
+								o.position.set(-80, 5, 250);
 								o.rotation.x = getRadian(45);
 								break;
 							case "Bild_2_Retopo":
-								o.position.set(-120, 5,-60);
+								o.position.set(-120, 5, -60);
 								o.rotation.x = getRadian(90);
 								o.rotation.z = getRadian(-30);
 								break;
@@ -852,7 +852,7 @@
 						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
 							o.position.set(80, -30, -50);
-							
+
 						} else if (o.name == 'Sphere') {
 							o.scale.set(600, 600, 600);
 						} else if (o.name == "Moon") {
@@ -1230,8 +1230,8 @@
 			currentScene = scene2;
 
 			listener = new THREE.AudioListener();
-				camera.add(listener);
-				// create a global audio source
+			camera.add(listener);
+			// create a global audio source
 			sound = new THREE.Audio(listener);
 
 			//ufo = new THREE.Object3D();
@@ -1300,7 +1300,7 @@
 			instructions.addEventListener('click', function () {
 
 				controls.lock();
-				if(tutorial == true) {
+				if (tutorial == true) {
 					playSound("Space");
 					tutorial = false;
 				}
@@ -1330,8 +1330,8 @@
 
 				transition = false;
 
-				
-				
+
+
 
 			});
 
@@ -1424,6 +1424,17 @@
 				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+			document.addEventListener('visibilitychange', function () {
+				//document.title = document.visibilityState;
+				console.log(document.visibilityState);
+				if(document.hidden){
+					sound.pause();
+				}
+				else {
+					
+				}
+			});
 
 
 			raycaster = new THREE.Raycaster();
@@ -1746,8 +1757,8 @@
 				var particle = particles[i];
 				particle.updatePhysics();
 				var p = particle.position;
-				particle.material.rotation +=  randomRange(0.00001 , 0.0006);
-				if (p.y < -20){
+				particle.material.rotation += randomRange(0.00001, 0.0006);
+				if (p.y < -20) {
 					particle.position.y = 60;
 					particle.position.x = -60;
 					particle.position.z = -190;
@@ -1796,11 +1807,11 @@
 				var time = performance.now();
 				var delta = (time - prevTime) / 1000;
 
-				if(index == 3){
-				if (mixer) mixer.update(delta);
-				if (mixer2) mixer2.update(delta);
-				if (mixer3) mixer3.update(delta);
-			}
+				if (index == 3) {
+					if (mixer) mixer.update(delta);
+					if (mixer2) mixer2.update(delta);
+					if (mixer3) mixer3.update(delta);
+				}
 
 				velocity.x -= velocity.x * 10.0 * delta;
 				velocity.z -= velocity.z * 10.0 * delta;
