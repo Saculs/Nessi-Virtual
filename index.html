@@ -12,6 +12,7 @@
 	<link rel="manifest" href="mani.webmanifest" />
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="loading-bar.css" />
 	<script type="text/javascript" src="loading-bar.js"></script>
@@ -331,6 +332,9 @@
 		function getRadian(x) {
 			return (Math.PI * x) / 180;
 		}
+		function getEuler(x) {
+			return x * (180 / Math.PI);
+		}
 
 		function initEnv() {
 			var geometry = new THREE.BoxGeometry(1400, 200, 2);
@@ -577,6 +581,15 @@
 			light2.position.set(10, 30, 30);
 			scene1.add(light2);
 
+
+			var light4 = new THREE.PointLight(0xd31313, 5, 26);
+			light4.position.set(-50, 4, -8);
+			scene1.add(light4);
+
+			var light5 = new THREE.PointLight(0xd31313, 5, 26);
+			light5.position.set(10, 4, 66);
+			scene1.add(light5);
+
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
 			floorGeometry.rotateX(- Math.PI / 2);
 			var floorMaterial = new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, color: 0x000000 });
@@ -705,6 +718,21 @@
 					}
 				});
 
+				
+
+
+				makeInstanced(geometry, material);
+
+				//scene1.add(Debris);
+				$("#loadText").html('loaded<br>');
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('door ' + (xhr.loaded) + ' loaded');
+					var prc = Math.floor(xhr.loaded / 32162816 * 100);
+
+				}
+			);
 				//material that the geometry will use 
 
 				var doorloader = new GLTFLoader(manager);
@@ -724,6 +752,10 @@
 						if (o.isMesh) {
 							console.log("door");
 							o.castShadow = true;
+							if (o.name == "Plane002") {
+								o.rotation.y = getRadian(90);
+							}
+
 						}
 					});
 					scene1.add(door);
@@ -736,21 +768,6 @@
 
 					}
 				);
-
-
-				makeInstanced(geometry, material);
-
-				//scene1.add(Debris);
-				$("#loadText").html('loaded<br>');
-			},
-				// called while loading is progressing
-				function (xhr) {
-					console.log('debris ' + (xhr.loaded) + ' loaded');
-					var prc = Math.floor(xhr.loaded / 32162816 * 100);
-
-				}
-			);
-
 			// this centers the glow at the mesh
 
 
@@ -942,6 +959,7 @@
 				ufo.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("UFO");
+						if (o.name =="Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.1, transparent: true, });
 					}
 				});
 				scene2.add(ufo);
@@ -1049,7 +1067,7 @@
 			var doorloader = new GLTFLoader(manager);
 			doorloader.load("models/DoorRetopo.glb", function (gltf) {
 				var door = gltf.scene;
-
+				var plane2;
 				door.scale.set(5, 5, 5);
 
 				door.position.set(-30, 0, 0);
@@ -1065,6 +1083,7 @@
 						o.castShadow = true;
 						if (o.name == "Plane002") {
 							o.rotation.y = getRadian(90);
+							plane2 = o;
 						}
 					}
 				});
@@ -1211,7 +1230,7 @@
 			material.color = new THREE.Color(0xFFFFFF);
 			material.side = THREE.BackSide;
 			gasSphere = new THREE.Mesh(new THREE.SphereGeometry(70, 60, 40), material);
-			var tsph = new THREE.Mesh(new THREE.SphereGeometry(80, 60, 40), material2);
+			var tsph = new THREE.Mesh(new THREE.SphereGeometry(90, 60, 40), material2);
 			scene3.add(gasSphere);
 			scene3.add(tsph);
 		}
@@ -1428,11 +1447,11 @@
 			document.addEventListener('visibilitychange', function () {
 				//document.title = document.visibilityState;
 				console.log(document.visibilityState);
-				if(document.hidden){
+				if (document.hidden) {
 					sound.pause();
 				}
 				else {
-					
+
 				}
 			});
 
@@ -1578,18 +1597,60 @@
 
 			var position = new THREE.Vector3();
 			var rotation = new THREE.Euler();
+
 			var quaternion = new THREE.Quaternion();
 			var scale = new THREE.Vector3();
 
-			position.x = Math.random() * 60 - 30;
-			position.y = 0;
-			position.z = Math.random() * 60 - 30;
+			switch (i) {
+				case 0:
 
-			rotation.x = 0;
-			rotation.y = 0;
-			//rotation.z = Math.random() * 2 * Math.PI;
-			rotation.z = 0;
-			rotation.x = getRadian(90);
+					position.x = -20;
+					position.y = 0;
+					position.z = 15;
+
+					rotation.x = 90;
+					rotation.y = 0;
+					rotation.z = 0;
+
+					break;
+				case 1:
+					position.x = -15;
+					position.y = 1;
+					position.z = -10;
+
+					rotation.x = 0;
+					rotation.y = 0;
+					rotation.z = 10;
+					break;
+				case 2:
+					position.x = 15;
+					position.y = 0;
+					position.z = 20;
+
+					rotation.x = 0;
+					rotation.y = 0;
+					rotation.z = 90;
+					break;
+				case 3:
+					position.x = 0;
+					position.y = 0;
+					position.z = -20;
+
+					rotation.x = 0;
+					rotation.y = 0;
+					rotation.z = 0;
+					break;
+				case 4:
+					position.x = -15;
+					position.y = 0;
+					position.z = 20;
+
+					rotation.x = 0;
+					rotation.y = 0;
+					rotation.z = 30;
+					break;
+			}
+			rotation.x = -80;
 
 			quaternion.setFromEuler(rotation);
 			var max = 0.05;
@@ -1611,8 +1672,29 @@
 		}
 
 		function makeInstancedRocks(item, i) {
-			makeInstancedRock(rocksGeo[i], rocksMats[i]);
+			makeInstancedRock(rocksGeo[i], rocksMats[i], i);
 		}
+
+		function rotateDoor(vectorToAnimate, target, options) {
+			var speed = 3000;
+			// create the tween
+			var tween = new TWEEN.Tween(vectorToAnimate).to(target, speed)
+				.easing(TWEEN.Easing.Quintic.Out)
+				.onComplete(function () {
+					setTimeout(function () {
+
+					}, 4000);
+				});
+			tween.onUpdate(function () {
+				//console.log(vectorToAnimate);
+				options.rotation.y = vectorToAnimate.y;
+			});
+			// start the tween
+			tween.start();
+		}
+
+
+		var hoverNowName;
 
 		function onDocumentMouseMove(event) {
 			event.preventDefault();
@@ -1631,14 +1713,25 @@
 
 				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") {
 					crossHair.style.display = 'block';
-					if (oName == "Plane002") intersects[0].object.rotation.y = getRadian(140);
+					if (oName == "Plane002" && getEuler(intersects[0].object.rotation.y) == 90) {
+						var vec = { x: 0, y: getRadian(90), z: 0 };
+						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? 60 : 140), z: 0 }, intersects[0].object);
+					}
+					hoverNowName = oName;
 				}
-				else crossHair.style.display = 'none';
+				else {
+					crossHair.style.display = 'none';
+					if (hoverNowName == "Plane002") {
+						console.log("AAAAAAAA");
+					}
+					hoverNowName = null;
+				}
 
 				$('html,body').css('cursor', 'pointer');
 			} else {
 				crossHair.style.display = 'none';
 				$('html,body').css('cursor', 'default');
+
 			}
 
 
@@ -1750,7 +1843,7 @@
 		function animate() {
 
 			requestAnimationFrame(animate);
-
+			TWEEN.update();
 			///party
 			for (var i = 0; i < particles.length; i++) {
 
@@ -1785,9 +1878,29 @@
 
 			if (rocks != null && index == 2) rocks.traverse(function (o) {
 				if (o.isMesh & o.name.includes("Beton")) {
-					o.rotation.x += 0.0009;
-					o.rotation.z -= 0.0008;
 
+					switch (o.name) {
+						case 'Beton_1':
+							o.rotation.x -= 0.0009;
+							o.rotation.z += 0.0008;
+							break;
+						case 'Beton_2':
+							o.rotation.y += 0.0002;
+							o.rotation.z -= 0.00014;
+							break;
+						case 'Beton_3':
+							o.rotation.x += 0.0009;
+							o.rotation.y += 0.00015;
+							break;
+						case 'Beton_4':
+							o.rotation.x += 0.0009;
+							o.rotation.z -= 0.0008;
+							break;
+						case 'Beton_5':
+							o.rotation.x -= 0.00011;
+							o.rotation.y -= 0.0008;
+							break;
+					}
 				}
 			});
 			if (gasSphere != null && index == 3) {
