@@ -718,7 +718,7 @@
 					}
 				});
 
-				
+
 
 
 				makeInstanced(geometry, material);
@@ -733,41 +733,41 @@
 
 				}
 			);
-				//material that the geometry will use 
+			//material that the geometry will use 
 
-				var doorloader = new GLTFLoader(manager);
-				doorloader.load("models/DoorRetopo.glb", function (gltf) {
-					var door = gltf.scene;
+			var doorloader = new GLTFLoader(manager);
+			doorloader.load("models/DoorRetopo.glb", function (gltf) {
+				var door = gltf.scene;
 
-					door.scale.set(5, 5, 5);
+				door.scale.set(5, 5, 5);
 
-					door.position.set(20, 0, -10);
-					door.rotation.y = getRadian(45);
+				door.position.set(20, 0, -10);
+				door.rotation.y = getRadian(45);
 
-					door.visible = true;
+				door.visible = true;
 
 
 
-					door.traverse(function (o) {
-						if (o.isMesh) {
-							console.log("door");
-							o.castShadow = true;
-							if (o.name == "Plane002") {
-								o.rotation.y = getRadian(90);
-							}
-
+				door.traverse(function (o) {
+					if (o.isMesh) {
+						console.log("door");
+						o.castShadow = true;
+						if (o.name == "Plane002") {
+							o.rotation.y = getRadian(90);
 						}
-					});
-					scene1.add(door);
-					loaded();
-				},
-					// called while loading is progressing
-					function (xhr) {
-						console.log('door ' + (xhr.loaded) + '% loaded');
-						var prc = Math.floor(xhr.loaded / 3027156 * 100);
 
 					}
-				);
+				});
+				scene1.add(door);
+				loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('door ' + (xhr.loaded) + '% loaded');
+					var prc = Math.floor(xhr.loaded / 3027156 * 100);
+
+				}
+			);
 			// this centers the glow at the mesh
 
 
@@ -959,7 +959,7 @@
 				ufo.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("UFO");
-						if (o.name =="Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.1, transparent: true, });
+						if (o.name == "Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.1, transparent: true, });
 					}
 				});
 				scene2.add(ufo);
@@ -1054,6 +1054,8 @@
 				});
 				scene3.add(moon);
 				loaded();
+
+				createDecal();
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1573,6 +1575,16 @@
 
 		}();
 
+		function createDecal() {
+			var huTex = new THREE.TextureLoader().load("textures/Gas_.jpg");
+			var geometry = new THREE.PlaneGeometry(20, 30, 32);
+			var material = new THREE.MeshPhongMaterial({ color: 0xffffff, alphaMap: huTex, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+			var plane = new THREE.Mesh(geometry, material);
+			plane.position.set(0,10,-35);
+			scene3.add(plane);
+		}
+
+
 		function makeInstanced(geometry, material) {
 			var count = 300;
 			var matrix = new THREE.Matrix4();
@@ -1776,6 +1788,12 @@
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 			}
 		}
+
+
+
+
+
+
 		function clicker(o) {
 			console.log(o.name);
 			moveForward = false;
