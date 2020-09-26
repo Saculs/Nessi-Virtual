@@ -114,11 +114,7 @@
 		import { PointerLockControls } from './examples/jsm/controls/PointerLockControls.js';
 		import { GLTFLoader } from './examples/jsm/loaders/GLTFLoader.js';
 
-		import { EffectComposer } from './examples/jsm/postprocessing/EffectComposer.js';
-		import { RenderPass } from './examples/jsm/postprocessing/RenderPass.js';
-		import { ShaderPass } from './examples/jsm/postprocessing/ShaderPass.js';
-		import { UnrealBloomPass } from './examples/jsm/postprocessing/UnrealBloomPass.js';
-		import { FXAAShader } from './examples/jsm/shaders/FXAAShader.js';
+		import { DecalGeometry } from './examples/jsm/geometries/DecalGeometry.js';
 
 		import { FireShader } from './FireShader.js';
 
@@ -828,7 +824,7 @@
 			);
 
 
-
+				createDecalFire();
 
 
 		}
@@ -1050,12 +1046,13 @@
 					if (o.isMesh) {
 						console.log("moon");
 						o.receiveShadow = true;
+						createDecal(o);
 					}
 				});
 				scene3.add(moon);
 				loaded();
 
-				createDecal();
+
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1575,13 +1572,53 @@
 
 		}();
 
-		function createDecal() {
-			var huTex = new THREE.TextureLoader().load("textures/Gas_.jpg");
+		function createDecal(mesh) {
+
+			var huTex = new THREE.TextureLoader().load("textures/Gas.jpg");
 			var geometry = new THREE.PlaneGeometry(20, 30, 32);
 			var material = new THREE.MeshPhongMaterial({ color: 0xffffff, alphaMap: huTex, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
 			var plane = new THREE.Mesh(geometry, material);
-			plane.position.set(0,10,-35);
+			plane.position.set(0, 30, -35);
+			plane.rota
+			plane.scale.set(-2, -2, 2);
 			scene3.add(plane);
+
+			var huTex2 = new THREE.TextureLoader().load("textures/Gas_.jpg");
+			var geometry2 = new THREE.PlaneGeometry(20, 30, 32);
+			var material2 = new THREE.MeshPhongMaterial({ color: 0xffffff, alphaMap: huTex2, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+			var plane2 = new THREE.Mesh(geometry, material2);
+			plane2.position.set(0, 25, 45);
+			plane2.scale.set(1.7, -1.7, 1.7);
+			scene3.add(plane2);
+
+			var geometry = new DecalGeometry(mesh, new THREE.Vector3(0, 0, 0), new Vector3(0, -1, 0), new Vector3(20, 20, 20), new THREE.Vector3(0, 0, 0));
+			var material = new THREE.MeshBasicMaterial({ color: 0xFFffFF });
+			var mesh = new THREE.Mesh(geometry, material);
+			scene3.add(mesh);
+
+			
+
+		}
+
+		function createDecalFire(mesh) {
+
+			var huTex = new THREE.TextureLoader().load("textures/Feuer.jpg");
+			var geometry = new THREE.PlaneGeometry(20, 30, 32);
+			var material = new THREE.MeshPhongMaterial({ color: 0xffffff, alphaMap: huTex, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+			var plane = new THREE.Mesh(geometry, material);
+			plane.position.set(30, 30, -35);
+			plane.rota
+			plane.scale.set(2, 2, 2);
+			scene1.add(plane);
+
+			var huTex2 = new THREE.TextureLoader().load("textures/Feuer_.jpg");
+			var geometry2 = new THREE.PlaneGeometry(20, 30, 32);
+			var material2 = new THREE.MeshPhongMaterial({ color: 0xffffff, alphaMap: huTex2, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+			var plane2 = new THREE.Mesh(geometry, material2);
+			plane2.position.set(20, 30, 95);
+			plane2.scale.set(2, 2, 2);
+			scene1.add(plane2);
+
 		}
 
 
