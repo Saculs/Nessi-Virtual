@@ -243,7 +243,7 @@
 		var mouse;
 
 		var clock;
-		var fire, fire2, fire3;
+		var fire, fire2, fire3, fire4, fire5;
 
 
 		var moveForward = false;
@@ -824,7 +824,7 @@
 			);
 
 
-				createDecalFire();
+				//createDecalFire();
 
 
 		}
@@ -838,17 +838,17 @@
 			light.position.set(0.5, 1, 0.75);
 			scene2.add(light);
 
-			var light1 = new THREE.PointLight(0xFFFFFF, 10, 200);
-			light1.position.set(- 0, 35, 80);
+			var light1 = new THREE.PointLight(0xFFFFFF, 10, 100);
+			light1.position.set(80, 10, -60);
 			//scene2.add( light1 );
 
-			var amblight = new THREE.AmbientLight(0xFFFFFF, 0.2);
+			var amblight = new THREE.AmbientLight(0xFFFFFF, 0.3);
 			scene2.add(amblight);
 
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/Space2.glb", function (gltf) {
+			rocksloader.load("models/Space3.glb", function (gltf) {
 				rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -865,6 +865,8 @@
 						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
 							o.position.set(80, -30, -50);
+							o.material.roughness = 0.9;
+							o.material.emissiveMap = o.material.map;
 
 						} else if (o.name == 'Sphere') {
 							o.scale.set(600, 600, 600);
@@ -941,7 +943,7 @@
 			);
 
 			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/UFO.glb", function (gltf) {
+			ufoloader.load("models/UFOwithout.glb", function (gltf) {
 				var ufo = gltf.scene;
 
 				ufo.scale.set(30, 30, 30);
@@ -1046,7 +1048,7 @@
 					if (o.isMesh) {
 						console.log("moon");
 						o.receiveShadow = true;
-						createDecal(o);
+						//createDecal(o);
 					}
 				});
 				scene3.add(moon);
@@ -1282,7 +1284,7 @@
 
 			for (var i = 0; i < 100; i++) {
 
-				particle = new Particle3D(particleMat);
+				particle = new Particle3D(particleMat.clone());
 				particle.position.x = Math.random() * -60 - 30;
 				particle.position.y = Math.random() * 80 - 30;
 				particle.position.z = Math.random() * -190 - 80;
@@ -1470,17 +1472,33 @@
 			fire.scale.set(25, 25, 25);
 			fire.position.set(0, 10, -30);
 			scene1.add(fire);
+
 			fire2 = new Fire(fireTex);
 			fire2.scale.set(25, 25, 25);
 			fire2.position.set(-40, 10, -30);
 			scene1.add(fire2);
+
 			fire3 = new Fire(fireTex);
 			fire3.scale.set(40, 40, 40);
 			fire3.position.set(40, 20, -110);
 			scene1.add(fire3);
+
+			fire4 = new Fire(fireTex);
+			fire4.scale.set(40, 40, 40);
+			fire4.position.set(-80, 20, 60);
+			scene1.add(fire4);
+
+			fire5 = new Fire(fireTex);
+			fire5.scale.set(40, 40, 40);
+			fire5.position.set(70, 20, 100);
+			scene1.add(fire5);
+
+
 			fire.name = "Fire";
 			fire2.name = "Fire";
 			fire3.name = "Fire";
+			fire4.name = "Fire";
+			fire5.name = "Fire";
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
@@ -1623,7 +1641,7 @@
 
 
 		function makeInstanced(geometry, material) {
-			var count = 300;
+			var count = 350;
 			var matrix = new THREE.Matrix4();
 			var mesh = new THREE.InstancedMesh(geometry, material, count);
 
@@ -1905,7 +1923,7 @@
 				var particle = particles[i];
 				particle.updatePhysics();
 				var p = particle.position;
-				particle.material.rotation += randomRange(0.00001, 0.0006);
+				particle.material.rotation += randomRange(-0.1, 0.1);
 				if (p.y < -20) {
 					particle.position.y = 60;
 					particle.position.x = -60;
@@ -1929,6 +1947,8 @@
 				fire.update(t);
 				fire2.update(t);
 				fire3.update(t);
+				fire4.update(t);
+				fire5.update(t);
 			}
 
 			if (rocks != null && index == 2) rocks.traverse(function (o) {
