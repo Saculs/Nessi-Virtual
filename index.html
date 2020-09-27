@@ -1325,7 +1325,7 @@
 					playSound("Space");
 					tutorial = false;
 				}
-				
+				transition = false;
 			}
 
 			}, false);
@@ -1336,6 +1336,9 @@
 
 				if(currentSceneLoaded == true){
 				controls.lock();
+				instructions.style.display = 'none';
+				blocker.style.display = 'none';
+
 				if (tutorial == true) {
 					playSound("Space");
 					tutorial = false;
