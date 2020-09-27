@@ -1319,6 +1319,7 @@
 
 
 			instructions.addEventListener('click', function () {
+
 				if(currentSceneLoaded == true){
 					controls.lock();
 				if (tutorial == true) {
@@ -1327,34 +1328,19 @@
 				}
 				transition = false;
 			}
-		
-			controls.lock();
-				if (tutorial == true) {
-					playSound("Space");
-					tutorial = false;
-				}
-				transition = false;
 
 			}, false);
 
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
-
-				controls.lock();
-				instructions.style.display = 'none';
-				blocker.style.display = 'none';
-
-				if (tutorial == true) {
-					playSound("Space");
-					tutorial = false;
-				}
 				
 				if(currentSceneLoaded == true){
 				controls.lock();
+				transition = false;
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
-
+					
 				if (tutorial == true) {
 					playSound("Space");
 					tutorial = false;
@@ -1865,7 +1851,7 @@
 
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-				/*if (transition == false && blocker.style.display == 'none')*/ clicker(o);
+				if (transition == false /*&& blocker.style.display == 'none'*/) clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 			}
