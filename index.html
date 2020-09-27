@@ -1325,7 +1325,7 @@
 					playSound("Space");
 					tutorial = false;
 				}
-				transition = false;
+				
 			}
 
 			}, false);
@@ -1334,11 +1334,13 @@
 				e.preventDefault();
 				e.returnValue = false;
 
+				if(currentSceneLoaded == true){
 				controls.lock();
-				console.log("touchstart");
-				instructions.style.display = 'none';
-				blocker.style.display = 'none';
-				transition = false;
+				if (tutorial == true) {
+					playSound("Space");
+					tutorial = false;
+				}
+			}
 
 
 			}, false);
