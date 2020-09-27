@@ -403,7 +403,7 @@
 					}
 				});
 				scene.add(door);
-				loaded();
+				//loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1320,13 +1320,20 @@
 
 			instructions.addEventListener('click', function () {
 				if(currentSceneLoaded == true){
-				controls.lock();
+					controls.lock();
 				if (tutorial == true) {
 					playSound("Space");
 					tutorial = false;
 				}
 				transition = false;
 			}
+		
+			controls.lock();
+				if (tutorial == true) {
+					playSound("Space");
+					tutorial = false;
+				}
+				transition = false;
 
 			}, false);
 
@@ -1334,6 +1341,15 @@
 				e.preventDefault();
 				e.returnValue = false;
 
+				controls.lock();
+				instructions.style.display = 'none';
+				blocker.style.display = 'none';
+
+				if (tutorial == true) {
+					playSound("Space");
+					tutorial = false;
+				}
+				
 				if(currentSceneLoaded == true){
 				controls.lock();
 				instructions.style.display = 'none';
