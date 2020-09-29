@@ -31,7 +31,7 @@
 		#myProgress {
 			width: 40%;
 			background-color: white;
-			
+
 
 			position: absolute;
 			bottom: 30%;
@@ -42,7 +42,7 @@
 			width: 1%;
 			height: 6px;
 			background-color: rgb(248, 47, 255);
-		
+
 
 		}
 
@@ -67,12 +67,26 @@
 
 		#instructions {
 			line-height: 2;
-		
+			opacity: 1;
+			transition: opacity 1s;
+		}
+
+		#instructions.fade {
+			opacity: 0;
+		}
+
+		#blocker {
+			opacity: 1;
+			transition: opacity 1s;
+		}
+
+		#blocker.fade {
+			opacity: 0;
 		}
 
 		#clickToEnter {
 			font-size: 45px;
-
+			cursor: pointer;
 			-webkit-animation: colorpulse 4s infinite alternate;
 			animation: colorpulse 4s infinite alternate;
 		}
@@ -509,14 +523,16 @@
 				$("#clickToEnter").html('click To Enter');
 				//tutorial = false;
 				$('html,body').css('cursor', 'pointer');
-				
+
 			} else {
 				$("#loadText").html('loaded');
 				$('html,body').css('cursor', 'pointer');
 				controls.lock();
-				instructions.style.display = 'none';
-				blocker.style.display = 'none';
-
+				fadeInstr();
+				//instructions.style.display = 'none';
+				//blocker.style.display = 'none';
+				//instructions.classList.toggle('fade');
+				//blocker.classList.toggle('fade');
 			}
 
 		}
@@ -529,7 +545,7 @@
 			camera.position.z = 30;
 			var euler = new Euler(0, 0, 0, 'YXZ');
 			camera.quaternion.setFromEuler(euler);
-
+			playSound(txt);
 			switch (txt) {
 				case "Space":
 					index = 2;
@@ -567,7 +583,7 @@
 				default:
 					switchScenes();
 			}
-			playSound(txt);
+
 			currentScene.add(controls.getObject());
 
 		}
@@ -1002,7 +1018,7 @@
 
 				ufo.position.set(-50, 60, -250);
 				ufo.rotation.y = getRadian(-80);
-				ufo.rotation.x = getRadian(4);
+				ufo.rotation.x = getRadian(10);
 
 				ufo.visible = true;
 
@@ -1358,42 +1374,46 @@
 				console.log(txt);
 				controls.unlock();
 
-				goToScene(txt);
-				blocker.style.display = 'block';
-				instructions.style.display = 'block';
+				setTimeout(function () { goToScene(txt) }, 1000);
+				fadeInstr();
 				transition = true;
+				
 				//controls.unlock();					
 			});
 
 
-
+/*
 
 			instructions.addEventListener('click', function () {
 
-				if (currentSceneLoaded == true) {
+				if (currentSceneLoaded == true & transition == true) {
 					controls.lock();
 					if (tutorial == true) {
 						playSound("Space");
 						tutorial = false;
+						$("#clickToEnter").html('');
 					}
 					transition = false;
 				}
 
-			}, false);
+			}, false);*/
 
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
 
-				if (currentSceneLoaded == true) {
+				if (currentSceneLoaded == true & transition == true) {
 					controls.lock();
 					transition = false;
-					instructions.style.display = 'none';
-					blocker.style.display = 'none';
+
+					fadeInstr();
+					//instructions.style.display = 'none';
+					//blocker.style.display = 'none';
 
 					if (tutorial == true) {
 						playSound("Space");
 						tutorial = false;
+						$("#clickToEnter").html('');
 					}
 				}
 
@@ -1405,30 +1425,39 @@
 
 			controls.addEventListener('lock', function () {
 
-				instructions.style.display = 'none';
-				blocker.style.display = 'none';
-
 				transition = false;
-
-
-
-
 			});
 
 			controls.addEventListener('unlock', function () {
 
-				blocker.style.display = 'block';
-				instructions.style.display = '';
+				//blocker.style.display = 'block';
+				//instructions.style.display = '';
 
 				transition = true;
 
 			});
 
 
+			if (isMobile == false) {
+				document.addEventListener('mousemove', onDocumentMouseMove, false);
+			} else {
+				document.addEventListener('touchmove', onDocumentMouseMove, false);
+			}
+			document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+			document.addEventListener('visibilitychange', function () {
+				//document.title = document.visibilityState;
+				console.log(document.visibilityState);
+				if (document.hidden) {
+					sound.pause();
+				}
+				else {
+
+				}
+			});
 
 
-			scene2.add(controls.getObject());
-
+			
 			var onKeyDown = function (event) {
 				if (transition == false) {
 					switch (event.keyCode) {
@@ -1502,24 +1531,7 @@
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
 
-			if (isMobile == false) {
-				document.addEventListener('mousemove', onDocumentMouseMove, false);
-			} else {
-				document.addEventListener('touchmove', onDocumentMouseMove, false);
-			}
-			document.addEventListener('mousedown', onDocumentMouseDown, false);
-
-			document.addEventListener('visibilitychange', function () {
-				//document.title = document.visibilityState;
-				console.log(document.visibilityState);
-				if (document.hidden) {
-					sound.pause();
-				}
-				else {
-
-				}
-			});
-
+			
 
 			raycaster = new THREE.Raycaster();
 			mouse = new THREE.Vector2();
@@ -1530,6 +1542,7 @@
 
 
 			initScene2();
+			scene2.add(controls.getObject());
 
 			var fireTex = new THREE.TextureLoader().load("./Fire.png");
 			fire = new Fire(fireTex);
@@ -1542,26 +1555,26 @@
 			fire2.position.set(-40, 10, -30);
 			scene1.add(fire2);
 
-			fire3 = new Fire(fireTex);
-			fire3.scale.set(40, 40, 40);
-			fire3.position.set(40, 20, -110);
-			scene1.add(fire3);
+			//fire3 = new Fire(fireTex);
+			//fire3.scale.set(40, 40, 40);
+			//fire3.position.set(40, 20, -110);
+			//scene1.add(fire3);
 
-			fire4 = new Fire(fireTex);
-			fire4.scale.set(40, 40, 40);
-			fire4.position.set(-80, 20, 60);
-			scene1.add(fire4);
+			//fire4 = new Fire(fireTex);
+			//fire4.scale.set(40, 40, 40);
+			//fire4.position.set(-80, 20, 60);
+			//scene1.add(fire4);
 
-			fire5 = new Fire(fireTex);
-			fire5.scale.set(40, 40, 40);
-			fire5.position.set(70, 20, 100);
-			scene1.add(fire5);
+			//fire5 = new Fire(fireTex);
+			//fire5.scale.set(40, 40, 40);
+			//fire5.position.set(70, 20, 100);
+			//scene1.add(fire5);
 
 			fire.name = "Fire";
 			fire2.name = "Fire";
-			fire3.name = "Fire";
-			fire4.name = "Fire";
-			fire5.name = "Fire";
+			//fire3.name = "Fire";
+			//fire4.name = "Fire";
+			//fire5.name = "Fire";
 
 
 
@@ -1885,6 +1898,19 @@
 			if (e.preventDefault) e.preventDefault();
 			e.cancelBubble = true;
 			e.returnValue = false;
+			
+			if (currentSceneLoaded == true & transition == true) {
+					controls.lock();
+					fadeInstr();
+					if (tutorial == true) {
+						playSound("Space");
+						tutorial = false;
+						$("#clickToEnter").html('');
+					}
+					transition = false;
+					return;
+				}
+
 
 			if (blocker.style.display == 'block') {
 				//initTrans();
@@ -1912,16 +1938,20 @@
 
 			}
 			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
-				if (transition == false && blocker.style.display == 'none') clicker(o);
+				if (transition == false/* && blocker.style.display == 'none'*/) clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+				console.log("click");
 			}
 		}
 
 
 
 
-
+		function fadeInstr() {
+			instructions.classList.toggle('fade');
+			blocker.classList.toggle('fade');
+		}
 
 		function clicker(o) {
 			console.log(o.name);
@@ -1932,49 +1962,56 @@
 			moveBackward = false;
 
 			moveRight = false;
-
+			$("#loadText").html('0% LOADING<div id="clickToEnter" > </div>');
 			switch (o.name) {
 				case "FirePlanet":
-					goToScene("Fire");
+					//goToScene("Fire");
 					controls.unlock();
-					blocker.style.display = 'block';
-					instructions.style.display = 'block';
+					setTimeout(function () { goToScene("Fire") }, 1000);
+					fadeInstr();
+					//blocker.style.display = 'block';
+					//instructions.style.display = 'block';
 					transition = true;
 					break;
 				case "Ship":
-					goToScene("UFO");
+					setTimeout(function () { goToScene("UFO") }, 1000);
+					//goToScene("UFO");
 					controls.unlock();
-					blocker.style.display = 'block';
-					instructions.style.display = 'block';
+					fadeInstr();
+					//blocker.style.display = 'block';
+					//instructions.style.display = 'block';
 					transition = true;
 					break;
 				case "Emmisive":
-					goToScene("UFO");
+					setTimeout(function () { goToScene("UFO") }, 1000);
 					controls.unlock();
-					blocker.style.display = 'block';
-					instructions.style.display = 'block';
+					fadeInstr();
+					//blocker.style.display = 'block';
+					//instructions.style.display = 'block';
 					transition = true;
 					break;
 				case "Moon":
-					goToScene("AtomGas");
+					setTimeout(function () { goToScene("AtomGas") }, 1000);
 					controls.unlock();
-					blocker.style.display = 'block';
-					instructions.style.display = 'block';
+					fadeInstr();
+					//blocker.style.display = 'block';
+					//instructions.style.display = 'block';
 					transition = true;
 					break;
 				case "Plane002":
 					if (index == 1) {
-						goToScene("AtomGas");
+						setTimeout(function () { goToScene("AtomGas") }, 1000);
+					
 					} else if (index == 3) {
-						goToScene("Fire");
+						setTimeout(function () { goToScene("Fire") }, 1000);
+						
 					} else if (index == 0) {
-						goToScene("AtomGas");
+						setTimeout(function () { goToScene("AtomGas") }, 1000);
+					
 					}
 
-
+					fadeInstr();
 					controls.unlock();
-					blocker.style.display = 'block';
-					instructions.style.display = 'block';
 					transition = true;
 					break;
 			}
@@ -2020,9 +2057,9 @@
 			if (index == 1) {
 				fire.update(t);
 				fire2.update(t);
-				fire3.update(t);
-				fire4.update(t);
-				fire5.update(t);
+				//fire3.update(t);
+				//fire4.update(t);
+				//fire5.update(t);
 			}
 
 			if (rocks != null && index == 2) rocks.traverse(function (o) {
