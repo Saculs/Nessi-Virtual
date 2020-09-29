@@ -1554,11 +1554,12 @@
 				rotation.z = Math.random() * 2 * Math.PI;
 
 				if(isAppleDevice == false){
-					rotation.z = getRadian(90);
+					rotation.z = 1.57;
+					console.log(rotation);
 				} else if(isAppleDevice){
 					rotation.x = 0;
 					rotation.y = 0;
-					rotation.z = 0;
+					rotation.z = 1.57;
 					console.log(rotation);
 				}
 
