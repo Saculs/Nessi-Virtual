@@ -1553,7 +1553,15 @@
 				//rotation.y = Math.random() * 2 * Math.PI;
 				rotation.z = Math.random() * 2 * Math.PI;
 
-				if(isAppleDevice == false) rotation.z = getRadian(90);
+				if(isAppleDevice == false) 
+				{
+					rotation.z = getRadian(90);
+				}
+				else{
+					rotation.z = getRadian(0);
+					rotation.x = 0;
+					rotation.y = 0;
+				}
 
 
 				quaternion.setFromEuler(rotation);
