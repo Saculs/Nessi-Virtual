@@ -186,7 +186,8 @@
 
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 		var isAppleDevice = navigator.userAgent.includes('Macintosh');
-		console.log("isAPPLE DEVICE = " + isAppleDevice);
+		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome '+ isChrome);
 
 		var loader = new GLTFLoader();
 
@@ -1633,13 +1634,19 @@
 					rotation.z = 1.57;
 					//console.log(rotation);
 				}
-
+				if (isChrome == false) {
+					rotation.x = getRadian(-90);
+					rotation.y = getRadian(90);
+					rotation.z = getRadian(90);
+					//console.log(rotation);
+				}
 
 
 				quaternion.setFromEuler(rotation);
 				var max = 0.5;
 				var min = 0.1;
 				scale.x = scale.y = scale.z = Math.random() * (max - min) + min;
+				
 
 				matrix.compose(position, quaternion, scale);
 
