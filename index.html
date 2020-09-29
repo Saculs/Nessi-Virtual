@@ -31,7 +31,7 @@
 		#myProgress {
 			width: 40%;
 			background-color: white;
-
+			
 
 			position: absolute;
 			bottom: 30%;
@@ -42,6 +42,8 @@
 			width: 1%;
 			height: 6px;
 			background-color: rgb(248, 47, 255);
+		
+
 		}
 
 		#crossHair {
@@ -61,6 +63,11 @@
 			top: 30%;
 			left: 0;
 			right: 0;
+		}
+
+		#instructions {
+			line-height: 2;
+		
 		}
 
 		#clickToEnter {
@@ -136,7 +143,8 @@
 
 			<br /><br />
 			Move: ARROWS / WASD<br />
-			Look: MOUSE
+			Look: MOUSE</br>
+			Interact: CLICK
 
 		</div>
 
@@ -487,6 +495,7 @@
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
 			$("#loadText").html(prc + '% loading<br>');
+			$('html,body').css('cursor', 'default');
 			/*
 			if (prc == 100) loading.style.display = 'none';
 			else loading.style.display = 'block';
@@ -496,13 +505,14 @@
 		function loaded() {
 			currentSceneLoaded = true;
 			if (tutorial == true) {
-				$("#loadText").html('<div id="clickToEnter" > </div');
+				$("#loadText").html('<div id="clickToEnter" > </div>');
 				$("#clickToEnter").html('click To Enter');
 				//tutorial = false;
-
+				$('html,body').css('cursor', 'pointer');
+				
 			} else {
 				$("#loadText").html('loaded');
-
+				$('html,body').css('cursor', 'pointer');
 				controls.lock();
 				instructions.style.display = 'none';
 				blocker.style.display = 'none';
@@ -955,7 +965,7 @@
 				var sprite = new THREE.Sprite(spriteMaterial);
 				sprite.scale.set(140, 140, 1.0);
 				sprite.position.set(80, -30, -50);
-				rocks.add(sprite);
+				//rocks.add(sprite);
 
 				var spriteMaterial2 = new THREE.SpriteMaterial(
 					{
@@ -1858,7 +1868,7 @@
 					hoverNowName = null;
 				}
 
-				$('html,body').css('cursor', 'pointer');
+				$('html,body').css('cursor', 'default');
 			} else {
 				crossHair.style.display = 'none';
 				$('html,body').css('cursor', 'default');
