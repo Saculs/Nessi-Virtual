@@ -100,7 +100,7 @@
 
 	<script type="module">
 
-		//(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+		(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 
 		import * as THREE from './build/three.module.js';
 
@@ -1276,7 +1276,7 @@
 */
 
 			//party
-			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/pill.png'), color: 0xffffff });
+			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('./textures/pill.png'), color: 0xffffff });
 
 			for (var i = 0; i < 100; i++) {
 
@@ -1480,34 +1480,35 @@
 			fire = new Fire(fireTex);
 			fire.scale.set(25, 25, 25);
 			fire.position.set(0, 10, -30);
-			//scene1.add(fire);
+			scene1.add(fire);
 
 			fire2 = new Fire(fireTex);
 			fire2.scale.set(25, 25, 25);
 			fire2.position.set(-40, 10, -30);
-			//scene1.add(fire2);
+			scene1.add(fire2);
 
 			fire3 = new Fire(fireTex);
 			fire3.scale.set(40, 40, 40);
 			fire3.position.set(40, 20, -110);
-			//scene1.add(fire3);
+			scene1.add(fire3);
 
 			fire4 = new Fire(fireTex);
 			fire4.scale.set(40, 40, 40);
 			fire4.position.set(-80, 20, 60);
-			//scene1.add(fire4);
+			scene1.add(fire4);
 
 			fire5 = new Fire(fireTex);
 			fire5.scale.set(40, 40, 40);
 			fire5.position.set(70, 20, 100);
-			//scene1.add(fire5);
-
+			scene1.add(fire5);
 
 			fire.name = "Fire";
 			fire2.name = "Fire";
 			fire3.name = "Fire";
 			fire4.name = "Fire";
 			fire5.name = "Fire";
+
+
 
 			renderer = new THREE.WebGLRenderer({ antialias: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
