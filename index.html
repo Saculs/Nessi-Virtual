@@ -1555,10 +1555,10 @@
 
 				if(isAppleDevice == false){
 					rotation.z = getRadian(90);
-				} else {
-					rotation.z = 0;
-					rotation.x = 90;
-					rotation.y = 0;
+				} else if(isAppleDevice){
+					rotation.z = 90;
+					rotation.x = 0;
+					rotation.y = 90;
 					console.log(rotation);
 				}
 
