@@ -30,11 +30,9 @@
 
 		#myProgress {
 			width: 40%;
-			background-color: black;
-			outline-style: outset;
-			outline-width: 1px;
-			outline-color: white;
-			padding: 2px;
+			background-color: white;
+			
+			
 			position: absolute;
 			bottom: 30%;
 			left: 30%;
@@ -42,8 +40,8 @@
 
 		#myBar {
 			width: 1%;
-			height: 20px;
-			background-color: white;
+			height: 6px;
+			background-color: rgb(248, 47, 255);
 		}
 
 		#crossHair {
@@ -84,8 +82,7 @@
 		<div id="instructions">
 			<div>
 
-				<span id='loadText'>Loading...</br><img src="./SomaIcov1.png"
-						style="width: 150px; height:150px" /></span>
+				<span id='loadText'>Loading...</br></span>
 
 			</div>
 			<div id="myProgress">
@@ -442,7 +439,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html(prc + '% loading<br><img src="./SomaIcov1.png" style="width: 150px; height:150px; animation: rotation 3s infinite linear;"/>');
+			$("#loadText").html(prc + '% loading<br>');
 			/*
 			if (prc == 100) loading.style.display = 'none';
 			else loading.style.display = 'block';
@@ -452,7 +449,7 @@
 		function loaded() {
 			currentSceneLoaded = true;
 			if (tutorial == true) {
-				$("#loadText").html('loaded<br/>click To Enter<br/><img src="./SomaIcov1.png" style="width: 150px; height:150px; animation: rotation 3s infinite linear;"/>');
+				$("#loadText").html('loaded<br/>click To Enter<br/>');
 				//tutorial = false;
 
 			} else {
