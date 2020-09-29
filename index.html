@@ -200,6 +200,7 @@
 
 		var tutorial = true;
 		var transition = true;
+		var canClick = true;
 
 
 
@@ -529,6 +530,7 @@
 				$('html,body').css('cursor', 'pointer');
 				controls.lock();
 				fadeInstr();
+				transition = false;
 				//instructions.style.display = 'none';
 				//blocker.style.display = 'none';
 				//instructions.classList.toggle('fade');
@@ -1402,7 +1404,7 @@
 				e.preventDefault();
 				e.returnValue = false;
 
-				if (currentSceneLoaded == true & transition == true & (blocker.className == "fade"|| tutorial == true)) {
+				if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className != "fade"|| tutorial == true)) {
 					controls.lock();
 					transition = false;
 
@@ -1899,7 +1901,7 @@
 			e.cancelBubble = true;
 			e.returnValue = false;
 			
-			if (currentSceneLoaded == true & transition == true & (blocker.className == "fade"|| tutorial == true)) {
+			if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className == "fade"|| tutorial == true)) {
 					controls.lock();
 					fadeInstr();
 					if (tutorial == true) {
@@ -1969,6 +1971,8 @@
 					controls.unlock();
 					setTimeout(function () { goToScene("Fire") }, 1000);
 					fadeInstr();
+					canClick = false;
+					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -1978,6 +1982,8 @@
 					//goToScene("UFO");
 					controls.unlock();
 					fadeInstr();
+					canClick = false;
+					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -1986,6 +1992,8 @@
 					setTimeout(function () { goToScene("UFO") }, 1000);
 					controls.unlock();
 					fadeInstr();
+					canClick = false;
+					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -1994,6 +2002,8 @@
 					setTimeout(function () { goToScene("AtomGas") }, 1000);
 					controls.unlock();
 					fadeInstr();
+					canClick = false;
+					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -2009,7 +2019,8 @@
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
 					
 					}
-
+					canClick = false;
+					setTimeout(function () { canClick = true; }, 2000);
 					fadeInstr();
 					controls.unlock();
 					transition = true;
