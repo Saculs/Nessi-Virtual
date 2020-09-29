@@ -1402,7 +1402,7 @@
 				e.preventDefault();
 				e.returnValue = false;
 
-				if (currentSceneLoaded == true & transition == true) {
+				if (currentSceneLoaded == true & transition == true & (blocker.className == "fade"|| tutorial == true)) {
 					controls.lock();
 					transition = false;
 
@@ -1899,7 +1899,7 @@
 			e.cancelBubble = true;
 			e.returnValue = false;
 			
-			if (currentSceneLoaded == true & transition == true) {
+			if (currentSceneLoaded == true & transition == true & (blocker.className == "fade"|| tutorial == true)) {
 					controls.lock();
 					fadeInstr();
 					if (tutorial == true) {
