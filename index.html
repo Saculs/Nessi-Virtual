@@ -17,9 +17,6 @@
 	<link rel="stylesheet" type="text/css" href="loading-bar.css" />
 	<script type="text/javascript" src="loading-bar.js"></script>
 
-
-
-
 	<style type="text/css">
 		.ldBar path.mainline {
 			stroke-width: 10;
@@ -77,7 +74,6 @@
 			}
 		}
 	</style>
-
 
 </head>
 
@@ -1451,13 +1447,14 @@
 
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
+			/*
 			if (isMobile == false) {
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 			} else {
 				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
 			document.addEventListener('mousedown', onDocumentMouseDown, false);
-
+			*/
 			document.addEventListener('visibilitychange', function () {
 				//document.title = document.visibilityState;
 				console.log(document.visibilityState);
