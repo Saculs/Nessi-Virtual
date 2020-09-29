@@ -118,6 +118,7 @@
 		} from "./build/three.module.js";
 
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		var isAppleDevice = navigator.userAgent.includes('Macintosh');
 
 		var loader = new GLTFLoader();
 
@@ -1551,7 +1552,7 @@
 				//rotation.y = Math.random() * 2 * Math.PI;
 				rotation.z = Math.random() * 2 * Math.PI;
 
-				rotation.z = getRadian(90);
+				if(isAppleDevice == false) rotation.z = getRadian(90);
 
 
 				quaternion.setFromEuler(rotation);
