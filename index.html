@@ -1088,7 +1088,7 @@
 
 
 
-			var amblight = new THREE.AmbientLight(0x02FD01, 0.1); // soft white light
+			var amblight = new THREE.AmbientLight(0x02FD01, 0.2); // soft white light
 			scene3.add(amblight);
 
 			var light2 = new THREE.PointLight(0xFFFFFF, 3, 1600);
@@ -1939,7 +1939,7 @@
 			if (intersects.length > 0) {
 
 			}
-			if (intersects.length > 0/* && clickable.includes(intersects[0].object.name)*/) {
+			if (intersects.length > 0 ) {
 				if (transition == false/* && blocker.style.display == 'none'*/) clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
@@ -1950,9 +1950,12 @@
 
 
 
-		function fadeInstr() {
+		function fadeInstr(v) {
 			instructions.classList.toggle('fade');
 			blocker.classList.toggle('fade');
+			if(v != null & false){
+				blocker.style.backgroundColor = v;
+			}
 		}
 
 		function clicker(o) {
@@ -1970,7 +1973,8 @@
 					//goToScene("Fire");
 					controls.unlock();
 					setTimeout(function () { goToScene("Fire") }, 1000);
-					fadeInstr();
+					
+					fadeInstr('black');
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
@@ -1979,9 +1983,10 @@
 					break;
 				case "Ship":
 					setTimeout(function () { goToScene("UFO") }, 1000);
+					//blocker.style.backgroundColor = rgba(1,1,1,1);
 					//goToScene("UFO");
 					controls.unlock();
-					fadeInstr();
+					fadeInstr('pink');
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
@@ -1991,7 +1996,7 @@
 				case "Emmisive":
 					setTimeout(function () { goToScene("UFO") }, 1000);
 					controls.unlock();
-					fadeInstr();
+					fadeInstr('pink');
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
@@ -2001,7 +2006,7 @@
 				case "Moon":
 					setTimeout(function () { goToScene("AtomGas") }, 1000);
 					controls.unlock();
-					fadeInstr();
+					fadeInstr('green');
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
 					//blocker.style.display = 'block';
@@ -2021,7 +2026,7 @@
 					}
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
-					fadeInstr();
+					fadeInstr("green");
 					controls.unlock();
 					transition = true;
 					break;
