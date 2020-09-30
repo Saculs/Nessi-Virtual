@@ -187,7 +187,7 @@
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 		var isAppleDevice = navigator.userAgent.includes('Macintosh');
 		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome '+ isChrome);
+		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome);
 
 		var loader = new GLTFLoader();
 
@@ -304,7 +304,7 @@
 		var rocksGeo = [];
 		var rocksMats = [];
 
-		var raycaster;
+		var raycaster, raycaster2;
 		var mouse;
 
 		var clock;
@@ -764,7 +764,7 @@
 
 
 			var Debrisloader = new GLTFLoader(manager);
-			Debrisloader.load("models/Debris2.glb", function (gltf) {
+			Debrisloader.load("models/DebrisSolo2.glb", function (gltf) {
 				var Debris = gltf.scene;
 
 				Debris.scale.set(20, 20, 20);
@@ -779,7 +779,7 @@
 
 				Debris.traverse(function (o) {
 					if (o.isMesh) {
-						console.log("Debris");
+						console.log(o.name);
 						geometry = o.geometry;
 						material = o.material;
 					}
@@ -1169,6 +1169,23 @@
 				}
 			);
 
+			var geometry = new THREE.BoxGeometry(5, 15, 5);
+			//var geo2 = new THREE.BoxGeometry(5, 15, 5);
+			var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+			var cube = new THREE.Mesh(geometry, material);
+			var cube2 = new THREE.Mesh(geometry, material);
+			var cube3 = new THREE.Mesh(geometry, material);
+			cube.position.set(15, 8, 10);
+			cube2.position.set(-5, 8, -15);
+			cube3.position.set(-20, 7, 30);
+			cube.visible = false;
+			cube2.visible = false;
+			cube3.visible = false;
+			scene3.add(cube);
+			scene3.add(cube2);
+			scene3.add(cube3);
+
+
 			var Statueloader = new GLTFLoader(manager);
 			Statueloader.load("models/StatuesAnim3.glb", function (gltf) {
 				var Statue = gltf.scene;
@@ -1308,7 +1325,7 @@
 
 		function init() {
 			//clock = new THREE.Clock();
-			camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1500);
+			camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 1500);
 			camera.position.y = 10;
 			camera.position.z = 30;
 			scene = new THREE.Scene();
@@ -1380,32 +1397,32 @@
 				setTimeout(function () { goToScene(txt) }, 1000);
 				fadeInstr();
 				transition = true;
-				
+
 				//controls.unlock();					
 			});
 
 
-/*
-
-			instructions.addEventListener('click', function () {
-
-				if (currentSceneLoaded == true & transition == true) {
-					controls.lock();
-					if (tutorial == true) {
-						playSound("Space");
-						tutorial = false;
-						$("#clickToEnter").html('');
-					}
-					transition = false;
-				}
-
-			}, false);*/
+			/*
+			
+						instructions.addEventListener('click', function () {
+			
+							if (currentSceneLoaded == true & transition == true) {
+								controls.lock();
+								if (tutorial == true) {
+									playSound("Space");
+									tutorial = false;
+									$("#clickToEnter").html('');
+								}
+								transition = false;
+							}
+			
+						}, false);*/
 
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
 
-				if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className != "fade"|| tutorial == true)) {
+				if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className != "fade" || tutorial == true)) {
 					controls.lock();
 					transition = false;
 
@@ -1432,7 +1449,7 @@
 			});
 
 			controls.addEventListener('unlock', function () {
-
+//fadeInstr();
 				//blocker.style.display = 'block';
 				//instructions.style.display = '';
 
@@ -1460,10 +1477,11 @@
 			});
 
 
-			
+
 			var onKeyDown = function (event) {
 				if (transition == false) {
 					switch (event.keyCode) {
+
 
 						case 38: // up
 						case 87: // w
@@ -1493,6 +1511,8 @@
 					}
 				}
 				else {
+					
+					
 					moveForward = false;
 					moveLeft = false;
 					moveBackward = false;
@@ -1534,12 +1554,12 @@
 			document.addEventListener('keydown', onKeyDown, false);
 			document.addEventListener('keyup', onKeyUp, false);
 
-			
+
 
 			raycaster = new THREE.Raycaster();
 			mouse = new THREE.Vector2();
 
-			//raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
+			raycaster2 = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, - 1, 0), 0, 10);
 
 			//initPaintings();
 
@@ -1624,20 +1644,20 @@
 				//rotation.x = Math.random() * 2 * Math.PI;
 				//rotation.y = Math.random() * 2 * Math.PI;
 				rotation.z = Math.random() * 2 * Math.PI;
-
+				rotation.y = 90;
 				if (isAppleDevice == false) {
-					rotation.z = 1.57;
+					rotation.y = getRadian(90);
 					//console.log(rotation);
-				} else if (isAppleDevice) {
+				} /*else if (isAppleDevice) {
 					rotation.x = 0;
 					rotation.y = 0;
 					rotation.z = 1.57;
 					//console.log(rotation);
-				}
+				}*/
 				if (isChrome == false) {
-					rotation.x = getRadian(-90);
-					rotation.y = getRadian(90);
-					rotation.z = getRadian(90);
+					//rotation.x = getRadian(-90);
+					//rotation.y = getRadian(90);
+					//rotation.z = getRadian(90);
 					//console.log(rotation);
 				}
 
@@ -1646,7 +1666,7 @@
 				var max = 0.5;
 				var min = 0.1;
 				scale.x = scale.y = scale.z = Math.random() * (max - min) + min;
-				
+
 
 				matrix.compose(position, quaternion, scale);
 
@@ -1844,9 +1864,6 @@
 			var tween = new TWEEN.Tween(vectorToAnimate).to(target, speed)
 				.easing(TWEEN.Easing.Quintic.Out)
 				.onComplete(function () {
-					setTimeout(function () {
-
-					}, 4000);
 				});
 			tween.onUpdate(function () {
 				//console.log(vectorToAnimate);
@@ -1857,7 +1874,7 @@
 		}
 
 
-		var hoverNowName;
+		var hoverNowName, hoverNowObj;
 
 		function onDocumentMouseMove(event) {
 			event.preventDefault();
@@ -1867,13 +1884,18 @@
 
 			mouse.x = 0;
 			mouse.y = 0;
+
+
+
 			raycaster.setFromCamera(mouse, camera);
 			var intersects = raycaster.intersectObjects(currentScene.children, true);
-			var oName = intersects[0].object.name;
-			if (oName == "Fire" && intersects.length > 1) oName = intersects[1].object.name;
+
 			if (intersects.length > 0) {
 				//console.log("hover" + oName);
+				var oName = intersects[0].object.name;
+				if (oName == "Fire" && intersects.length > 1) oName = intersects[1].object.name;
 
+				var intObj = raycaster.in
 				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") {
 					crossHair.style.display = 'block';
 					if (oName == "Plane002" && getEuler(intersects[0].object.rotation.y) == 90) {
@@ -1881,13 +1903,17 @@
 						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? 60 : 140), z: 0 }, intersects[0].object);
 					}
 					hoverNowName = oName;
+					hoverNowObj = intersects[0].object;
 				}
 				else {
 					crossHair.style.display = 'none';
 					if (hoverNowName == "Plane002") {
-						console.log("AAAAAAAA");
+
+						var vec = { x: 0, y: getRadian(index == 1 ? 60 : 140), z: 0 };
+						rotateDoor(vec, { x: 0, y: getRadian(90), z: 0 }, hoverNowObj);
 					}
 					hoverNowName = null;
+					hoverNowObj = null;
 				}
 
 				$('html,body').css('cursor', 'default');
@@ -1907,18 +1933,18 @@
 			if (e.preventDefault) e.preventDefault();
 			e.cancelBubble = true;
 			e.returnValue = false;
-			
-			if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className == "fade"|| tutorial == true)) {
-					controls.lock();
-					fadeInstr();
-					if (tutorial == true) {
-						playSound("Space");
-						tutorial = false;
-						$("#clickToEnter").html('');
-					}
-					transition = false;
-					return;
+
+			if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className == "fade" || tutorial == true)) {
+				controls.lock();
+				fadeInstr();
+				if (tutorial == true) {
+					playSound("Space");
+					tutorial = false;
+					$("#clickToEnter").html('');
 				}
+				transition = false;
+				return;
+			}
 
 
 			if (blocker.style.display == 'block') {
@@ -1946,7 +1972,7 @@
 			if (intersects.length > 0) {
 
 			}
-			if (intersects.length > 0 ) {
+			if (intersects.length > 0) {
 				if (transition == false & tutorial == false/* && blocker.style.display == 'none'*/) clicker(o);
 				//lightbox_open();
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
@@ -1960,7 +1986,7 @@
 		function fadeInstr(v) {
 			instructions.classList.toggle('fade');
 			blocker.classList.toggle('fade');
-			if(v != null & false){
+			if (v != null & false) {
 				blocker.style.backgroundColor = v;
 			}
 		}
@@ -1980,7 +2006,7 @@
 					//goToScene("Fire");
 					controls.unlock();
 					setTimeout(function () { goToScene("Fire") }, 1000);
-					
+
 					fadeInstr('black');
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
@@ -2023,13 +2049,13 @@
 				case "Plane002":
 					if (index == 1) {
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
-					
+
 					} else if (index == 3) {
 						setTimeout(function () { goToScene("Fire") }, 1000);
-						
+
 					} else if (index == 0) {
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
-					
+
 					}
 					canClick = false;
 					setTimeout(function () { canClick = true; }, 2000);
@@ -2119,12 +2145,16 @@
 
 			if (controls.isLocked === true) {
 
-				raycaster.ray.origin.copy(controls.getObject().position);
-				raycaster.ray.origin.y -= 10;
 
-				var intersections = raycaster.intersectObjects(objects);
 
-				var onObject = intersections.length > 0;
+
+
+				//raycaster.ray.origin.copy(controls.getObject().position);
+				//raycaster.ray.origin.y -= 10;
+
+				//var intersections = raycaster.intersectObjects(objects);
+
+				var onObject = false; //intersections.length > 0;
 
 				var time = performance.now();
 				var delta = (time - prevTime) / 1000;
@@ -2147,11 +2177,28 @@
 				if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
 				if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
+				//console.log(velocity);
+
 				if (onObject === true) {
 
 					velocity.y = Math.max(0, velocity.y);
-					canJump = true;
+					canJump = false;
 
+				}
+
+				raycaster2.setFromCamera(mouse, camera);
+
+				//raycaster2.ray.origin.copy(controls.getObject().position);
+				//raycaster2.ray.origin.x -= 10;
+
+				var intersects2 = raycaster2.intersectObjects(currentScene.children, true);
+				if (intersects2.length > 0 & velocity.z < 0) {
+					if (intersects2[0].object.name != "Fire" || intersects2[0].object.name != 'Aset_cement_rubble_S_riuvL_LOD4') {
+						console.log("MoveForwardBLock ");
+						velocity.z = 0;
+						velocity.x = 0;
+						//return;
+					}
 				}
 
 				controls.moveRight(- velocity.x * delta);
@@ -2165,7 +2212,7 @@
 					velocity.y = 0;
 					controls.getObject().position.y = 10;
 
-					canJump = true;
+					canJump = false;
 
 				}
 
