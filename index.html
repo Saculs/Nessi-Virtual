@@ -157,8 +157,6 @@
 			user-select: none;
 			touch-action: none;
 		}
-
-	
 	</style>
 
 </head>
@@ -243,6 +241,8 @@
 		var scene2loaded = true;
 
 		var scene3loaded = false;
+
+		var fireAnim;
 
 
 		var listener, sound;
@@ -694,7 +694,13 @@
 
 
 
-
+			var runnerTexture = new THREE.TextureLoader().load('textures/FireTest.jpg');
+			fireAnim = new TextureAnimator(runnerTexture, 8, 5, 40, 75); // texture, #horiz, #vert, #total, duration.
+			var runnerMaterial = new THREE.MeshBasicMaterial({ map: runnerTexture, side: THREE.DoubleSide });
+			var runnerGeometry = new THREE.PlaneGeometry(20, 20, 1, 1);
+			var runner = new THREE.Mesh(runnerGeometry, runnerMaterial);
+			runner.position.set(-1, 16, 0);
+			scene1.add(runner);
 
 
 			var somaloader = new GLTFLoader(manager);
@@ -942,7 +948,7 @@
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/Space3.glb", function (gltf) {
+			rocksloader.load("models/Space4.glb", function (gltf) {
 				rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -1069,7 +1075,7 @@
 				ufo.add(sprite);
 
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
-				light.position.set(-30, 60, -160)
+				light.position.set(-60, 60, -160)
 				scene2.add(light);
 
 				console.log('ufo added to scene');
@@ -2135,16 +2141,17 @@
 
 
 
-
+/*
 			t = t + 0.01;
 			if (index == 1) {
-				fire.update(t);
-				fire2.update(t);
+				fireAnim.update(t);
+				//fire.update(t);
+				//fire2.update(t);
 				//fire3.update(t);
 				//fire4.update(t);
 				//fire5.update(t);
 			}
-
+*/
 			if (rocks != null && index == 2) rocks.traverse(function (o) {
 				if (o.isMesh & o.name.includes("Beton")) {
 
@@ -2220,6 +2227,15 @@
 
 				}
 
+				if (index == 1) {
+				fireAnim.update(1000 * delta);
+				//fire.update(t);
+				//fire2.update(t);
+				//fire3.update(t);
+				//fire4.update(t);
+				//fire5.update(t);
+			}
+
 				raycaster2.setFromCamera(mouse, camera);
 
 				//raycaster2.ray.origin.copy(controls.getObject().position);
@@ -2263,6 +2279,43 @@
 
 			renderer.render(currentScene, camera);
 			//composer.render();
+		}
+
+
+		function TextureAnimator(texture, tilesHoriz, tilesVert, numTiles, tileDispDuration) {
+			// note: texture passed by reference, will be updated by the update function.
+
+			this.tilesHorizontal = tilesHoriz;
+			this.tilesVertical = tilesVert;
+			// how many images does this spritesheet contain?
+			//  usually equals tilesHoriz * tilesVert, but not necessarily,
+			//  if there at blank tiles at the bottom of the spritesheet. 
+			this.numberOfTiles = numTiles;
+			texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+			texture.repeat.set(1 / this.tilesHorizontal, 1 / this.tilesVertical);
+
+			// how long should each image be displayed?
+			this.tileDisplayDuration = tileDispDuration;
+
+			// how long has the current image been displayed?
+			this.currentDisplayTime = 0;
+
+			// which image is currently being displayed?
+			this.currentTile = 0;
+
+			this.update = function (milliSec) {
+				this.currentDisplayTime += milliSec;
+				while (this.currentDisplayTime > this.tileDisplayDuration) {
+					this.currentDisplayTime -= this.tileDisplayDuration;
+					this.currentTile++;
+					if (this.currentTile == this.numberOfTiles)
+						this.currentTile = 0;
+					var currentColumn = this.currentTile % this.tilesHorizontal;
+					texture.offset.x = currentColumn / this.tilesHorizontal;
+					var currentRow = Math.floor(this.currentTile / this.tilesHorizontal);
+					texture.offset.y = currentRow / this.tilesVertical;
+				}
+			};
 		}
 
 	</script>
