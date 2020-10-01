@@ -2227,7 +2227,7 @@
 
 				var intersects2 = raycaster2.intersectObjects(currentScene.children, true);
 				if (intersects2.length > 0 & velocity.z < 0) {
-					if (intersects2[0].object.name != "Fire" || intersects2[0].object.name != 'Aset_cement_rubble_S_riuvL_LOD4') {
+					if (intersects2[0].object.name != "Fire" & intersects2[0].object.name != 'Aset_cement_rubble_S_riuvL_LOD4') {
 						console.log("MoveForwardBLock ");
 						velocity.z = 0;
 						velocity.x = 0;
