@@ -29,18 +29,18 @@
 		}
 
 		#myProgress {
-			width: 40%;
+			width: 100%;
 			background-color: white;
 
 
 			position: absolute;
 			bottom: 30%;
-			left: 30%;
+			
 		}
 
 		#myBar {
 			width: 1%;
-			height: 6px;
+			height: 3px;
 			background-color: rgb(248, 47, 255);
 
 
@@ -78,6 +78,7 @@
 		#blocker {
 			opacity: 1;
 			transition: opacity 1s;
+			z-index: 10;
 		}
 
 		#blocker.fade {
@@ -155,6 +156,8 @@
 			-o-user-select: none;
 			user-select: none;
 			touch-action: none;
+
+			
 		}
 	</style>
 
