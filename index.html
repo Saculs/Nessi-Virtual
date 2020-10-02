@@ -1541,6 +1541,7 @@
 						tutorial = false;
 						$("#clickToEnter").html('');
 						footer.style.display = 'block';
+						moveCamera({ x: 0, y: 0, z: 400 },{ x: 0, y: 0, z: 0 }, camera);
 					}
 				}
 
@@ -1978,6 +1979,22 @@
 			tween.start();
 		}
 
+		function moveCamera(vectorToAnimate, target, options) {
+			var speed = 4000;
+			// create the tween
+			var tween = new TWEEN.Tween(vectorToAnimate).to(target, speed)
+				.easing(TWEEN.Easing.Quintic.Out)
+				.onComplete(function () {
+				});
+			tween.onUpdate(function () {
+				//console.log(vectorToAnimate);
+				options.position.z = vectorToAnimate.z;
+				options.position.x = vectorToAnimate.x;
+			});
+			// start the tween
+			tween.start();
+		}
+
 
 		var hoverNowName, hoverNowObj;
 
@@ -2049,6 +2066,7 @@
 					tutorial = false;
 					$("#clickToEnter").html('');
 					footer.style.display = 'block';
+					moveCamera({ x: 0, y: 0, z: 400 },{ x: 0, y: 0, z: 0 }, camera);
 				}
 				transition = false;
 				return;
