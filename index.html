@@ -1378,7 +1378,7 @@
 
 		function init() {
 			//clock = new THREE.Clock();
-			camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 1500);
+			camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1500);
 			camera.position.y = 10;
 			camera.position.z = 30;
 			scene = new THREE.Scene();
@@ -1436,14 +1436,15 @@
 
 				particles.push(particle);
 			}
+			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('SomaIcov1.png'), color: 0xffffff });
 			for (var i = 0; i < 100; i++) {
-
-				particleS = new Particle3D(particleMat.clone());
+				
+				particleS = new Particle3D(particleSMat.clone());
 				particleS.position.x = Math.random() * -60 - 30;
 				particleS.position.y = Math.random() * 80 - 30;
 				particleS.position.z = Math.random() * -190 - 80;
-				particleS.scale.x = 6;
-				particleS.scale.y = 6;
+				particleS.scale.x = Math.random() * 14 - 6;
+				particleS.scale.y = particleS.scale.x;
 
 				scene1.add(particleS);
 
