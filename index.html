@@ -490,7 +490,7 @@
 					if (o.isMesh) {
 						console.log("door");
 						if (o.name == "Invisible") {
-							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
+							o.material = new THREE.MeshStandardMaterial({ color: 0x000000 });
 						}
 
 					}
@@ -857,7 +857,7 @@
 						if (o.name == "Plane002") {
 							//o.rotation.y = getRadian(90);
 						} else if (o.name == "Invisible") {
-							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
+							o.material = new THREE.MeshStandardMaterial({ color: 0x000000 });
 						}
 
 					}
@@ -952,6 +952,16 @@
 
 			var amblight = new THREE.AmbientLight(0xFFFFFF, 0.3);
 			scene2.add(amblight);
+
+			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
+			var material = new THREE.MeshPhongMaterial({ color: 0x02FD01, alphaMap: texture, transparent: true, opacity: 1});
+			material.map = texture;
+			
+			material.color = new THREE.Color(0x02FD01);
+			material.side = THREE.FrontSide;
+			var tsph = new THREE.Mesh(new THREE.SphereGeometry(33, 60, 40), material);
+			tsph.position.set(-63, -43, -215);
+			scene2.add(tsph);
 
 			//scene2.add(ufo);
 
@@ -1192,7 +1202,7 @@
 							//o.rotation.x = getRadian(90);
 							plane2 = o;
 						} else if (o.name == "Invisible") {
-							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
+							o.material = new THREE.MeshStandardMaterial({ color: 0x000000 });
 						}
 
 					}
