@@ -959,8 +959,9 @@
 			
 			material.color = new THREE.Color(0x02FD01);
 			material.side = THREE.FrontSide;
-			var tsph = new THREE.Mesh(new THREE.SphereGeometry(33, 60, 40), material);
-			tsph.position.set(-63, -43, -215);
+			var tsph = new THREE.Mesh(new THREE.SphereGeometry(34, 60, 40), material);
+			tsph.position.set(-63, -45, -215);
+			tsph.name = "Moon";
 			scene2.add(tsph);
 
 			//scene2.add(ufo);
@@ -1075,7 +1076,7 @@
 				ufo.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("UFO");
-						if (o.name == "Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.1, transparent: true, });
+						if (o.name == "Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.2, transparent: true, });
 					}
 				});
 				scene2.add(ufo);
@@ -1093,8 +1094,11 @@
 				ufo.add(sprite);
 
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
-				light.position.set(-60, 60, -160)
+				light.position.set(-80, 60, -160)
 				scene2.add(light);
+				var light2 = new THREE.PointLight(0xFFFFFF, 100, 60);
+				light2.position.set(30, 60, -210)
+				scene2.add(light2);
 
 				console.log('ufo added to scene');
 				$("#loadText").html('loaded<br>');
@@ -1395,7 +1399,7 @@
 			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 			scene1.fog = new THREE.Fog(0x000000, 0, 400);
-			scene2.fog = new THREE.Fog(0x000000, 0, 1200);
+			scene2.fog = new THREE.Fog(0x000000, 0, 900);
 			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 2);
