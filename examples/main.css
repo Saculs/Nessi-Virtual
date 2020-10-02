@@ -137,21 +137,7 @@ body{
 }
 
 
-#forward{
-	position: fixed;
-	  
-	 bottom: 0px;
-	  width: 10px;
-	  height: 10px;
-	font-family: customFont;
-	text-align: center;
-	margin-bottom: 10px;
-	cursor: pointer;
 
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-}
 
 
 #blocker {

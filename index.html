@@ -253,6 +253,8 @@
 		var TO_RADIANS = Math.PI / 180;
 		var particle;
 		var particles = [];
+		var particleS;
+		var particlesS = [];
 		var Particle3D = function (material) {
 			THREE.Sprite.call(this, material);
 
@@ -472,7 +474,7 @@
 			);
 
 			var doorloader = new GLTFLoader(manager);
-			doorloader.load("models/DoorRetopo.glb", function (gltf) {
+			doorloader.load("models/DoorRetopo4.glb", function (gltf) {
 				var door = gltf.scene;
 
 				door.scale.set(3, 3, 3);
@@ -487,6 +489,10 @@
 				door.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("door");
+						if (o.name == "Invisible") {
+							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
+						}
+
 					}
 				});
 				scene.add(door);
@@ -700,7 +706,7 @@
 			var runnerGeometry = new THREE.PlaneGeometry(20, 20, 1, 1);
 			var runner = new THREE.Mesh(runnerGeometry, runnerMaterial);
 			runner.position.set(-10, 16, -40);
-			scene1.add(runner);
+			//scene1.add(runner);
 
 
 			var somaloader = new GLTFLoader(manager);
@@ -832,7 +838,7 @@
 			//material that the geometry will use 
 
 			var doorloader = new GLTFLoader(manager);
-			doorloader.load("models/DoorRetopo.glb", function (gltf) {
+			doorloader.load("models/DoorRetopo4.glb", function (gltf) {
 				var door = gltf.scene;
 
 				door.scale.set(5, 5, 5);
@@ -849,7 +855,9 @@
 						console.log("door");
 						o.castShadow = true;
 						if (o.name == "Plane002") {
-							o.rotation.y = getRadian(90);
+							//o.rotation.y = getRadian(90);
+						} else if (o.name == "Invisible") {
+							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
 						}
 
 					}
@@ -1105,9 +1113,9 @@
 			material.map = new THREE.TextureLoader().load("textures/Nebula.png");
 			material.color = new THREE.Color(0xFFFFFF);
 			material.side = THREE.BackSide;
-			var sky = new THREE.Mesh(new THREE.SphereGeometry(700, 60, 40), material);
-			sky.rotation.y = getRadian(100);
-			//scene2.add(sky); 
+			var sky = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40), material);
+			sky.rotation.y = getRadian(0);
+			scene2.add(sky);
 
 		}
 
@@ -1163,7 +1171,7 @@
 			);
 
 			var doorloader = new GLTFLoader(manager);
-			doorloader.load("models/DoorRetopo.glb", function (gltf) {
+			doorloader.load("models/DoorRetopo4.glb", function (gltf) {
 				var door = gltf.scene;
 				var plane2;
 				door.scale.set(5, 5, 5);
@@ -1180,9 +1188,13 @@
 						console.log("door");
 						o.castShadow = true;
 						if (o.name == "Plane002") {
-							o.rotation.y = getRadian(90);
+							//o.rotation.y = getRadian(90);
+							//o.rotation.x = getRadian(90);
 							plane2 = o;
+						} else if (o.name == "Invisible") {
+							o.material = new THREE.MeshStandardMaterial({ color:0x000000});
 						}
+
 					}
 				});
 				scene3.add(door);
@@ -1373,7 +1385,7 @@
 			//scene1.background = new THREE.Color( 0x000000);
 			//scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 			scene1.fog = new THREE.Fog(0x000000, 0, 400);
-			//scene2.fog = new THREE.Fog(0xD1D1D1, 0, 6000);
+			scene2.fog = new THREE.Fog(0x000000, 0, 1200);
 			scene3.fog = new THREE.Fog(0x02FD01, 0, 200);
 
 			var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 2);
@@ -1409,6 +1421,19 @@
 				scene1.add(particle);
 
 				particles.push(particle);
+			}
+			for (var i = 0; i < 100; i++) {
+
+				particleS = new Particle3D(particleMat.clone());
+				particleS.position.x = Math.random() * -60 - 30;
+				particleS.position.y = Math.random() * 80 - 30;
+				particleS.position.z = Math.random() * -190 - 80;
+				particleS.scale.x = 6;
+				particleS.scale.y = 6;
+
+				scene1.add(particleS);
+
+				particlesS.push(particleS);
 			}
 
 			forward.addEventListener('touchstart', function (e) {
@@ -1936,21 +1961,23 @@
 				if (oName == "Fire" && intersects.length > 1) oName = intersects[1].object.name;
 
 				var intObj = raycaster.in
-				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002") {
+				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002" || oName == "Invisible") {
 					crossHair.style.display = 'block';
-					if (oName == "Plane002" && getEuler(intersects[0].object.rotation.y) == 90) {
-						var vec = { x: 0, y: getRadian(90), z: 0 };
-						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? 60 : 140), z: 0 }, intersects[0].object);
+					if ((oName == "Plane002") && getEuler(intersects[0].object.rotation.y) == 0) {
+						var vec = { x: 0, y: 0, z: 0 };
+						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? 60 : -70), z: 0 }, intersects[0].object);
+
+						hoverNowName = oName;
+						hoverNowObj = intersects[0].object;
 					}
-					hoverNowName = oName;
-					hoverNowObj = intersects[0].object;
+
 				}
 				else {
 					crossHair.style.display = 'none';
-					if (hoverNowName == "Plane002") {
+					if (hoverNowName == "Plane002" || hoverNowName == "Invisible") {
 
-						var vec = { x: 0, y: getRadian(index == 1 ? 60 : 140), z: 0 };
-						rotateDoor(vec, { x: 0, y: getRadian(90), z: 0 }, hoverNowObj);
+						var vec = { x: 0, y: getRadian(index == 1 ? 60 : -70), z: 0 };
+						//rotateDoor(vec, { x: 0, y: 0, z: 0 }, hoverNowObj);
 					}
 					hoverNowName = null;
 					hoverNowObj = null;
@@ -2040,6 +2067,8 @@
 			moveBackward = false;
 
 			moveRight = false;
+			velocity.z = 0;
+			velocity.x = 0;
 			$("#loadText").html('  LOADING<div id="clickToEnter" > </div>');
 			switch (o.name) {
 				case "FirePlanet":
@@ -2049,7 +2078,7 @@
 
 					fadeInstr('black');
 					canClick = false;
-					setTimeout(function () { canClick = true; }, 2000);
+					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -2061,7 +2090,7 @@
 					controls.unlock();
 					fadeInstr('pink');
 					canClick = false;
-					setTimeout(function () { canClick = true; }, 2000);
+					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -2071,7 +2100,7 @@
 					controls.unlock();
 					fadeInstr('pink');
 					canClick = false;
-					setTimeout(function () { canClick = true; }, 2000);
+					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
@@ -2081,11 +2110,12 @@
 					controls.unlock();
 					fadeInstr('green');
 					canClick = false;
-					setTimeout(function () { canClick = true; }, 2000);
+					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
 					//instructions.style.display = 'block';
 					transition = true;
 					break;
+				case 'Invisible':
 				case "Plane002":
 					if (index == 1) {
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
@@ -2098,7 +2128,7 @@
 
 					}
 					canClick = false;
-					setTimeout(function () { canClick = true; }, 2000);
+					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					fadeInstr("green");
 					controls.unlock();
 					transition = true;
@@ -2107,7 +2137,10 @@
 
 		}
 
-
+		function resetVelocity() {
+			velocity.z = 0;
+			velocity.x = 0;
+		}
 
 
 
@@ -2141,17 +2174,17 @@
 
 
 
-/*
-			t = t + 0.01;
-			if (index == 1) {
-				fireAnim.update(t);
-				//fire.update(t);
-				//fire2.update(t);
-				//fire3.update(t);
-				//fire4.update(t);
-				//fire5.update(t);
-			}
-*/
+			/*
+						t = t + 0.01;
+						if (index == 1) {
+							fireAnim.update(t);
+							//fire.update(t);
+							//fire2.update(t);
+							//fire3.update(t);
+							//fire4.update(t);
+							//fire5.update(t);
+						}
+			*/
 			if (rocks != null && index == 2) rocks.traverse(function (o) {
 				if (o.isMesh & o.name.includes("Beton")) {
 
@@ -2183,7 +2216,11 @@
 				gasSphere.rotation.x -= 0.0008;
 				gasSphere.rotation.y -= 0.002;
 			}
+			if (controls.isLocked != true) {
+				resetVelocity();
 
+			}
+			//console.log(velocity);
 			if (controls.isLocked === true) {
 
 
@@ -2228,13 +2265,13 @@
 				}
 
 				if (index == 1) {
-				fireAnim.update(1000 * delta);
-				//fire.update(t);
-				//fire2.update(t);
-				//fire3.update(t);
-				//fire4.update(t);
-				//fire5.update(t);
-			}
+					fireAnim.update(1000 * delta);
+					//fire.update(t);
+					//fire2.update(t);
+					//fire3.update(t);
+					//fire4.update(t);
+					//fire5.update(t);
+				}
 
 				raycaster2.setFromCamera(mouse, camera);
 
@@ -2248,6 +2285,23 @@
 						velocity.z = 0;
 						velocity.x = 0;
 						//return;
+						if (intersects2[0].object.name == "Invisible") {
+							if (index == 1) {
+								setTimeout(function () { goToScene("AtomGas") }, 1000);
+
+							} else if (index == 3) {
+								setTimeout(function () { goToScene("Fire") }, 1000);
+
+							} else if (index == 0) {
+								setTimeout(function () { goToScene("AtomGas") }, 1000);
+
+							}
+							canClick = false;
+							setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
+							fadeInstr("green");
+							controls.unlock();
+							transition = true;
+						}
 					}
 				}
 
