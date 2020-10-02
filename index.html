@@ -954,15 +954,36 @@
 			scene2.add(amblight);
 
 			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
-			var material = new THREE.MeshPhongMaterial({ color: 0x02FD01, alphaMap: texture, transparent: true, opacity: 1});
+			var material = new THREE.MeshPhongMaterial({ color: 0x02FD01, alphaMap: texture, transparent: true, opacity: 1 });
 			material.map = texture;
-			
+
 			material.color = new THREE.Color(0x02FD01);
 			material.side = THREE.FrontSide;
 			var tsph = new THREE.Mesh(new THREE.SphereGeometry(34, 60, 40), material);
 			tsph.position.set(-63, -45, -215);
 			tsph.name = "Moon";
 			scene2.add(tsph);
+
+
+			var starGeo = new THREE.Geometry();
+			for (let i = 0; i < 6000; i++) {
+				let star = new THREE.Vector3(
+					Math.random() * 300 - 200,
+					Math.random() * 600 - 300,
+					Math.random() * 600 - 400
+				);
+				starGeo.vertices.push(star);
+			}
+			let sprite = new THREE.TextureLoader().load('glow.png');
+			let starMaterial = new THREE.PointsMaterial({
+				color: 0xaaaaaa,
+				size: 0.7,
+				map: sprite,
+				transparent: true
+			});
+			var stars = new THREE.Points(starGeo, starMaterial);
+			scene2.add(stars);
+
 
 			//scene2.add(ufo);
 
@@ -1096,7 +1117,7 @@
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
 				light.position.set(-80, 60, -160)
 				scene2.add(light);
-				var light2 = new THREE.PointLight(0xFFFFFF, 100, 60);
+				var light2 = new THREE.PointLight(0xFFFFFF,60, 60);
 				light2.position.set(30, 60, -210)
 				scene2.add(light2);
 
@@ -1438,11 +1459,11 @@
 			}
 			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('SomaIcov1.png'), color: 0xffffff });
 			for (var i = 0; i < 100; i++) {
-				
+
 				particleS = new Particle3D(particleSMat.clone());
-				particleS.position.x = Math.random() * -60 - 30;
+				particleS.position.x = Math.random() * -160 - 10;
 				particleS.position.y = Math.random() * 80 - 30;
-				particleS.position.z = Math.random() * -190 - 80;
+				particleS.position.z = Math.random() * -190 - 220;
 				particleS.scale.x = Math.random() * 14 - 6;
 				particleS.scale.y = particleS.scale.x;
 
