@@ -1527,23 +1527,9 @@
 			document.body.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
+				console.log("touchStart");
 
-				if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className != "fade" || tutorial == true)) {
-					controls.lock();
-					transition = false;
-
-					fadeInstr();
-					//instructions.style.display = 'none';
-					//blocker.style.display = 'none';
-
-					if (tutorial == true) {
-						playSound("Space");
-						tutorial = false;
-						$("#clickToEnter").html('');
-						footer.style.display = 'block';
-						moveCamera({ x: 0, y: 0, z: 400 },{ x: 0, y: 0, z: 0 }, camera);
-					}
-				}
+				//onDocumentMouseDown(e);
 
 
 			}, false);
@@ -2057,6 +2043,7 @@
 			if (e.preventDefault) e.preventDefault();
 			e.cancelBubble = true;
 			e.returnValue = false;
+			console.log("mouseDown");
 
 			if (currentSceneLoaded == true & transition == true & canClick == true & (blocker.className == "fade" || tutorial == true)) {
 				controls.lock();
