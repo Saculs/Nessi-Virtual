@@ -2091,7 +2091,6 @@
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 				console.log("click");
 			}
-			$("#footer").html(event.touches[0].clientY + " Xs" + event.touches[0].clientX);
 		}
 
 		function fadeInstr(v) {
@@ -2119,7 +2118,6 @@
 					//goToScene("Fire");
 					fadeInstr('black');
 					setTimeout(function () { goToScene("Fire") }, 1000);
-					$("#footer").html("FIRE");
 					controls.unlock();
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
