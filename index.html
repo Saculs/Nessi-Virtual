@@ -1479,7 +1479,7 @@
 			forward.addEventListener('touchstart', function (e) {
 
 				moveForward = true;
-				console.log("TOUCHSTART");
+				console.log("TOUCHENDD");
 				//return;
 
 			}, false);
@@ -1530,18 +1530,18 @@
 				e.returnValue = false;
 				console.log("touchStart");
 
-				//onDocumentMouseDown(e);
+				onDocumentMouseDown(e);
 
 
 			}, false);
 
 			if (isMobile == false) {
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
-				
+				document.addEventListener('mousedown', onDocumentMouseDown, false);
 			} else {
 				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
-			document.addEventListener('mousedown', onDocumentMouseDown, false);
+
 
 
 			controls.addEventListener('lock', function () {
@@ -2068,8 +2068,8 @@
 				mouse.x = 0;
 				mouse.y = 0;
 			} else {
-				mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-				mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+				mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+				mouse.y = - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}
 
 
