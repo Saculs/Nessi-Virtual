@@ -211,7 +211,7 @@
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 		var isAppleDevice = navigator.userAgent.includes('Macintosh');
 		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome , 'isMobile  ' + isMobile);
+		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome, 'isMobile  ' + isMobile);
 
 		var loader = new GLTFLoader();
 
@@ -1524,7 +1524,7 @@
 							}
 			
 						}, false);*/
-				//body
+			//body
 			document.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
@@ -1541,7 +1541,7 @@
 			} else {
 				document.addEventListener('touchmove', onDocumentMouseMove, false);
 			}
-			
+
 
 
 			controls.addEventListener('lock', function () {
@@ -2091,7 +2091,7 @@
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 				console.log("click");
 			}
-			$("#footer").html(event.touches[0].clientY+ " Xs" +event.touches[0].clientX);
+			$("#footer").html(event.touches[0].clientY + " Xs" + event.touches[0].clientX);
 		}
 
 		function fadeInstr(v) {
@@ -2119,7 +2119,7 @@
 					//goToScene("Fire");
 					controls.unlock();
 					setTimeout(function () { goToScene("Fire") }, 1000);
-
+					$("#footer").html("FIRE");
 					fadeInstr('black');
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
