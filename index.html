@@ -141,7 +141,7 @@
 
 		#forward {
 			position: fixed;
-
+			z-index: 8;
 			left: 47%;
 			margin-bottom: 10px;
 			cursor: pointer;
@@ -2117,10 +2117,10 @@
 			switch (o.name) {
 				case "FirePlanet":
 					//goToScene("Fire");
-					controls.unlock();
+					fadeInstr('black');
 					setTimeout(function () { goToScene("Fire") }, 1000);
 					$("#footer").html("FIRE");
-					fadeInstr('black');
+					controls.unlock();
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
@@ -2128,11 +2128,13 @@
 					transition = true;
 					break;
 				case "Ship":
+					fadeInstr('pink');
 					setTimeout(function () { goToScene("UFO") }, 1000);
 					//blocker.style.backgroundColor = rgba(1,1,1,1);
 					//goToScene("UFO");
+
 					controls.unlock();
-					fadeInstr('pink');
+
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
@@ -2140,9 +2142,10 @@
 					transition = true;
 					break;
 				case "Emmisive":
+					fadeInstr('pink');
 					setTimeout(function () { goToScene("UFO") }, 1000);
 					controls.unlock();
-					fadeInstr('pink');
+
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
@@ -2150,9 +2153,10 @@
 					transition = true;
 					break;
 				case "Moon":
+					fadeInstr('green');
 					setTimeout(function () { goToScene("AtomGas") }, 1000);
 					controls.unlock();
-					fadeInstr('green');
+
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
@@ -2161,6 +2165,7 @@
 					break;
 				case 'Invisible':
 				case "Plane002":
+					fadeInstr("green");
 					if (index == 1) {
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
 
@@ -2173,7 +2178,6 @@
 					}
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
-					fadeInstr("green");
 					controls.unlock();
 					transition = true;
 					break;
