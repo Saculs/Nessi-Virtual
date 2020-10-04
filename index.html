@@ -30,7 +30,7 @@
 
 		#myProgress {
 			width: 100%;
-			background-color: white;
+			background-color: black;
 
 
 			position: absolute;
@@ -63,6 +63,22 @@
 			top: 30%;
 			left: 0;
 			right: 0;
+
+			/* Create the gradient. 
+			background-color: #CA4246;
+			background-image: linear-gradient(0deg,
+					rgb(248, 47, 255) 90.666%,
+					#ffffff 10.333%);
+
+
+			/* Set the background size and repeat properties. 
+			background-size: 100%;
+			background-repeat: repeat;
+
+			/* Use the text as a mask for the background. 
+			/* This will show the gradient as a text color rather than element bg.
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;*/
 		}
 
 		#instructions {
@@ -542,7 +558,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html(prc + '% loading<br>');
+			$("#loadText").html('loading<br>'+prc+'%');
 			$('html,body').css('cursor', 'default');
 			/*
 			if (prc == 100) loading.style.display = 'none';
@@ -919,7 +935,7 @@
 				sprite2.position.set(0, -0.1, 0);
 				ufo.add(sprite2);
 
-				var pLight = new THREE.PointLight(0xC440FF, 8, 130);
+				var pLight = new THREE.PointLight(0xC440FF, 8, 140);
 				pLight.rotation.x = getRadian(90);
 				pLight.position.set(-60, 50, -190);
 				scene1.add(pLight);
@@ -1053,9 +1069,9 @@
 
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
-				sprite.scale.set(140, 140, 1.0);
+				sprite.scale.set(126, 126, 1.0);
 				sprite.position.set(80, -30, -50);
-				//rocks.add(sprite);
+				rocks.add(sprite);
 
 				var spriteMaterial2 = new THREE.SpriteMaterial(
 					{
@@ -1171,7 +1187,7 @@
 			light2.castShadow = true;
 			scene3.add(light2);
 
-			
+
 
 			var moonloader = new GLTFLoader(manager);
 			moonloader.load("models/moon9.glb", function (gltf) {
