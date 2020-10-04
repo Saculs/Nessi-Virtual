@@ -35,7 +35,7 @@
 
 			position: absolute;
 			bottom: 30%;
-			
+
 		}
 
 		#myBar {
@@ -142,7 +142,7 @@
 		#forward {
 			position: fixed;
 
-			left:47%;
+			left: 47%;
 			margin-bottom: 10px;
 			cursor: pointer;
 			bottom: 40px;
@@ -158,7 +158,7 @@
 			user-select: none;
 			touch-action: none;
 
-			
+
 		}
 	</style>
 
@@ -211,7 +211,7 @@
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 		var isAppleDevice = navigator.userAgent.includes('Macintosh');
 		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome);
+		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome , 'isMobile  ' + isMobile);
 
 		var loader = new GLTFLoader();
 
@@ -229,7 +229,7 @@
 
 
 
-		var rocks, door, gasSphere;
+		var rocks, door, gasSphere, tsph;
 
 
 		var currentScene;
@@ -962,7 +962,7 @@
 
 			material.color = new THREE.Color(0x02FD01);
 			material.side = THREE.FrontSide;
-			var tsph = new THREE.Mesh(new THREE.SphereGeometry(34, 60, 40), material);
+			tsph = new THREE.Mesh(new THREE.SphereGeometry(34, 60, 40), material);
 			tsph.position.set(-63, -45, -215);
 			tsph.name = "Moon";
 			scene2.add(tsph);
@@ -1120,7 +1120,7 @@
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
 				light.position.set(-80, 60, -160)
 				scene2.add(light);
-				var light2 = new THREE.PointLight(0xFFFFFF,60, 60);
+				var light2 = new THREE.PointLight(0xFFFFFF, 60, 60);
 				light2.position.set(30, 60, -210)
 				scene2.add(light2);
 
@@ -1195,6 +1195,7 @@
 						console.log("moon");
 						o.receiveShadow = true;
 						//createDecal();
+
 					}
 				});
 				scene3.add(moon);
@@ -1523,18 +1524,24 @@
 							}
 			
 						}, false);*/
-
-			document.body.addEventListener('touchstart', function (e) {
+				//body
+			document.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				e.returnValue = false;
 				console.log("touchStart");
 
-				//onDocumentMouseDown(e);
+				onDocumentMouseDown(e);
 
 
 			}, false);
 
-
+			if (isMobile == false) {
+				document.addEventListener('mousemove', onDocumentMouseMove, false);
+				document.addEventListener('mousedown', onDocumentMouseDown, false);
+			} else {
+				document.addEventListener('touchmove', onDocumentMouseMove, false);
+			}
+			
 
 
 			controls.addEventListener('lock', function () {
@@ -1551,13 +1558,6 @@
 
 			});
 
-
-			if (isMobile == false) {
-				document.addEventListener('mousemove', onDocumentMouseMove, false);
-			} else {
-				document.addEventListener('touchmove', onDocumentMouseMove, false);
-			}
-			document.addEventListener('mousedown', onDocumentMouseDown, false);
 
 			document.addEventListener('visibilitychange', function () {
 				//document.title = document.visibilityState;
@@ -2053,7 +2053,7 @@
 					tutorial = false;
 					$("#clickToEnter").html('');
 					footer.style.display = 'block';
-					moveCamera({ x: 0, y: 0, z: 400 },{ x: 0, y: 0, z: 0 }, camera);
+					moveCamera({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 0 }, camera);
 				}
 				transition = false;
 				return;
@@ -2068,8 +2068,8 @@
 				mouse.x = 0;
 				mouse.y = 0;
 			} else {
-				mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-				mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+				mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+				mouse.y = - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}
 
 
@@ -2091,10 +2091,8 @@
 				//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 				console.log("click");
 			}
+			$("#footer").html(event.touches[0].clientY+ " Xs" +event.touches[0].clientX);
 		}
-
-
-
 
 		function fadeInstr(v) {
 			instructions.classList.toggle('fade');
@@ -2259,8 +2257,12 @@
 				}
 			});
 			if (gasSphere != null && index == 3) {
-				gasSphere.rotation.x -= 0.0008;
-				gasSphere.rotation.y -= 0.002;
+				//gasSphere.rotation.x -= 0.0008;
+				gasSphere.rotation.y -= 0.001;
+			}
+			if (tsph != null && index == 2) {
+				tsph.rotation.x -= 0.0008;
+				tsph.rotation.y -= 0.002;
 			}
 			if (controls.isLocked != true) {
 				resetVelocity();
