@@ -14,9 +14,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="loading-bar.css" />
-	<script type="text/javascript" src="loading-bar.js"></script>
-
 	<style type="text/css">
 		.ldBar path.mainline {
 			stroke-width: 10;
@@ -156,6 +153,7 @@
 		}
 
 		#forward {
+			display: none;
 			position: fixed;
 			z-index: 8;
 			left: 47%;
@@ -370,7 +368,7 @@
 		var manager = new THREE.LoadingManager();
 
 		manager.onProgress = function (item, loaded, total) {
-			console.log( loaded, total);
+			console.log(loaded, total);
 		};
 		manager.onLoad = function () {
 			console.log('all items loaded');
@@ -1093,8 +1091,10 @@
 				scene2.add(rocks);
 				console.log('rocks added to scene');
 				rocksGeo.forEach(makeInstancedRocks);
+				
 
 				loaded();
+				//rocks.traverse(function (o) {if(o.isMesh)mesh.dispose();});
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1965,6 +1965,7 @@
 
 		function makeInstancedRocks(item, i) {
 			makeInstancedRock(rocksGeo[i], rocksMats[i], i);
+			//rocksMats[i].dispose();
 		}
 
 		function rotateDoor(vectorToAnimate, target, options) {
@@ -2071,6 +2072,7 @@
 					$("#clickToEnter").html('');
 					footer.style.display = 'block';
 					moveCamera({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 30 }, camera);
+					//setTimeout(function () { dispose(scene2); }, 6000);
 				}
 				transition = false;
 				return;
@@ -2205,7 +2207,64 @@
 			velocity.x = 0;
 		}
 
+		function dispose(sc) {
 
+
+			scene2.traverse(function (o) {
+				if (o.isMesh) {
+					//o.dispose();
+					//createDecal();
+				}
+				if (o.geometry) {
+					o.geometry.dispose()
+					console.log("dispose geometry ", o.geometry)
+				}
+
+				if (o.material) {
+					if (o.material.length) {
+						for (let i = 0; i < o.material.length; ++i) {
+							o.material[i].dispose()
+							console.log("dispose material ", o.material[i])
+						}
+					}
+					else {
+						o.material.dispose()
+						console.log("dispose material ", o.material)
+					}
+				}
+
+
+			});
+			currentScene.traverse(function (o) {
+				if (o.isMesh) {
+					//o.dispose();
+					//createDecal();
+				}
+				if (o.geometry) {
+					o.geometry.dispose();
+					//console.log("dispose geometry ", o.geometry);
+
+				}
+
+				if (o.material) {
+					if (o.material.length) {
+						for (let i = 0; i < o.material.length; ++i) {
+							o.material[i].dispose();
+							//console.log("dispose material ", o.material[i]);
+						}
+					}
+					else {
+						o.material.dispose();
+						//console.log("dispose material ", o.material);
+					}
+				}
+
+
+			});
+			//currentScene = scene1;
+			//scene2 = null;
+
+		}
 
 		var t = 0;
 
