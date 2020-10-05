@@ -370,7 +370,7 @@
 		var manager = new THREE.LoadingManager();
 
 		manager.onProgress = function (item, loaded, total) {
-			console.log(item, loaded, total);
+			console.log( loaded, total);
 		};
 		manager.onLoad = function () {
 			console.log('all items loaded');
@@ -777,7 +777,7 @@
 
 				bild.traverse(function (o) {
 					if (o.isMesh) {
-						console.log(o.name);
+						//console.log(o.name);
 						var map = o.material.map;
 						var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
 						o.material = huMat;
@@ -837,7 +837,7 @@
 
 				Debris.traverse(function (o) {
 					if (o.isMesh) {
-						console.log(o.name);
+						//console.log(o.name);
 						geometry = o.geometry;
 						material = o.material;
 					}
@@ -1024,7 +1024,7 @@
 
 				rocks.traverse(function (o) {
 					if (o.isMesh) {
-						console.log("rocks " + o.name);
+						//console.log("rocks " + o.name);
 						if (o.name == 'FirePlanet') {
 							o.scale.set(50, 50, 50);
 							o.position.set(80, -30, -50);
@@ -1296,7 +1296,7 @@
 				Statue.traverse(function (o) {
 
 					if (o.isMesh) {
-						console.log(o.name);
+						//console.log(o.name);
 						o.castShadow = true;
 						//o.rotation.y = getRadian(90);
 						//o.rotation.x = getRadian(90);
@@ -1333,7 +1333,7 @@
 
 				Statue2.traverse(function (o) {
 					if (o.isMesh) {
-						console.log(o.name);
+						//console.log(o.name);
 						o.castShadow = true;
 						//o.rotation.y = getRadian(90);
 						//o.rotation.x = getRadian(90);
@@ -1368,7 +1368,7 @@
 
 				Statue3.traverse(function (o) {
 					if (o.isMesh) {
-						console.log(o.name);
+						//console.log(o.name);
 						o.castShadow = true;
 						//o.rotation.y = getRadian(90);
 						//o.rotation.x = getRadian(90);
@@ -2341,13 +2341,6 @@
 				if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
 
 				//console.log(velocity);
-
-				if (onObject === true) {
-
-					velocity.y = Math.max(0, velocity.y);
-					canJump = false;
-
-				}
 
 				if (index == 1) {
 					fireAnim.update(1000 * delta);
