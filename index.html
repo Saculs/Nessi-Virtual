@@ -640,6 +640,7 @@
 
 		function playSound(txt) {
 			// load a sound and set it as the Audio object's buffer
+			/*
 			var audioLoader = new THREE.AudioLoader();
 			audioLoader.load('Sound/' + txt + '.ogg', function (buffer) {
 				sound.pause();
@@ -649,6 +650,10 @@
 				sound.setVolume(0.6);
 				sound.play();
 			});
+			*/
+			var audio = document.getElementById('audio');
+			audio.play();
+
 		}
 
 		function switchScenes() {
@@ -2454,7 +2459,7 @@
 
 	</script>
 
-
+	<audio id="audio" src="Sound/Space.ogg"></audio>
 
 
 	<div id="footer">

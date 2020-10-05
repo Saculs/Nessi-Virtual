@@ -108,7 +108,7 @@ var PointerLockControls = function (camera, domElement) {
 	}
 
 	function onPointerlockError() {
-		console.error('THREE.PointerLockControls: Unable to use Pointer Lock API');
+		console.log('THREE.PointerLockControls: Unable to use Pointer Lock API');
 	}
 
 	this.connect = function () {
