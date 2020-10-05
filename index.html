@@ -1202,7 +1202,7 @@
 				moon.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("moon");
-						//o.receiveShadow = true;
+						o.receiveShadow = true;
 						//createDecal();
 
 					}
@@ -1456,7 +1456,7 @@
 			//party
 			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/Pill.png'), color: 0xffffff });
 
-			for (var i = 0; i < 100; i++) {
+			for (var i = 0; i < 80; i++) {
 
 				particle = new Particle3D(particleMat.clone());
 				particle.position.x = Math.random() * -60 - 30;
@@ -1470,11 +1470,11 @@
 				particles.push(particle);
 			}
 			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('SomaIcov1.png'), color: 0xffffff });
-			for (var i = 0; i < 100; i++) {
+			for (var i = 0; i < 80; i++) {
 
 				particleS = new Particle3D(particleSMat.clone());
 				particle.position.x = Math.random() * -60 - 30;
-				particle.position.y = Math.random() * 80 - 30;
+				particle.position.y = Math.random() * 90 - 30;
 				particle.position.z = Math.random() * -190 - 80;
 				particleS.scale.x = 10;
 				particleS.scale.y = particleS.scale.x;
