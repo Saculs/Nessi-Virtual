@@ -558,7 +558,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html('loading<br>'+prc+'%');
+			$("#loadText").html('loading<br>' + prc + '%');
 			$('html,body').css('cursor', 'default');
 			/*
 			if (prc == 100) loading.style.display = 'none';
@@ -1477,10 +1477,10 @@
 			for (var i = 0; i < 100; i++) {
 
 				particleS = new Particle3D(particleSMat.clone());
-				particleS.position.x = Math.random() * -160 - 10;
-				particleS.position.y = Math.random() * 80 - 30;
-				particleS.position.z = Math.random() * -190 - 220;
-				particleS.scale.x = Math.random() * 14 - 6;
+				particle.position.x = Math.random() * -60 - 30;
+				particle.position.y = Math.random() * 80 - 30;
+				particle.position.z = Math.random() * -190 - 80;
+				particleS.scale.x = 10;
 				particleS.scale.y = particleS.scale.x;
 
 				scene1.add(particleS);
@@ -2212,6 +2212,24 @@
 			for (var i = 0; i < particles.length; i++) {
 
 				var particle = particles[i];
+				particle.updatePhysics();
+				var p = particle.position;
+				particle.material.rotation += randomRange(-0.1, 0.1);
+				if (p.y < -20) {
+					particle.position.y = 60;
+					particle.position.x = -60;
+					particle.position.z = -190;
+				}
+				if (p.x > 500) particle.position.x -= 500;
+				else if (p.x < -500) particle.position.x += 500;
+				if (p.z > 500) particle.position.z -= 500;
+				else if (p.z < -500) particle.position.z += 500;
+
+
+			}
+			for (var i = 0; i < particlesS.length; i++) {
+
+				var particle = particlesS[i];
 				particle.updatePhysics();
 				var p = particle.position;
 				particle.material.rotation += randomRange(-0.1, 0.1);
