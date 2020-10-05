@@ -1146,6 +1146,8 @@
 
 				console.log('ufo added to scene');
 				$("#loadText").html('loaded<br>');
+
+				//loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1156,24 +1158,14 @@
 			);
 
 			/*
-			
-			var uniforms = {  
-			texture: { type: 't', value: THREE.ImageUtils.loadTexture('textures/Nebula.png') }
-			};
-			
-			var material = new THREE.ShaderMaterial( {  
-			uniforms:       uniforms,
-			vertexShader:   document.getElementById('sky-vertex').textContent,
-			fragmentShader: document.getElementById('sky-fragment').textContent
-			});
-			*/
 			var material = new THREE.MeshBasicMaterial();
 			material.map = new THREE.TextureLoader().load("textures/Nebula.png");
 			material.color = new THREE.Color(0xFFFFFF);
 			material.side = THREE.BackSide;
 			var sky = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40), material);
 			sky.rotation.y = getRadian(0);
-			scene2.add(sky);
+			//scene2.add(sky);
+			*/
 
 		}
 
@@ -1210,7 +1202,7 @@
 				moon.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("moon");
-						o.receiveShadow = true;
+						//o.receiveShadow = true;
 						//createDecal();
 
 					}
