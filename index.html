@@ -86,7 +86,7 @@
 		}
 
 		#instructions {
-			line-height: 2;
+			line-height: 1.2;
 			opacity: 1;
 			transition: opacity 1s;
 		}
@@ -217,7 +217,10 @@
 			Move: ARROWS / WASD<br />
 			Look: MOUSE</br>
 			Interact: CLICK
-
+		</br></br>
+	</br></br>
+		Works Best On NEW DEVICES </br> with Chrome Browser
+	</br>for a simpler version: CLICK HERE
 		</div>
 
 	</div>
@@ -2065,8 +2068,10 @@
 						var vec = { x: 0, y: getRadian(index == 1 ? 60 : -70), z: 0 };
 						//rotateDoor(vec, { x: 0, y: 0, z: 0 }, hoverNowObj);
 					}
-					if (hoverNowName.includes("P_")) {
-						fadeSize();
+					if (hoverNowName != null) {
+						if (hoverNowName.includes("P_")) {
+							fadeSize();
+						}
 					}
 					hoverNowName = null;
 					hoverNowObj = null;
