@@ -179,7 +179,7 @@
 </head>
 
 <body>
-	<img src="mouse.png" id="crossHair">
+	<img src="textures/mouse.png" id="crossHair">
 	<div id="blocker">
 
 		<div id="instructions">
@@ -368,10 +368,10 @@
 		var manager = new THREE.LoadingManager();
 
 		manager.onProgress = function (item, loaded, total) {
-			console.log(loaded, total);
+			//console.log(loaded, total);
 		};
 		manager.onLoad = function () {
-			console.log('all items loaded');
+			//console.log('all items loaded');
 		};
 		manager.onError = function () {
 			console.log('there has been an error');
@@ -922,7 +922,7 @@
 
 				scene1.add(ufo);
 
-				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
@@ -995,7 +995,7 @@
 				);
 				starGeo.vertices.push(star);
 			}
-			let sprite = new THREE.TextureLoader().load('glow.png');
+			let sprite = new THREE.TextureLoader().load('textures/glow.png');
 			let starMaterial = new THREE.PointsMaterial({
 				color: 0xaaaaaa,
 				size: 0.7,
@@ -1064,7 +1064,7 @@
 				});
 
 
-				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
@@ -1125,7 +1125,7 @@
 				});
 				scene2.add(ufo);
 
-				var spriteMap = new THREE.TextureLoader().load("glow.png");
+				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
@@ -1469,7 +1469,7 @@
 
 				particles.push(particle);
 			}
-			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('SomaIcov1.png'), color: 0xffffff });
+			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/SomaIcov1.png'), color: 0xffffff });
 			for (var i = 0; i < 80; i++) {
 
 				particleS = new Particle3D(particleSMat.clone());
@@ -2063,7 +2063,7 @@
 					$("#clickToEnter").html('');
 					footer.style.display = 'block';
 					moveCamera({ x: 0, y: 0, z: 400 }, { x: 0, y: 0, z: 30 }, camera);
-					//setTimeout(function () { dispose(scene2); }, 6000);
+					//setTimeout(function () { renderer.dispose() }, 6000);
 				}
 				transition = false;
 				return;
