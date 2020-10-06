@@ -1006,7 +1006,6 @@
 			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
 			var material = new THREE.MeshPhongMaterial({ color: 0x02FD01, alphaMap: texture, transparent: true, opacity: 1 });
 			material.map = texture;
-
 			material.color = new THREE.Color(0x02FD01);
 			material.side = THREE.FrontSide;
 			tsph = new THREE.Mesh(new THREE.SphereGeometry(34, 60, 40), material);
@@ -1027,7 +1026,7 @@
 			let sprite = new THREE.TextureLoader().load('textures/glow.png');
 			let starMaterial = new THREE.PointsMaterial({
 				color: 0xaaaaaa,
-				size: 0.7,
+				size: 0.5,
 				map: sprite,
 				transparent: true
 			});
@@ -1038,7 +1037,7 @@
 			//scene2.add(ufo);
 
 			var rocksloader = new GLTFLoader(manager);
-			rocksloader.load("models/Space4.glb", function (gltf) {
+			rocksloader.load("models/SpaceWithoutBG.glb", function (gltf) {
 				rocks = gltf.scene;
 
 				//rocks.scale.set(0.05,0.05,0.05);
@@ -1094,6 +1093,7 @@
 
 
 				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
+				/*
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
@@ -1104,7 +1104,7 @@
 				sprite.scale.set(126, 126, 1.0);
 				sprite.position.set(80, -30, -50);
 				rocks.add(sprite);
-
+*/
 				var spriteMaterial2 = new THREE.SpriteMaterial(
 					{
 						map: spriteMap, useScreenCoordinates: false,
@@ -1153,7 +1153,7 @@
 					}
 				});
 				scene2.add(ufo);
-
+/*
 				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
@@ -1165,7 +1165,7 @@
 				sprite.scale.set(2.2, 2.2, 1.0);
 				sprite.position.set(0, 0.2, 0);
 				ufo.add(sprite);
-
+*/
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
 				light.position.set(-80, 60, -160)
 				scene2.add(light);
@@ -1210,9 +1210,9 @@
 
 			var light2 = new THREE.PointLight(0xFFFFFF, 3.5, 2000);
 			light2.position.set(0.5, 15, 4);
-			light2.castShadow = true;
+			//light2.castShadow = true;
 			scene3.add(light2);
-
+			
 
 
 			var moonloader = new GLTFLoader(manager);
@@ -1237,6 +1237,8 @@
 					}
 				});
 				scene3.add(moon);
+
+				//loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1275,7 +1277,7 @@
 					}
 				});
 				scene3.add(door);
-
+				
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1425,17 +1427,18 @@
 			});
 			*/
 			var texture = new THREE.TextureLoader().load("textures/Aurora3.png");
-			var material = new THREE.MeshPhongMaterial({ color: 0x000000, alphaMap: texture, transparent: true, opacity: 0.6 });
+			//var material = new THREE.MeshPhongMaterial({ color: 0x000000, alphaMap: texture, transparent: true, opacity: 0.6 });
 			var material2 = new THREE.MeshBasicMaterial();
 			material2.map = texture;
-			material.map = texture;
+			//material.map = texture;
 			material2.side = THREE.BackSide;
-			material.color = new THREE.Color(0xFFFFFF);
-			material.side = THREE.BackSide;
-			gasSphere = new THREE.Mesh(new THREE.SphereGeometry(70, 60, 40), material);
-			var tsph = new THREE.Mesh(new THREE.SphereGeometry(90, 60, 40), material2);
+			//material.color = new THREE.Color(0xFFFFFF);
+			//material.side = THREE.BackSide;
+			gasSphere = new THREE.Mesh(new THREE.SphereGeometry(70, 30, 20), material2);
+			//var tsph = new THREE.Mesh(new THREE.SphereGeometry(90, 60, 40), material2);
 			scene3.add(gasSphere);
-			scene3.add(tsph);
+			//scene3.add(tsph);
+			
 		}
 
 		function init() {
