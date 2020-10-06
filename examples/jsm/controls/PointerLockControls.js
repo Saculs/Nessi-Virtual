@@ -52,8 +52,8 @@ var PointerLockControls = function (camera, domElement) {
 
 		tsClientX = e.touches[0].clientX;
 		tsClientY = e.touches[0].clientY;
-		console.log(tsClientX, tsClientY);
-		console.log("device/2", ww, h);
+		//console.log(tsClientX, tsClientY);
+		//console.log("device/2", ww, h);
 		//euler.setFromQuaternion( camera.quaternion );
 		//lastxpos = euler.x;
 		//lastypos = euler.y;
