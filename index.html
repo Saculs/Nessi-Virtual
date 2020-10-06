@@ -657,8 +657,10 @@
 			});
 			*/
 			var audio = document.getElementById('music');
+			//audio.pause();
+			//$("#music").html('<source src="Sound/' + txt + '.ogg" type="audio/ogg"><source src="Sound/' + txt + '.mp3" type="audio/mpeg">');
+			audio.src = 'Sound/' + txt + '.mp3';
 			audio.play();
-
 		}
 
 		function switchScenes() {
