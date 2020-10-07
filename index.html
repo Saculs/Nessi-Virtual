@@ -212,15 +212,14 @@
 			<div id="myProgress">
 				<div id="myBar"></div>
 			</div>
-
-			<br /><br />
+			<br>
 			Move: ARROWS / WASD<br />
 			Look: MOUSE</br>
 			Interact: CLICK
-		</br></br>
-	</br></br>
-		Works Best On NEW DEVICES </br> with Chrome Browser
-	</br>for a simpler version: CLICK HERE
+			</br></br>
+			</br></br>
+			Works Best On NEW DEVICES </br> with Chrome Browser
+			</br>for a simpler version(weak/old device): CLICK HERE
 		</div>
 
 	</div>
@@ -234,7 +233,7 @@
 
 	<script type="module">
 
-		//(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+		(function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 
 		import * as THREE from './build/three.module.js';
 
@@ -585,7 +584,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html('loading<br>' + prc + '%');
+			$("#loadText").html('loading<br>' + prc + '%<br>');
 			$('html,body').css('cursor', 'default');
 			/*
 			if (prc == 100) loading.style.display = 'none';
@@ -711,38 +710,43 @@
 			//scene1.add(controls.getObject());
 			scene1loaded = true;
 
-			var amblight = new THREE.AmbientLight(0xFFFFFf, 0.1);
-			scene1.add(amblight);
-
-			var light = new THREE.HemisphereLight(0xeeeeff, 0.3, 0.75);
-			light.position.set(0.5, 1, 0.75);
-			//scene1.add(light);
-
-			var ufolight = new THREE.PointLight(0xeeeeff, 40, 50);
-			ufolight.position.set(-80, 55, -100);
-			scene1.add(ufolight);
-			var ufolight2 = new THREE.PointLight(0xeeeeff, 40, 50);
-			ufolight2.position.set(30, 70, -120);
-			scene1.add(ufolight2);
-
-			var light2 = new THREE.PointLight(0xf9c59d, 2, 80);
-			light2.position.set(10, 30, 30);
-			scene1.add(light2);
-
-
-			var light4 = new THREE.PointLight(0xd31313, 5, 26);
-			light4.position.set(-50, 4, -8);
-			scene1.add(light4);
-
-			var light5 = new THREE.PointLight(0xd31313, 5, 26);
-			light5.position.set(10, 4, 66);
-			scene1.add(light5);
-
 			var floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000, 100, 100);
 			floorGeometry.rotateX(- Math.PI / 2);
 			var floorMaterial = new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, color: 0x000000 });
 			var floor = new THREE.Mesh(floorGeometry, floorMaterial);
 			scene1.add(floor);
+
+			var amblight = new THREE.AmbientLight(0xFFFFFf, 0.1);
+			scene1.add(amblight);
+
+			//var light = new THREE.HemisphereLight(0xeeeeff, 0.3, 0.75);
+			//light.position.set(0.5, 1, 0.75);
+			//scene1.add(light);
+			
+						var ufolight = new THREE.PointLight(0xeeeeff, 40, 50);
+						ufolight.position.set(-80, 55, -100);
+						scene1.add(ufolight);
+						var ufolight2 = new THREE.PointLight(0xeeeeff, 40, 50);
+						ufolight2.position.set(30, 70, -120);
+						scene1.add(ufolight2);
+			
+			var light2 = new THREE.PointLight(0xf9c59d, 2, 80);
+			light2.position.set(10, 25, 30);
+			scene1.add(light2);
+
+
+			var light4 = new THREE.PointLight(0xd31313, 5, 26);
+			light4.position.set(-50, 6, -8);
+			scene1.add(light4);
+
+			var light5 = new THREE.PointLight(0xd31313, 5, 26);
+			light5.position.set(10, 6, 66);
+			scene1.add(light5);
+
+			var light6 = new THREE.PointLight(0xd31313, 5, 26);
+			light6.position.set(-30, 6, 20);
+			scene1.add(light6);
+
 
 			var light3 = new THREE.PointLight(0xd31313, 5, 26);
 			light3.position.set(0, 15, -30);
@@ -750,13 +754,29 @@
 
 
 
-			var runnerTexture = new THREE.TextureLoader().load('textures/FireTest.jpg');
-			fireAnim = new TextureAnimator(runnerTexture, 8, 5, 40, 75); // texture, #horiz, #vert, #total, duration.
-			var runnerMaterial = new THREE.MeshBasicMaterial({ map: runnerTexture, side: THREE.DoubleSide });
-			var runnerGeometry = new THREE.PlaneGeometry(20, 20, 1, 1);
+			var runnerTexture = new THREE.TextureLoader().load('textures/Flame03.png');
+			fireAnim = new TextureAnimator(runnerTexture, 16, 4, 64, 60); // texture, #horiz, #vert, #total, duration.
+			var runnerMaterial = new THREE.MeshBasicMaterial({ map: runnerTexture, side: THREE.DoubleSide,  transparent:true });
+			var runnerGeometry = new THREE.PlaneGeometry(25, 25, 1, 1);
 			var runner = new THREE.Mesh(runnerGeometry, runnerMaterial);
-			runner.position.set(-10, 16, -40);
-			//scene1.add(runner);
+			var runner1 = new THREE.Mesh(runnerGeometry, runnerMaterial);
+			var runner2 = new THREE.Mesh(runnerGeometry, runnerMaterial);
+			var runner3 = new THREE.Mesh(runnerGeometry, runnerMaterial);
+			var runner4 = new THREE.Mesh(runnerGeometry, runnerMaterial);
+			runner.position.set(0, 10, -40);
+			runner.rotation.y = getRadian(-45);
+			runner1.position.set(-30, 10, -40);
+			runner2.position.set(-60, 10, 30);
+			runner2.rotation.y = getRadian(90);
+			runner3.position.set(60, 10, 20);
+			runner3.rotation.y = getRadian(90);
+			runner4.position.set(20, 10, 70);
+			scene1.add(runner);
+			scene1.add(runner1);
+			scene1.add(runner2);
+			scene1.add(runner3);
+			scene1.add(runner4);
+			
 
 
 			var somaloader = new GLTFLoader(manager);
@@ -789,67 +809,66 @@
 					updateLoadBar(prc);
 				}
 			);
-
-			var bildloader = new GLTFLoader(manager);
-			bildloader.load("models/All Bilds retopoGLTF.glb", function (gltf) {
-				var bild = gltf.scene;
-
-				bild.scale.set(0.17, 0.17, 0.17);
-				bild.position.set(0, 5, 0);
-
-
-				bild.rotation.y = getRadian(-90);
-
-				bild.visible = true;
-
-				bild.traverse(function (o) {
-					if (o.isMesh) {
-						//console.log(o.name);
-						var map = o.material.map;
-						var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
-						o.material = huMat;
-						o.rotation.z = getRadian(-90);
-						switch (o.name) {
-							case "Bild_5_Retopo":
-								o.position.set(-80, 5, 250);
-								o.rotation.x = getRadian(45);
-								break;
-							case "Bild_2_Retopo":
-								o.position.set(-120, 5, -60);
-								o.rotation.x = getRadian(90);
-								o.rotation.z = getRadian(-30);
-								break;
-							case "Bild1_Retopo":
-								o.position.set(380, 30, -30);
-								o.rotation.z = getRadian(90);
-								break;
-							case "Bild_3_Retopo":
-								o.position.set(110, 3, 200);
-								o.rotation.x = getRadian(-20);
-								o.rotation.z = getRadian(0);
-								break;
-							case "Bild_4_retopo_Back":
-								o.position.set(110, 6.2, -200);
-								o.rotation.z = getRadian(-10);
-								o.rotation.x = getRadian(10);
-								break;
-						}
-					}
-				});
-				scene1.add(bild);
-				//loaded();
-			},
-				// called while loading is progressing
-				function (xhr) {
-					console.log('bild ' + (xhr.loaded) + '% loaded');
-					var prc = Math.floor(xhr.loaded / 18102840 * 100);
-
-				}
-			);
-
-
+			
+						var bildloader = new GLTFLoader(manager);
+						bildloader.load("models/All Bilds retopoGLTF.glb", function (gltf) {
+							var bild = gltf.scene;
+			
+							bild.scale.set(0.17, 0.17, 0.17);
+							bild.position.set(0, 5, 0);
+			
+			
+							bild.rotation.y = getRadian(-90);
+			
+							bild.visible = true;
+			
+							bild.traverse(function (o) {
+								if (o.isMesh) {
+									//console.log(o.name);
+									var map = o.material.map;
+									var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
+									o.material = huMat;
+									o.rotation.z = getRadian(-90);
+									switch (o.name) {
+										case "Bild_5_Retopo":
+											o.position.set(-80, 5, 250);
+											o.rotation.x = getRadian(45);
+											break;
+										case "Bild_2_Retopo":
+											o.position.set(-120, 5, -60);
+											o.rotation.x = getRadian(90);
+											o.rotation.z = getRadian(-30);
+											break;
+										case "Bild1_Retopo":
+											o.position.set(380, 30, -30);
+											o.rotation.z = getRadian(90);
+											break;
+										case "Bild_3_Retopo":
+											o.position.set(110, 3, 200);
+											o.rotation.x = getRadian(-20);
+											o.rotation.z = getRadian(0);
+											break;
+										case "Bild_4_retopo_Back":
+											o.position.set(110, 6.2, -200);
+											o.rotation.z = getRadian(-10);
+											o.rotation.x = getRadian(10);
+											break;
+									}
+								}
+							});
+							scene1.add(bild);
+							//loaded();
+						},
+							// called while loading is progressing
+							function (xhr) {
+								console.log('bild ' + (xhr.loaded) + '% loaded');
+								var prc = Math.floor(xhr.loaded / 18102840 * 100);
+			
+							}
+						);
+			
 			var Debrisloader = new GLTFLoader(manager);
-			Debrisloader.load("models/DebrisSolo2.glb", function (gltf) {
+			Debrisloader.load("models/DebrisSoloN5.glb", function (gltf) {
 				var Debris = gltf.scene;
 
 				Debris.scale.set(20, 20, 20);
@@ -893,7 +912,7 @@
 
 				door.scale.set(5, 5, 5);
 
-				door.position.set(20, 0, -10);
+				door.position.set(30, 0, -20);
 				door.rotation.y = getRadian(45);
 
 				door.visible = true;
@@ -1153,19 +1172,19 @@
 					}
 				});
 				scene2.add(ufo);
-/*
-				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
-				var spriteMaterial = new THREE.SpriteMaterial(
-					{
-						map: spriteMap, useScreenCoordinates: false,
-						color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
-
-					});
-				var sprite = new THREE.Sprite(spriteMaterial);
-				sprite.scale.set(2.2, 2.2, 1.0);
-				sprite.position.set(0, 0.2, 0);
-				ufo.add(sprite);
-*/
+				/*
+								var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
+								var spriteMaterial = new THREE.SpriteMaterial(
+									{
+										map: spriteMap, useScreenCoordinates: false,
+										color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
+				
+									});
+								var sprite = new THREE.Sprite(spriteMaterial);
+								sprite.scale.set(2.2, 2.2, 1.0);
+								sprite.position.set(0, 0.2, 0);
+								ufo.add(sprite);
+				*/
 				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
 				light.position.set(-80, 60, -160)
 				scene2.add(light);
@@ -1212,7 +1231,7 @@
 			light2.position.set(0.5, 15, 4);
 			//light2.castShadow = true;
 			scene3.add(light2);
-			
+
 
 
 			var moonloader = new GLTFLoader(manager);
@@ -1238,7 +1257,7 @@
 				});
 				scene3.add(moon);
 
-				loaded();
+				//loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1277,7 +1296,7 @@
 					}
 				});
 				scene3.add(door);
-				
+
 			},
 				// called while loading is progressing
 				function (xhr) {
@@ -1303,9 +1322,9 @@
 			scene3.add(cube2);
 			scene3.add(cube3);
 
-/*
+
 			var Statueloader = new GLTFLoader(manager);
-			Statueloader.load("models/StatuesAnim3.glb", function (gltf) {
+			Statueloader.load("models/Statue3_retopo_merged.glb", function (gltf) {
 				var Statue = gltf.scene;
 
 				Statue.scale.set(8, 8, 8);
@@ -1328,9 +1347,9 @@
 					}
 				});
 
-				mixer = new THREE.AnimationMixer(gltf.scene);
-				mixer.clipAction(gltf.animations[0]).play();
-				mixer.timeScale = 1.3;
+				//mixer = new THREE.AnimationMixer(gltf.scene);
+				//mixer.clipAction(gltf.animations[0]).play();
+				//mixer.timeScale = 1.3;
 
 				scene3.add(Statue);
 
@@ -1344,7 +1363,7 @@
 			);
 
 			var Statue2loader = new GLTFLoader(manager);
-			Statue2loader.load("models/StatuesAnim2.glb", function (gltf) {
+			Statue2loader.load("models/Statue2_retopo_merged.glb", function (gltf) {
 				var Statue2 = gltf.scene;
 
 				Statue2.scale.set(8, 8, 8);
@@ -1363,9 +1382,9 @@
 					}
 				});
 
-				mixer2 = new THREE.AnimationMixer(gltf.scene);
-				mixer2.clipAction(gltf.animations[0]).play();
-				mixer2.timeScale = 1.3;
+				//mixer2 = new THREE.AnimationMixer(gltf.scene);
+				//mixer2.clipAction(gltf.animations[0]).play();
+				//mixer2.timeScale = 1.3;
 
 				scene3.add(Statue2);
 
@@ -1379,7 +1398,7 @@
 			);
 
 			var Statue3loader = new GLTFLoader(manager);
-			Statue3loader.load("models/StatuesAnim1.glb", function (gltf) {
+			Statue3loader.load("models/Statue1_retopo_merged.glb", function (gltf) {
 				var Statue3 = gltf.scene;
 
 				Statue3.scale.set(8, 8, 8);
@@ -1398,9 +1417,9 @@
 					}
 				});
 
-				mixer3 = new THREE.AnimationMixer(gltf.scene);
-				mixer3.clipAction(gltf.animations[0]).play();
-				mixer3.timeScale = 1.3;
+				//mixer3 = new THREE.AnimationMixer(gltf.scene);
+				//mixer3.clipAction(gltf.animations[0]).play();
+				//mixer3.timeScale = 1.3;
 
 				scene3.add(Statue3);
 				loaded();
@@ -1413,7 +1432,7 @@
 				}
 			);
 
-*/
+			/* */
 			/*
 			
 			var uniforms = {  
@@ -1438,7 +1457,7 @@
 			//var tsph = new THREE.Mesh(new THREE.SphereGeometry(90, 60, 40), material2);
 			scene3.add(gasSphere);
 			//scene3.add(tsph);
-			
+
 		}
 
 		function init() {
@@ -1488,7 +1507,7 @@
 			//party
 			var particleMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/Pill.png'), color: 0xffffff });
 
-			for (var i = 0; i < 80; i++) {
+			for (var i = 0; i < 60; i++) {
 
 				particle = new Particle3D(particleMat.clone());
 				particle.position.x = Math.random() * -60 - 30;
@@ -1502,7 +1521,7 @@
 				particles.push(particle);
 			}
 			var particleSMat = new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('textures/SomaIcov1.png'), color: 0xffffff });
-			for (var i = 0; i < 80; i++) {
+			for (var i = 0; i < 60; i++) {
 
 				particleS = new Particle3D(particleSMat.clone());
 				particle.position.x = Math.random() * -60 - 30;
@@ -1539,10 +1558,11 @@
 
 
 				console.log(txt);
+				fadeInstr();
 				controls.unlock();
 
 				setTimeout(function () { goToScene(txt) }, 1000);
-				fadeInstr();
+
 				transition = true;
 
 				//controls.unlock();					
@@ -1704,16 +1724,16 @@
 			initScene2();
 			scene2.add(controls.getObject());
 
-			var fireTex = new THREE.TextureLoader().load("./Fire.png");
-			fire = new Fire(fireTex);
-			fire.scale.set(25, 25, 25);
-			fire.position.set(0, 10, -30);
-			scene1.add(fire);
+			//var fireTex = new THREE.TextureLoader().load("./Fire.png");
+			//fire = new Fire(fireTex);
+			//fire.scale.set(25, 25, 25);
+			///fire.position.set(0, 10, -30);
+			//scene1.add(fire);
 
-			fire2 = new Fire(fireTex);
-			fire2.scale.set(25, 25, 25);
-			fire2.position.set(-40, 10, -30);
-			scene1.add(fire2);
+			//fire2 = new Fire(fireTex);
+			//fire2.scale.set(25, 25, 25);
+			//fire2.position.set(-40, 10, -30);
+			//scene1.add(fire2);
 
 			//fire3 = new Fire(fireTex);
 			//fire3.scale.set(40, 40, 40);
@@ -1730,8 +1750,8 @@
 			//fire5.position.set(70, 20, 100);
 			//scene1.add(fire5);
 
-			fire.name = "Fire";
-			fire2.name = "Fire";
+			//fire.name = "Fire";
+			//fire2.name = "Fire";
 			//fire3.name = "Fire";
 			//fire4.name = "Fire";
 			//fire5.name = "Fire";
@@ -1778,12 +1798,12 @@
 				position.y = Math.random() * 260 - 130;
 				position.z = Math.random() * 260 - 130;
 
-				//rotation.x = Math.random() * 2 * Math.PI;
-				//rotation.y = Math.random() * 2 * Math.PI;
-				rotation.z = Math.random() * 2 * Math.PI;
-				rotation.y = getRadian(90);
+				//rotation.x = getRadian(90);
+				rotation.x = Math.random() * 2 * Math.PI;
+				rotation.z = getRadian(-90);
+				//rotation.y = getRadian(90);
 				if (isAppleDevice == false) {
-					rotation.y = getRadian(90);
+					//rotation.y = getRadian(0);
 					//console.log(rotation);
 				} /*else if (isAppleDevice) {
 					rotation.x = 0;
@@ -1801,7 +1821,7 @@
 
 				quaternion.setFromEuler(rotation);
 				var max = 0.5;
-				var min = 0.1;
+				var min = 0.3;
 				scale.x = scale.y = scale.z = Math.random() * (max - min) + min;
 
 
@@ -1892,7 +1912,7 @@
 
 
 		function makeInstanced(geometry, material) {
-			var count = 360;
+			var count = 180;
 			var matrix = new THREE.Matrix4();
 			var mesh = new THREE.InstancedMesh(geometry, material, count);
 
@@ -2192,8 +2212,9 @@
 				case "FirePlanet":
 					//goToScene("Fire");
 					fadeInstr('black');
-					setTimeout(function () { goToScene("Fire") }, 1000);
 					controls.unlock();
+					setTimeout(function () { goToScene("Fire") }, 1000);
+
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
 					//blocker.style.display = 'block';
@@ -2202,11 +2223,12 @@
 					break;
 				case "Ship":
 					fadeInstr('pink');
+					controls.unlock();
 					setTimeout(function () { goToScene("UFO") }, 1000);
 					//blocker.style.backgroundColor = rgba(1,1,1,1);
 					//goToScene("UFO");
 
-					controls.unlock();
+
 
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
@@ -2216,8 +2238,9 @@
 					break;
 				case "Emmisive":
 					fadeInstr('pink');
-					setTimeout(function () { goToScene("UFO") }, 1000);
 					controls.unlock();
+					setTimeout(function () { goToScene("UFO") }, 1000);
+
 
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
@@ -2227,8 +2250,9 @@
 					break;
 				case "Moon":
 					fadeInstr('green');
-					setTimeout(function () { goToScene("AtomGas") }, 1000);
 					controls.unlock();
+					setTimeout(function () { goToScene("AtomGas") }, 1000);
+
 
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
@@ -2238,6 +2262,7 @@
 					break;
 				case 'Invisible':
 				case "Plane002":
+					controls.unlock();
 					fadeInstr("green");
 					if (index == 1) {
 						setTimeout(function () { goToScene("AtomGas") }, 1000);
@@ -2251,7 +2276,7 @@
 					}
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
-					controls.unlock();
+
 					transition = true;
 					break;
 			}
