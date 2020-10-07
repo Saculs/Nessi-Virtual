@@ -42,6 +42,12 @@
 
 		}
 
+		#simple {
+			position: fixed;
+			bottom: 0;
+			margin-bottom: 10px;
+		}
+
 		#myBar {
 			width: 1%;
 			height: 0px;
@@ -160,16 +166,16 @@
 		}
 
 		#forward {
-			display: none;
+
 			position: fixed;
-			z-index: 8;
-			left: 47%;
+			z-index: 80;
+			left: 20%;
 			margin-bottom: 10px;
 			cursor: pointer;
 			bottom: 40px;
-			width: 6%;
-			height: 20px;
-			background-image: url("textures/forward.png");
+			width: 232px;
+			height: 137px;
+			background-image: url("textures/Arrows.png");
 			background-size: 100% 100%;
 
 			-webkit-user-select: none;
@@ -218,8 +224,10 @@
 			Interact: CLICK
 			</br></br>
 			</br></br>
-			Works Best On NEW DEVICES </br> with Chrome Browser
-			</br>for a simpler version(weak/old device): CLICK HERE
+			<div id="simple">
+				Works Best On NEW DEVICES </br> with Chrome Browser
+				</br>for a simpler version(weak/old device): CLICK HERE
+			</div>
 		</div>
 
 	</div>
@@ -722,14 +730,14 @@
 			//var light = new THREE.HemisphereLight(0xeeeeff, 0.3, 0.75);
 			//light.position.set(0.5, 1, 0.75);
 			//scene1.add(light);
-			
-						var ufolight = new THREE.PointLight(0xeeeeff, 40, 50);
-						ufolight.position.set(-80, 55, -100);
-						scene1.add(ufolight);
-						var ufolight2 = new THREE.PointLight(0xeeeeff, 40, 50);
-						ufolight2.position.set(30, 70, -120);
-						scene1.add(ufolight2);
-			
+
+			var ufolight = new THREE.PointLight(0xeeeeff, 40, 50);
+			ufolight.position.set(-80, 55, -100);
+			scene1.add(ufolight);
+			var ufolight2 = new THREE.PointLight(0xeeeeff, 40, 50);
+			ufolight2.position.set(30, 70, -120);
+			scene1.add(ufolight2);
+
 			var light2 = new THREE.PointLight(0xf9c59d, 2, 80);
 			light2.position.set(10, 25, 30);
 			scene1.add(light2);
@@ -756,7 +764,7 @@
 
 			var runnerTexture = new THREE.TextureLoader().load('textures/Flame03.png');
 			fireAnim = new TextureAnimator(runnerTexture, 16, 4, 64, 60); // texture, #horiz, #vert, #total, duration.
-			var runnerMaterial = new THREE.MeshBasicMaterial({ map: runnerTexture, side: THREE.DoubleSide,  transparent:true });
+			var runnerMaterial = new THREE.MeshBasicMaterial({ map: runnerTexture, side: THREE.DoubleSide, transparent: true });
 			var runnerGeometry = new THREE.PlaneGeometry(25, 25, 1, 1);
 			var runner = new THREE.Mesh(runnerGeometry, runnerMaterial);
 			var runner1 = new THREE.Mesh(runnerGeometry, runnerMaterial);
@@ -776,7 +784,7 @@
 			scene1.add(runner2);
 			scene1.add(runner3);
 			scene1.add(runner4);
-			
+
 
 
 			var somaloader = new GLTFLoader(manager);
@@ -809,64 +817,64 @@
 					updateLoadBar(prc);
 				}
 			);
-			
-						var bildloader = new GLTFLoader(manager);
-						bildloader.load("models/All Bilds retopoGLTF.glb", function (gltf) {
-							var bild = gltf.scene;
-			
-							bild.scale.set(0.17, 0.17, 0.17);
-							bild.position.set(0, 5, 0);
-			
-			
-							bild.rotation.y = getRadian(-90);
-			
-							bild.visible = true;
-			
-							bild.traverse(function (o) {
-								if (o.isMesh) {
-									//console.log(o.name);
-									var map = o.material.map;
-									var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
-									o.material = huMat;
-									o.rotation.z = getRadian(-90);
-									switch (o.name) {
-										case "Bild_5_Retopo":
-											o.position.set(-80, 5, 250);
-											o.rotation.x = getRadian(45);
-											break;
-										case "Bild_2_Retopo":
-											o.position.set(-120, 5, -60);
-											o.rotation.x = getRadian(90);
-											o.rotation.z = getRadian(-30);
-											break;
-										case "Bild1_Retopo":
-											o.position.set(380, 30, -30);
-											o.rotation.z = getRadian(90);
-											break;
-										case "Bild_3_Retopo":
-											o.position.set(110, 3, 200);
-											o.rotation.x = getRadian(-20);
-											o.rotation.z = getRadian(0);
-											break;
-										case "Bild_4_retopo_Back":
-											o.position.set(110, 6.2, -200);
-											o.rotation.z = getRadian(-10);
-											o.rotation.x = getRadian(10);
-											break;
-									}
-								}
-							});
-							scene1.add(bild);
-							//loaded();
-						},
-							// called while loading is progressing
-							function (xhr) {
-								console.log('bild ' + (xhr.loaded) + '% loaded');
-								var prc = Math.floor(xhr.loaded / 18102840 * 100);
-			
-							}
-						);
-			
+
+			var bildloader = new GLTFLoader(manager);
+			bildloader.load("models/All Bilds retopoGLTF.glb", function (gltf) {
+				var bild = gltf.scene;
+
+				bild.scale.set(0.17, 0.17, 0.17);
+				bild.position.set(0, 5, 0);
+
+
+				bild.rotation.y = getRadian(-90);
+
+				bild.visible = true;
+
+				bild.traverse(function (o) {
+					if (o.isMesh) {
+						//console.log(o.name);
+						var map = o.material.map;
+						var huMat = new THREE.MeshPhongMaterial({ map: map, transparent: true, opacity: 1, side: THREE.DoubleSide });
+						o.material = huMat;
+						o.rotation.z = getRadian(-90);
+						switch (o.name) {
+							case "Bild_5_Retopo":
+								o.position.set(-80, 5, 250);
+								o.rotation.x = getRadian(45);
+								break;
+							case "Bild_2_Retopo":
+								o.position.set(-120, 5, -60);
+								o.rotation.x = getRadian(90);
+								o.rotation.z = getRadian(-30);
+								break;
+							case "Bild1_Retopo":
+								o.position.set(380, 30, -30);
+								o.rotation.z = getRadian(90);
+								break;
+							case "Bild_3_Retopo":
+								o.position.set(110, 3, 200);
+								o.rotation.x = getRadian(-20);
+								o.rotation.z = getRadian(0);
+								break;
+							case "Bild_4_retopo_Back":
+								o.position.set(110, 6.2, -200);
+								o.rotation.z = getRadian(-10);
+								o.rotation.x = getRadian(10);
+								break;
+						}
+					}
+				});
+				scene1.add(bild);
+				//loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('bild ' + (xhr.loaded) + '% loaded');
+					var prc = Math.floor(xhr.loaded / 18102840 * 100);
+
+				}
+			);
+
 			var Debrisloader = new GLTFLoader(manager);
 			Debrisloader.load("models/DebrisSoloN5.glb", function (gltf) {
 				var Debris = gltf.scene;
@@ -1536,14 +1544,18 @@
 			}
 
 			forward.addEventListener('touchstart', function (e) {
-
+				e.preventDefault();
+				e.returnValue = false;
+canClick = false;
 				moveForward = true;
-				console.log("TOUCHENDD");
+				console.log("TOUCHStart" + moveForward);
 				//return;
 
 			}, false);
 			forward.addEventListener('touchend', function (e) {
-
+				e.preventDefault();
+				e.returnValue = false;
+canClick = false;
 				moveForward = false;
 				console.log("TOUCHENDD");
 				//return;
@@ -1587,7 +1599,7 @@
 			//body
 			document.addEventListener('touchstart', function (e) {
 				e.preventDefault();
-				e.returnValue = false;
+				//e.returnValue = false;
 				console.log("touchStart");
 
 				onDocumentMouseDown(e);
@@ -2197,14 +2209,9 @@
 
 
 		function clicker(o) {
-			console.log(o.name);
-			moveForward = false;
+			//console.log(o.name);
 
-			moveLeft = false;
-
-			moveBackward = false;
-
-			moveRight = false;
+			
 			velocity.z = 0;
 			velocity.x = 0;
 			$("#loadText").html('  LOADING<div id="clickToEnter" > </div>');
