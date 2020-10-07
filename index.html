@@ -222,9 +222,9 @@
 			<br><br><br>
 			<br>
 			<br>
-			<img src='textures/TutorialO.jpg' style="width: 180px; height: 90px;"/>
+			<img src='textures/TutorialO.jpg' style="width: 180px; height: 90px;" />
 			<br>
-			
+
 			</br></br>
 			</br></br>
 			<div id="simple">
@@ -1507,7 +1507,12 @@
 
 			var blocker = document.getElementById('blocker');
 			var instructions = document.getElementById('instructions');
-			var forward = document.getElementById('forward');
+
+			var up = document.getElementById('up');
+			var down = document.getElementById('down');
+			var left = document.getElementById('left');
+			var right = document.getElementById('right');
+
 			crossHair = document.getElementById('crossHair');
 			/*
 			var footer = document.getElementById( 'footer' );
@@ -1546,24 +1551,59 @@
 				particlesS.push(particleS);
 			}
 
-			forward.addEventListener('touchstart', function (e) {
-				e.preventDefault();
-				e.returnValue = false;
-canClick = false;
+			up.addEventListener('touchstart', function (e) {
+				canClick = false;
 				moveForward = true;
-				console.log("TOUCHStart" + moveForward);
-				//return;
-
+				moveBackward = false;
+				moveLeft = false;
+				moveRight = false;
 			}, false);
-			forward.addEventListener('touchend', function (e) {
-				e.preventDefault();
-				e.returnValue = false;
-canClick = false;
+			up.addEventListener('touchend', function (e) {
+				canClick = false;
 				moveForward = false;
-				console.log("TOUCHENDD");
-				//return;
 
 			}, false);
+			down.addEventListener('touchstart', function (e) {
+				canClick = false;
+				moveForward = false;
+				moveBackward = true;
+				moveLeft = false;
+				moveRight = false;
+			}, false);
+			down.addEventListener('touchend', function (e) {
+				canClick = false;
+				moveBackward = false;
+
+			}, false);
+			left.addEventListener('touchstart', function (e) {
+				canClick = false;
+				moveForward = false;
+				moveBackward = false;
+				moveLeft = true;
+				moveRight = false;
+			}, false);
+			left.addEventListener('touchend', function (e) {
+				canClick = false;
+				moveLeft = false;
+
+			}, false);
+			right.addEventListener('touchstart', function (e) {
+				canClick = false;
+				moveForward = false;
+				moveBackward = false;
+				moveLeft = false;
+				moveRight = true;
+			}, false);
+			right.addEventListener('touchend', function (e) {
+				canClick = false;
+				moveRight = false;
+
+			}, false);
+
+
+
+
+
 
 			$('#footer a').click(function (e) {
 				e.returnValue = false;
@@ -2214,7 +2254,7 @@ canClick = false;
 		function clicker(o) {
 			//console.log(o.name);
 
-			
+
 			velocity.z = 0;
 			velocity.x = 0;
 			$("#loadText").html('  LOADING<div id="clickToEnter" > </div>');
@@ -2607,6 +2647,14 @@ canClick = false;
 	</div>
 
 	<div id="forward">
+		<div style="width: 33.33%; height: 50%; float: left;"></div>
+		<div id='up' style="width: 33.33%; height: 50%; float: left; "></div>
+		<div style="width: 33.33%; height: 50%; float: right;"></div>
+
+		<div id='left' style="width: 33.33%; height: 50%; float: left;"></div>
+		<div id='down' style="width: 33.33%; height: 50%; float: left; "></div>
+		<div id='right' style="width: 33.33%; height: 50%; float: right;"></div>
+
 	</div>
 
 </body>
