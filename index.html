@@ -262,6 +262,9 @@
 		} from "./build/three.module.js";
 
 		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		if (isMobile == false) {
+			$("#forward").css("height", "0px");
+		}
 		var isAppleDevice = navigator.userAgent.includes('Macintosh');
 		var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 		console.log("isAPPLE DEVICE = " + isAppleDevice, 'isChrome ' + isChrome, 'isMobile  ' + isMobile);
