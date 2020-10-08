@@ -73,7 +73,7 @@
 		}
 
 		#loadText {
-			font-size: 45px;
+			font-size: 42px;
 			position: absolute;
 			line-height: 1.5;
 			top: 30%;
@@ -119,10 +119,11 @@
 		}
 
 		#clickToEnter {
-			font-size: 45px;
+			font-size: 42px;
 			cursor: pointer;
 			-webkit-animation: colorpulse 4s infinite alternate;
 			animation: colorpulse 4s infinite alternate;
+			line-height: 1;
 		}
 
 		@-webkit-keyframes colorpulse {
@@ -198,7 +199,7 @@
 			position: fixed;
 			font-size: 38px;
 			height: 50px;
-			top: 5%;
+			top: 8%;
 			margin-left: 2%;
 			opacity: 0;
 			transition: opacity 0.3s;
@@ -539,6 +540,7 @@
 				$('html,body').css('cursor', 'pointer');
 				controls.lock();
 				fadeInstr();
+				tripCamera({ x: 110, y: 0, z: 0 }, { x: 60, y: 0, z: 0 }, camera);
 				transition = false;
 				//instructions.style.display = 'none';
 				//blocker.style.display = 'none';
@@ -590,7 +592,7 @@
 					if (scene1loaded == false) {
 						updateLoadBar(0);
 						initScene1();
-					} else { loadScene1(); updateLoadBar(0);}
+					} else { loadScene1(); updateLoadBar(0); }
 					currentScene = scene1;
 					break;
 				case "UFO":
@@ -598,7 +600,7 @@
 					if (scene0loaded == false) {
 						initScene0();
 						updateLoadBar(0);
-					} else { loadScene0(); updateLoadBar(0);}
+					} else { loadScene0(); updateLoadBar(0); }
 					currentScene = scene;
 					break;
 				case "AtomGas":
@@ -606,7 +608,7 @@
 					if (scene3loaded == false) {
 						initScene3();
 						updateLoadBar(0);
-					} else{ loadScene3(); updateLoadBar(0);}
+					} else { loadScene3(); updateLoadBar(0); }
 					currentScene = scene3;
 					break;
 				default:
@@ -880,7 +882,7 @@
 			);
 		}
 
-		function loadScene1( ){
+		function loadScene1() {
 			resMgr = new ResourceTracker();
 			var track = resMgr.track.bind(resMgr);
 			var somaloader = new GLTFLoader(manager);
@@ -2009,6 +2011,23 @@
 			tween.start();
 		}
 
+		function tripCamera(vectorToAnimate, target, options) {
+			var speed = 4000;
+			// create the tween
+			var tween = new TWEEN.Tween(vectorToAnimate).to(target, speed)
+				.easing(TWEEN.Easing.Quintic.Out)
+				.onComplete(function () {
+				});
+			tween.onUpdate(function () {
+				//console.log(vectorToAnimate);
+				camera.fov = vectorToAnimate.x;
+				camera.updateProjectionMatrix();
+				console.log('ttttttt');
+			});
+			// start the tween
+			tween.start();
+		}
+
 
 		var hoverNowName, hoverNowObj;
 
@@ -2031,7 +2050,7 @@
 				var oName = intersects[0].object.name;
 				//console.log("hover" + oName);
 				if ((oName == "Fire" || oName == "ufoSuck") && intersects.length > 1) oName = intersects[1].object.name;
-				if (oName.includes("P_") &&oName != 'GagarinLP_1_-__0' && document.getElementById("size").className != "fade") {
+				if (oName.includes("P_") && oName != 'GagarinLP_1_-__0' && document.getElementById("size").className != "fade") {
 					hoverNowName = oName;
 					setSizetext(oName);
 					fadeSize();
@@ -2172,9 +2191,12 @@
 			switch (o.name) {
 				case "FirePlanet":
 					//goToScene("Fire");
+					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					fadeInstr('black');
 					controls.unlock();
-					setTimeout(function () { goToScene("Fire") }, 1000);
+					setTimeout(function () {
+						goToScene("Fire");
+					}, 1000);
 
 					canClick = false;
 					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
@@ -2183,6 +2205,7 @@
 					transition = true;
 					break;
 				case "Ship":
+					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					fadeInstr('pink');
 					controls.unlock();
 					setTimeout(function () { goToScene("UFO") }, 1000);
@@ -2198,6 +2221,7 @@
 					transition = true;
 					break;
 				case "Emmisive":
+					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					fadeInstr('pink');
 					controls.unlock();
 					setTimeout(function () { goToScene("UFO") }, 1000);
@@ -2210,6 +2234,7 @@
 					transition = true;
 					break;
 				case "Moon":
+					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					fadeInstr('green');
 					controls.unlock();
 					setTimeout(function () { goToScene("AtomGas") }, 1000);
@@ -2223,6 +2248,7 @@
 					break;
 				case 'Invisible':
 				case "Plane002":
+					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					controls.unlock();
 					fadeInstr("green");
 					if (index == 1) {
