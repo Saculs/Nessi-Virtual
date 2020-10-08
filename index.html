@@ -453,7 +453,7 @@
 			interMgr = new ResourceTracker();
 			const trackInter = interMgr.track.bind(interMgr);
 			var intloader = new GLTFLoader(manager);
-			intloader.load("models/interiorP.glb", function (gltf) {
+			intloader.load("models/interior8.glb", function (gltf) {
 				var int = trackInter(gltf.scene);
 
 				int.scale.set(12, 12, 12);
@@ -556,7 +556,7 @@
 			currentSceneLoaded = false;
 			console.log("go To Scene" + txt);
 			camera.position.z = 30;
-			camera.position.x = 0;
+			camera.position.x = 10;
 			var euler = new Euler(0, 0, 0, 'YXZ');
 			camera.quaternion.setFromEuler(euler);
 			switch (index) {
@@ -909,14 +909,14 @@
 					}
 				});
 				scene1.add(soma);
-				loaded();
+				//loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
 					console.log('soma ' + (xhr.loaded) + 'loaded');
 					var prc = Math.floor(xhr.loaded / 1413088 * 100);
 
-					updateLoadBar(prc);
+					//updateLoadBar(prc);
 				}
 			);
 
@@ -969,13 +969,13 @@
 					}
 				});
 				scene1.add(bild);
-				//loaded();
+				loaded();
 			},
 				// called while loading is progressing
 				function (xhr) {
 					console.log('bild ' + (xhr.loaded) + '% loaded');
 					var prc = Math.floor(xhr.loaded / 19777540 * 100);
-
+					updateLoadBar(prc);
 				}
 			);
 		}
