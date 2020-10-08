@@ -453,7 +453,7 @@
 			interMgr = new ResourceTracker();
 			const trackInter = interMgr.track.bind(interMgr);
 			var intloader = new GLTFLoader(manager);
-			intloader.load("models/interior8.glb", function (gltf) {
+			intloader.load("models/interiorPA.glb", function (gltf) {
 				var int = trackInter(gltf.scene);
 
 				int.scale.set(12, 12, 12);
