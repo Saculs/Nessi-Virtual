@@ -49,7 +49,7 @@
 			width: 100%;
 			font-family: customFont;
 			text-align: center;
-			font-size: 14px;
+			font-size: 18px;
 			margin-bottom: 10px;
 			line-height: 0.7;
 		}
@@ -556,7 +556,7 @@
 			currentSceneLoaded = false;
 			console.log("go To Scene" + txt);
 			camera.position.z = 30;
-			camera.position.x = 10;
+			camera.position.x = 5;
 			var euler = new Euler(0, 0, 0, 'YXZ');
 			camera.quaternion.setFromEuler(euler);
 			switch (index) {
@@ -1592,15 +1592,30 @@
 			
 						}, false);*/
 			//body
+			var shortClick = false;
+			var mousex, mousey;
 			document.addEventListener('touchstart', function (e) {
 				e.preventDefault();
 				//e.returnValue = false;
 				console.log("touchStart");
-
-				onDocumentMouseDown(e);
-
-
+				//onDocumentMouseDown(e);
+				shortClick = true;
+				setTimeout(function(e){
+					shortClick = false;
+				},400);
+				mousex = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+				mousey =  - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}, false);
+
+			document.addEventListener('touchend', function (e) {
+				e.preventDefault();
+				//e.returnValue = false;
+				console.log("touchStart");
+				if(shortClick == true) onDocumentMouseDown(e, mousex,mousey);
+				shortClick = false;
+			}, false);
+
+
 
 			if (isMobile == false) {
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -2100,7 +2115,7 @@
 		}
 
 
-		function onDocumentMouseDown(event) {
+		function onDocumentMouseDown(event, mousex, mousey) {
 			var e = event;
 			//if (e.stopPropagation) e.stopPropagation();
 			if (e.preventDefault) e.preventDefault();
@@ -2131,9 +2146,12 @@
 			if (isMobile == false) {
 				mouse.x = 0;
 				mouse.y = 0;
-			} else {
+			} else if(mousex == null && mousey == null){
 				mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
 				mouse.y = - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
+			} else {
+				mouse.x = mousex;
+				mouse.y = mousey
 			}
 
 
