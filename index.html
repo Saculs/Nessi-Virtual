@@ -196,13 +196,14 @@
 		}
 
 		#size {
+			width: 100%;
 			position: fixed;
 			font-size: 38px;
 			height: 50px;
-			top: 8%;
-			margin-left: 2%;
+			top: 40px;
 			opacity: 0;
 			transition: opacity 0.3s;
+			text-align: center;
 		}
 
 		#size.fade {
@@ -244,7 +245,7 @@
 		<source src="Sound/Space.mp3" type="audio/mpeg">
 	</audio>
 	<div id="size">
-		SIZE 100 X 300
+		100 X 300
 	</div>
 
 	<script type="module">
@@ -471,6 +472,12 @@
 							var huTex = new THREE.TextureLoader().load("textures/UFO.png");
 							var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
 							o.material = huMat;
+							/*
+							var p = o.clone();
+							p.position.set(0,2,30);
+							p.scale.set(40,40,40);
+							scene.add(p);
+							*/
 						}
 					}
 				});
@@ -1602,7 +1609,7 @@
 				shortClick = true;
 				setTimeout(function(e){
 					shortClick = false;
-				},400);
+				},600);
 				mousex = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
 				mousey =  - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}, false);
@@ -2197,10 +2204,10 @@
 				case 'P_7':
 				case 'P_4':
 				case 'P_6':
-					$("#size").html('SIZE 300 X 170');
+					$("#size").html('300 X 170');
 					break;
 				default:
-					$("#size").html('SIZE 270 X 180');
+					$("#size").html('270 X 180');
 					break;
 			}
 
@@ -2662,7 +2669,7 @@
 
 	<div id="footer">
 
-		<a>Space</a> <a>Fire</a> <a>UFO</a> <a>AtomGas</a>
+		 <a>Fire</a> <a>UFO</a> <a>AtomGas</a>
 
 	</div>
 
