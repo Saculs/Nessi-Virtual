@@ -122,12 +122,12 @@ body{
 #footer{
 	position: fixed;
 	  left: 0;
-	 bottom: 0;
+	 top: 0;
 	  width: 100%;
 	font-family: customFont;
 	text-align: center;
 	font-size: 17px;
-	margin-bottom: 10px;
+	margin-top: 10px;
 	cursor: pointer;
 
 display:none;
