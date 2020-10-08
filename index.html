@@ -1509,7 +1509,7 @@
 				moveRight = false;
 			}, false);
 			up.addEventListener('touchend', function (e) {
-				canClick = false;
+				canClick = true;
 				moveForward = false;
 
 			}, false);
@@ -1521,7 +1521,7 @@
 				moveRight = false;
 			}, false);
 			down.addEventListener('touchend', function (e) {
-				canClick = false;
+				canClick = true;
 				moveBackward = false;
 
 			}, false);
@@ -1533,7 +1533,7 @@
 				moveRight = false;
 			}, false);
 			left.addEventListener('touchend', function (e) {
-				canClick = false;
+				canClick = true;
 				moveLeft = false;
 
 			}, false);
@@ -1545,7 +1545,7 @@
 				moveRight = true;
 			}, false);
 			right.addEventListener('touchend', function (e) {
-				canClick = false;
+				canClick = true;
 				moveRight = false;
 
 			}, false);
@@ -2151,10 +2151,12 @@
 
 				}
 				if (intersects.length > 0) {
-					if (transition == false & tutorial == false/* && blocker.style.display == 'none'*/) clicker(o);
+					if (transition == false && tutorial == false && canClick == true/* && blocker.style.display == 'none'*/) {
+						clicker(o);
 					//lightbox_open();
 					//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
 					console.log("click");
+					}
 				}
 			}
 		}
