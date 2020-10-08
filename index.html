@@ -287,7 +287,7 @@
 		var fireAnim;
 		var listener, sound;
 
-		var rocksMgr, interMgr, bildsMgr, resMgr, stat1Mgr, stat2Mgr, stat3Mgr, moonMgr;
+		var rocksMgr, interMgr, bildsMgr, resMgr, stat1Mgr, stat2Mgr, stat3Mgr, moonMgr, babMgr;
 
 		//Party
 		var TO_RADIANS = Math.PI / 180;
@@ -404,13 +404,14 @@
 			//scene.add(cube);
 
 			var light = new THREE.PointLight(0xFFFFFF, 1, 200);
-			light.position.set(- 0, 35, 80);
+			light.position.set(10, 35, 30);
 			scene.add(light);
 		}
 
 		function initUfo() {
 
 			scene0loaded = true;
+
 			initEnv();
 
 			loadScene0();
@@ -425,8 +426,6 @@
 				door.rotation.y = getRadian(-30);
 
 				door.visible = true;
-
-
 
 				door.traverse(function (o) {
 					if (o.isMesh) {
@@ -447,42 +446,14 @@
 
 				}
 			);
-			/*
-		var babyloader = new GLTFLoader(manager);
-		babyloader.load("models/Puppe1R.glb", function (gltf) {
-			var baby = gltf.scene;
-			var z = 0;
-			baby.scale.set(7, 7, 7);
 
-			baby.position.set(- 0, 1, 30);
-			baby.rotation.y = getRadian(-90);
 
-			baby.visible = true;
-
-			baby.traverse(function (o) {
-				if (o.isMesh) {
-					console.log("babyerrior");
-					o.material.spaculer = 1;
-				}
-			});
-			scene.add(baby);
-			//loaded();
-		},
-			// called while loading is progressing
-			function (xhr) {
-				//var prc = Math.floor(xhr.loaded / 25107276 * 100);
-				console.log('babyerior ' + xhr + ' loaded');
-
-				//updateLoadBar(prc);
-			}
-		);
-		*/
 		}
 		function loadScene0() {
 			interMgr = new ResourceTracker();
 			const trackInter = interMgr.track.bind(interMgr);
 			var intloader = new GLTFLoader(manager);
-			intloader.load("models/interior8.glb", function (gltf) {
+			intloader.load("models/interiorP.glb", function (gltf) {
 				var int = trackInter(gltf.scene);
 
 				int.scale.set(12, 12, 12);
@@ -490,13 +461,12 @@
 				int.position.set(- 0, 0.50, 30);
 				int.rotation.y = getRadian(-90);
 
-				int.visible = true;
-				var floorMaterial = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color: 0x000000, roughness: 0, specular: 0 });
+				//var floorMaterial = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color: 0x000000, roughness: 0, specular: 0 });
 				int.traverse(function (o) {
 					if (o.isMesh) {
 						console.log("interrior");
 						if (o.name == 'Walls') {
-							o.material = floorMaterial;
+							//o.material = floorMaterial;
 						} else if (o.name == "PlaneTop") {
 							var huTex = new THREE.TextureLoader().load("textures/UFO.png");
 							var huMat = new THREE.MeshPhongMaterial({ map: huTex, transparent: true, opacity: 1, side: THREE.DoubleSide });
@@ -513,6 +483,37 @@
 					console.log('interior ' + xhr.loaded + ' loaded');
 
 					updateLoadBar(prc);
+				}
+			);
+
+			babMgr = new ResourceTracker();
+			const trackBab = babMgr.track.bind(babMgr);
+			var babyloader = new GLTFLoader(manager);
+			babyloader.load("models/Puppe1R.glb", function (gltf) {
+				var baby = trackBab(gltf.scene);
+				var z = 0;
+				baby.scale.set(7, 7, 7);
+
+				baby.position.set(- 0, 1, 30);
+				baby.rotation.y = getRadian(-90);
+
+				baby.visible = true;
+
+				baby.traverse(function (o) {
+					if (o.isMesh) {
+						console.log("babyerrior");
+						o.material.spaculer = 1;
+					}
+				});
+				scene.add(baby);
+				//loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					//var prc = Math.floor(xhr.loaded / 25107276 * 100);
+					console.log('babyerior ' + xhr + ' loaded');
+
+					//updateLoadBar(prc);
 				}
 			);
 		}
@@ -540,7 +541,7 @@
 				$('html,body').css('cursor', 'pointer');
 				controls.lock();
 				fadeInstr();
-				tripCamera({ x: 110, y: 0, z: 0 }, { x: 60, y: 0, z: 0 }, camera);
+				tripCamera({ x: 110, y: 0, z: 0 }, { x: 60, y: 0, z: 0 }, camera, false);
 				transition = false;
 				//instructions.style.display = 'none';
 				//blocker.style.display = 'none';
@@ -555,11 +556,13 @@
 			currentSceneLoaded = false;
 			console.log("go To Scene" + txt);
 			camera.position.z = 30;
+			camera.position.x = 0;
 			var euler = new Euler(0, 0, 0, 'YXZ');
 			camera.quaternion.setFromEuler(euler);
 			switch (index) {
 				case 0:
 					interMgr.dispose();
+					babMgr.dispose();
 					break;
 				case 1:
 					resMgr.dispose();
@@ -1084,7 +1087,7 @@
 
 				//setTimeout(function () { rocksMgr.dispose() }, 8000);
 				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
-				/*
+				
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap,
@@ -1092,10 +1095,10 @@
 
 					});
 				var sprite = new THREE.Sprite(spriteMaterial);
-				sprite.scale.set(126, 126, 1.0);
+				sprite.scale.set(128, 128, 1.0);
 				sprite.position.set(80, -30, -50);
 				rocks.add(sprite);
-*/
+
 				var spriteMaterial2 = new THREE.SpriteMaterial(
 					{
 						map: spriteMap,
@@ -2011,7 +2014,7 @@
 			tween.start();
 		}
 
-		function tripCamera(vectorToAnimate, target, options) {
+		function tripCamera(vectorToAnimate, target, options, freeMov) {
 			var speed = 4000;
 			// create the tween
 			var tween = new TWEEN.Tween(vectorToAnimate).to(target, speed)
@@ -2022,7 +2025,10 @@
 				//console.log(vectorToAnimate);
 				camera.fov = vectorToAnimate.x;
 				camera.updateProjectionMatrix();
-				console.log('ttttttt');
+				if (false) {
+					camera.position.z = 30;
+					camera.position.x = 0;
+				}
 			});
 			// start the tween
 			tween.start();
@@ -2447,8 +2453,8 @@
 				direction.x = Number(moveRight) - Number(moveLeft);
 				direction.normalize(); // this ensures consistent movements in all directions
 
-				if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
-				if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
+				if (moveForward || moveBackward) velocity.z -= direction.z * 200.0 * delta;
+				if (moveLeft || moveRight) velocity.x -= direction.x * 200.0 * delta;
 
 				//console.log(velocity);
 
