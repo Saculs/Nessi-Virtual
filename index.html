@@ -926,8 +926,8 @@
 
 				door.scale.set(5, 5, 5);
 
-				door.position.set(30, 0, -20);
-				door.rotation.y = getRadian(45);
+				door.position.set(-55, 0, -8);
+				door.rotation.y = getRadian(-45);
 
 				door.visible = true;
 
@@ -939,6 +939,7 @@
 						o.castShadow = true;
 						if (o.name == "Plane002") {
 							//o.rotation.y = getRadian(90);
+							o.scale.x = -0.001;
 						} else if (o.name == "Invisible") {
 							o.material = new THREE.MeshStandardMaterial({ color: 0x000000 });
 						}
@@ -2135,7 +2136,7 @@
 					if (!oName.includes("P_")) crossHair.style.display = 'block';
 					if ((oName == "Plane002") && getEuler(intersects[0].object.rotation.y) == 0) {
 						var vec = { x: 0, y: 0, z: 0 };
-						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? 60 : -70), z: 0 }, intersects[0].object);
+						rotateDoor(vec, { x: 0, y: getRadian(index == 1 ? -40 : -70), z: 0 }, intersects[0].object);
 
 						hoverNowName = oName;
 						hoverNowObj = intersects[0].object;
