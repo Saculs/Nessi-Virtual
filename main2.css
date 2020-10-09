@@ -44,6 +44,25 @@ canvas {
     /* TODO Solve this in HTML */
 }
 
+
+#td {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1;
+    font-family: customFont;
+    font-size: 20px;
+    /* TODO Solve this in HTML */
+}
+
 a, button, input, select {
     pointer-events: auto;
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Ballaballismus by Nessi Nezzila</title>
+    <title>360 Ballaballismus by Nessi Nezzila</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <link type="text/css" rel="stylesheet" href="main2.css">
@@ -10,7 +10,7 @@
     <meta name="description" content="Virtual and Augmented Reality production">
     <meta name="author" content="Not Real">
 
-    <meta property="og:title" content="Ballaballismus by Nessi Nezzila">
+    <meta property="og:title" content="360 Ballaballismus by Nessi Nezzila">
     <meta property="og:image" content="textures/meta.png">
     <meta property="og:description" content="Virtual Exhibition">
 
@@ -25,6 +25,9 @@
     <div id="container"></div>
     <div id="info">
         <a>Fire</a> <a>UFO</a> <a>GAS</a>
+    </div>
+    <div id="td">
+        <a href='http://nessi-nezilla.de/' style="color: white;">Nessi-Nezilla.de</a>
     </div>
     <audio loop id="music" preload="auto" style="display: none">
         <source src="Sound/Space.mp3" type="audio/mpeg">
@@ -87,6 +90,9 @@
                 playSound(txt == "GAS" ? 'AtomGas' : txt);
                 txt = txt + '360';
                 changePicture(txt);
+            });
+            $('#td a').click(function (e) {
+               // window.location.href = "http://nessi-nezilla.de/";
             });
 
             document.addEventListener('visibilitychange', function () {
