@@ -149,6 +149,8 @@
 			-webkit-animation: colorpulse 4s infinite alternate;
 			animation: colorpulse 4s infinite alternate;
 			line-height: 1;
+			padding-left: 20px;
+			padding-right: 20px;
 		}
 
 		@-webkit-keyframes colorpulse {
@@ -222,26 +224,8 @@
 
 		#logo {
 
-			position: fixed;
-			z-index: 8;
-			right: 2%;
-			margin-bottom: 10px;
-			cursor: pointer;
-			bottom: 0;
-			left:20px;
-			width: 60px;
-			height: 30px;
-			background-image: url("textures/logo.png");
-			background-size: 100% 100%;
 
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: none;
-			-o-user-select: none;
-			user-select: none;
-			touch-action: none;
-
-
+color: white;
 		}
 
 		#size {
@@ -290,7 +274,7 @@
 			</div>
 			
 			<div id="credits">
-				Nessi Nezilla - ballaballa <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual
+				<a id="logo" href="http://nessi-nezilla.de/">Nessi Nezilla - ballaballa</a> <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual
 				Reality <br> Nils Lesser - Sound
 			</div>
 		</div>
@@ -1622,14 +1606,14 @@
 			document.getElementById('simplea').addEventListener('touchstart', function (e) {
 				window.location.href = "http://exhibition.nessi-nezilla.de/360.html";
 			});
-/*
+
 			document.getElementById('logo').addEventListener('mousedown', function (e) {
 				window.location.href = "http://nessi-nezilla.de/";
 			});
 			document.getElementById('logo').addEventListener('touchstart', function (e) {
 				window.location.href = "http://nessi-nezilla.de/";
 			});
-*/
+
 
 			footer.addEventListener('touchstart', function (e) {
 				e.returnValue = false;
