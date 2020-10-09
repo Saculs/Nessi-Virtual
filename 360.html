@@ -24,8 +24,11 @@
 
     <div id="container"></div>
     <div id="info">
-        <a>FIRE</a> <a>UFO</a> <a>GAS</a>
+        <a>Fire</a> <a>UFO</a> <a>GAS</a>
     </div>
+    <audio loop id="music" preload="auto" style="display: none">
+        <source src="Sound/Space.mp3" type="audio/mpeg">
+    </audio>
 
     <script type="module">
 
@@ -33,6 +36,8 @@
 
         var camera, scene, renderer;
         var texture, material;
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var clickedFirst = false;
         var isUserInteracting = false,
             onPointerDownMouseX = 0, onPointerDownMouseY = 0,
             lon = 0, onPointerDownLon = 0,
@@ -63,24 +68,40 @@
             mesh = new THREE.Mesh(geometry, material);
 
             scene.add(mesh);
-            setTimeout(function(e){
+            setTimeout(function (e) {
                 //changePicture();
-            },6000);
+            }, 6000);
             renderer = new THREE.WebGLRenderer();
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
 
             container.style.touchAction = 'none';
+            if (isMobile == true) container.addEventListener('touchstart', onPointerDown, false);
             container.addEventListener('pointerdown', onPointerDown, false);
             document.addEventListener('wheel', onDocumentMouseWheel, false);
 
             $('#info a').click(function (e) {
                 var txt = $(e.target).text();
                 var i = 0;
+                playSound(txt == "GAS" ? 'AtomGas' : txt);
                 txt = txt + '360';
-				changePicture(txt);
-			})
+                changePicture(txt);
+            });
+
+            document.addEventListener('visibilitychange', function () {
+                //document.title = document.visibilityState;
+                console.log(document.visibilityState);
+                if (document.hidden) {
+                    //sound.pause();
+                    var audio = document.getElementById('music');
+                    audio.pause();
+                }
+                else {
+                    var audio = document.getElementById('music');
+                    audio.play();
+                }
+            });
 
             document.addEventListener('drop', function (event) {
 
@@ -107,8 +128,9 @@
 
         function changePicture(name) {
             texture.dispose();
+            if(name == 'Fire360') name = 'FIRE360';
             //texture = new THREE.TextureLoader().load('textures/FIRE360.png');
-            texture = new THREE.TextureLoader().load('textures/'+ name +'.jpg');
+            texture = new THREE.TextureLoader().load('textures/' + name + '.jpg');
             material.map = texture;
             material.map.needsUpdate = true;
         }
@@ -125,26 +147,39 @@
         function onPointerDown(event) {
 
             if (event.isPrimary === false) return;
-
+            if (clickedFirst == false) {
+                playSound('Fire');
+                clickedFirst = true;
+            }
             isUserInteracting = true;
 
             onPointerDownMouseX = event.clientX;
             onPointerDownMouseY = event.clientY;
+            if (isMobile == true) {
+                onPointerDownMouseX = event.touches[0].clientX;
+                onPointerDownMouseY = event.touches[0].clientY;
+            }
+
 
             onPointerDownLon = lon;
             onPointerDownLat = lat;
 
             document.addEventListener('pointermove', onPointerMove, false);
             document.addEventListener('pointerup', onPointerUp, false);
+            document.addEventListener('touchend', onPointerUp, false);
+            document.addEventListener('touchmove', onPointerMove, false);
 
         }
 
         function onPointerMove(event) {
-
             if (event.isPrimary === false) return;
-
-            lon = (onPointerDownMouseX - event.clientX) * 0.1 + onPointerDownLon;
-            lat = (event.clientY - onPointerDownMouseY) * 0.1 + onPointerDownLat;
+            if (isMobile == false) {
+                lon = (onPointerDownMouseX - event.clientX) * 0.1 + onPointerDownLon;
+                lat = (event.clientY - onPointerDownMouseY) * 0.1 + onPointerDownLat;
+            } else {
+                lon = (onPointerDownMouseX - event.touches[0].clientX) * 0.1 + onPointerDownLon;
+                lat = (event.touches[0].clientY - onPointerDownMouseY) * 0.1 + onPointerDownLat;
+            }
 
         }
 
@@ -156,6 +191,8 @@
 
             document.removeEventListener('pointermove', onPointerMove);
             document.removeEventListener('pointerup', onPointerUp);
+            document.removeEventListener('touchend', onPointerUp);
+            document.removeEventListener('touchmove', onPointerMove);
 
         }
 
@@ -167,6 +204,12 @@
 
             camera.updateProjectionMatrix();
 
+        }
+
+        function playSound(txt) {
+            var audio = document.getElementById('music');
+            audio.src = 'Sound/' + txt + '.mp3';
+            audio.play();
         }
 
         function animate() {

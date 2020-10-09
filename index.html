@@ -44,14 +44,30 @@
 
 		#simple {
 			position: fixed;
-			left: 0;
+			right: 10px;
 			bottom: 0;
 			width: 100%;
 			font-family: customFont;
-			text-align: center;
+			text-align: right;
 			font-size: 18px;
 			margin-bottom: 10px;
-			line-height: 0.7;
+			line-height: 1.3;
+
+			
+		}
+
+		#credits {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			font-family: customFont;
+			text-align: left;
+			font-size: 18px;
+			margin-top: 10px;
+			padding-left: 10px;
+			margin-right: 10px;
+			line-height: 1.1;
 		}
 
 		#myBar {
@@ -235,8 +251,11 @@
 			</br></br>
 			</br></br>
 			<div id="simple">
-				Works Best On NEW DEVICES </br>
-				</br>If it Doesnt Work <a href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
+				Works Best On NEW DEVICES<br>
+				If it Doesnt Work <a href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
+			</div>
+			<div id="credits">
+				Nessi Nezilla - ballaballa <br> Lucas Saidl & Sebastian Zimmerhackl - virtual Reality <br> Nils Lesser - Sound
 			</div>
 		</div>
 
@@ -593,7 +612,7 @@
 					if (scene2loaded == false) {
 						updateLoadBar(0);
 						initScene2();
-					} else loaded();
+					} else { loadScene2(); updateLoadBar(0); }
 
 					currentScene = scene2;
 					break;
@@ -1033,8 +1052,74 @@
 			var stars = new THREE.Points(starGeo, starMaterial);
 			scene2.add(stars);
 
-
+			loadScene2();
 			//scene2.add(ufo);
+			
+
+			var ufoloader = new GLTFLoader(manager);
+			ufoloader.load("models/UFOwithout.glb", function (gltf) {
+				var ufo = gltf.scene;
+
+				ufo.scale.set(30, 30, 30);
+
+				ufo.position.set(-50, 60, -250);
+				ufo.rotation.y = getRadian(-80);
+				ufo.rotation.x = getRadian(10);
+
+				ufo.visible = true;
+
+				ufo.traverse(function (o) {
+					if (o.isMesh) {
+						console.log("UFO");
+						if (o.name == "Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.2, transparent: true, });
+					}
+				});
+				scene2.add(ufo);
+				/*
+								var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
+								var spriteMaterial = new THREE.SpriteMaterial(
+									{
+										map: spriteMap, useScreenCoordinates: false,
+										color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
+				
+									});
+								var sprite = new THREE.Sprite(spriteMaterial);
+								sprite.scale.set(2.2, 2.2, 1.0);
+								sprite.position.set(0, 0.2, 0);
+								ufo.add(sprite);
+				*/
+				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
+				light.position.set(-80, 60, -160)
+				scene2.add(light);
+				var light2 = new THREE.PointLight(0xFFFFFF, 60, 60);
+				light2.position.set(30, 60, -210)
+				scene2.add(light2);
+
+				console.log('ufo added to scene');
+				$("#loadText").html('loaded<br>');
+
+				//loaded();
+			},
+				// called while loading is progressing
+				function (xhr) {
+					console.log('ufo ' + (xhr.loaded) + ' loaded');
+					var prc = Math.floor(xhr.loaded / 2561968 * 100);
+
+				}
+			);
+
+			/*
+			var material = new THREE.MeshBasicMaterial();
+			material.map = new THREE.TextureLoader().load("textures/Nebula.png");
+			material.color = new THREE.Color(0xFFFFFF);
+			material.side = THREE.BackSide;
+			var sky = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40), material);
+			sky.rotation.y = getRadian(0);
+			//scene2.add(sky);
+			*/
+
+		}
+		function loadScene2(){
 			rocksMgr = new ResourceTracker();
 			const trackRocks = rocksMgr.track.bind(rocksMgr);
 			var rocksloader = new GLTFLoader(manager);
@@ -1134,69 +1219,6 @@
 					updateLoadBar(prc);
 				}
 			);
-
-			var ufoloader = new GLTFLoader(manager);
-			ufoloader.load("models/UFOwithout.glb", function (gltf) {
-				var ufo = gltf.scene;
-
-				ufo.scale.set(30, 30, 30);
-
-				ufo.position.set(-50, 60, -250);
-				ufo.rotation.y = getRadian(-80);
-				ufo.rotation.x = getRadian(10);
-
-				ufo.visible = true;
-
-				ufo.traverse(function (o) {
-					if (o.isMesh) {
-						console.log("UFO");
-						if (o.name == "Light") o.material = new THREE.MeshBasicMaterial({ color: 0xC440FF, opacity: 0.2, transparent: true, });
-					}
-				});
-				scene2.add(ufo);
-				/*
-								var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
-								var spriteMaterial = new THREE.SpriteMaterial(
-									{
-										map: spriteMap, useScreenCoordinates: false,
-										color: 0xC440FF, transparent: true, blending: THREE.AdditiveBlending
-				
-									});
-								var sprite = new THREE.Sprite(spriteMaterial);
-								sprite.scale.set(2.2, 2.2, 1.0);
-								sprite.position.set(0, 0.2, 0);
-								ufo.add(sprite);
-				*/
-				var light = new THREE.PointLight(0xFFFFFF, 100, 60);
-				light.position.set(-80, 60, -160)
-				scene2.add(light);
-				var light2 = new THREE.PointLight(0xFFFFFF, 60, 60);
-				light2.position.set(30, 60, -210)
-				scene2.add(light2);
-
-				console.log('ufo added to scene');
-				$("#loadText").html('loaded<br>');
-
-				//loaded();
-			},
-				// called while loading is progressing
-				function (xhr) {
-					console.log('ufo ' + (xhr.loaded) + ' loaded');
-					var prc = Math.floor(xhr.loaded / 2561968 * 100);
-
-				}
-			);
-
-			/*
-			var material = new THREE.MeshBasicMaterial();
-			material.map = new THREE.TextureLoader().load("textures/Nebula.png");
-			material.color = new THREE.Color(0xFFFFFF);
-			material.side = THREE.BackSide;
-			var sky = new THREE.Mesh(new THREE.SphereGeometry(500, 60, 40), material);
-			sky.rotation.y = getRadian(0);
-			//scene2.add(sky);
-			*/
-
 		}
 
 		function initScene3() {
@@ -1405,7 +1427,7 @@
 
 				Statue3.scale.set(8, 8, 8);
 
-				Statue3.position.set(-20, -1.2, 30);
+				Statue3.position.set(-20, -1.2, 24);
 				Statue3.rotation.y = getRadian(-20);
 
 				Statue3.visible = true;
@@ -1566,21 +1588,21 @@
 			});
 
 
-			$('#footer a').click(function (e) {
+			footer.addEventListener('touchstart', function (e) {
 				e.returnValue = false;
 				e.preventDefault();
-
+console.log('dddddd');
 				var txt = $(e.target).text();
 
 
 				console.log(txt);
 				fadeInstr();
-				controls.unlock();
+				
 
 				setTimeout(function () { goToScene(txt) }, 1000);
 
 				transition = true;
-
+				controls.unlock();
 				//controls.unlock();					
 			});
 
@@ -1611,7 +1633,7 @@
 				shortClick = true;
 				setTimeout(function(e){
 					shortClick = false;
-				},600);
+				},300);
 				mousex = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
 				mousey =  - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}, false);
@@ -2671,7 +2693,7 @@
 
 	<div id="footer">
 
-		 <a>Fire</a> <a>UFO</a> <a>AtomGas</a>
+		<a>Space</a> <a>Fire</a> <a>UFO</a> <a>AtomGas</a>
 
 	</div>
 
