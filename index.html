@@ -236,7 +236,7 @@
 			</br></br>
 			<div id="simple">
 				Works Best On NEW DEVICES </br>
-				</br>for a simple version <a href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
+				</br>If it Doesnt Work <a href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
 			</div>
 		</div>
 
@@ -548,7 +548,7 @@
 				$('html,body').css('cursor', 'pointer');
 				controls.lock();
 				fadeInstr();
-				tripCamera({ x: 110, y: 0, z: 0 }, { x: 60, y: 0, z: 0 }, camera, false);
+				tripCamera({ x: 10, y: 0, z: 0 }, { x: 60, y: 0, z: 0 }, camera, false);
 				transition = false;
 				//instructions.style.display = 'none';
 				//blocker.style.display = 'none';
@@ -1348,7 +1348,7 @@
 
 				mixer = new THREE.AnimationMixer(gltf.scene);
 				mixer.clipAction(gltf.animations[0]).play();
-				mixer.timeScale = 1.3;
+				mixer.timeScale = 1.6;
 
 				scene3.add(Statue);
 
@@ -1363,7 +1363,7 @@
 			stat2Mgr = new ResourceTracker();
 			var trackStat2 = stat2Mgr.track.bind(stat2Mgr);
 			var Statue2loader = new GLTFLoader(manager);
-			Statue2loader.load("models/Statue2_retopo_merged.glb", function (gltf) {
+			Statue2loader.load("models/StatuesAnim2.glb", function (gltf) {
 				var Statue2 = trackStat2(gltf.scene);
 
 				Statue2.scale.set(8, 8, 8);
@@ -1382,9 +1382,9 @@
 					}
 				});
 
-				//mixer2 = new THREE.AnimationMixer(gltf.scene);
-				//mixer2.clipAction(gltf.animations[0]).play();
-				//mixer2.timeScale = 1.3;
+				mixer2 = new THREE.AnimationMixer(gltf.scene);
+				mixer2.clipAction(gltf.animations[0]).play();
+				mixer2.timeScale = 1.3;
 
 				scene3.add(Statue2);
 
@@ -1400,7 +1400,7 @@
 			stat1Mgr = new ResourceTracker();
 			var trackStat1 = stat3Mgr.track.bind(stat1Mgr);
 			var Statue3loader = new GLTFLoader(manager);
-			Statue3loader.load("models/Statue1_retopo_merged.glb", function (gltf) {
+			Statue3loader.load("models/StatuesAnim1.glb", function (gltf) {
 				var Statue3 = trackStat1(gltf.scene);
 
 				Statue3.scale.set(8, 8, 8);
@@ -1419,9 +1419,9 @@
 					}
 				});
 
-				//mixer3 = new THREE.AnimationMixer(gltf.scene);
-				//mixer3.clipAction(gltf.animations[0]).play();
-				//mixer3.timeScale = 1.3;
+				mixer3 = new THREE.AnimationMixer(gltf.scene);
+				mixer3.clipAction(gltf.animations[0]).play();
+				mixer3.timeScale = 1.3;
 
 				scene3.add(Statue3);
 				loaded();
@@ -1557,9 +1557,8 @@
 
 			}, false);
 
-
-
-			$('#simple a').click(function (e) {
+			//var simple = document.getElementById('down');
+			document.getElementById('simple').addEventListener('click', function (e) {
 				window.location.href = "http://www.w3schools.com";
 			});
 
