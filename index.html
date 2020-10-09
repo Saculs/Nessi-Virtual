@@ -53,7 +53,7 @@
 			margin-bottom: 10px;
 			line-height: 1.3;
 
-			
+
 		}
 
 		#credits {
@@ -69,7 +69,10 @@
 			margin-right: 10px;
 			line-height: 1.1;
 		}
-		#credits .altf {font-family: Baby;}
+
+		#credits .altf {
+			font-family: Baby;
+		}
 
 		#myBar {
 			width: 1%;
@@ -115,7 +118,7 @@
 			-webkit-text-fill-color: transparent;*/
 		}
 
-		#loadText .altf{
+		#loadText .altf {
 			font-family: Baby;
 		}
 
@@ -217,6 +220,30 @@
 
 		}
 
+		#logo {
+
+			position: fixed;
+			z-index: 8;
+			right: 2%;
+			margin-bottom: 10px;
+			cursor: pointer;
+			bottom: 0;
+			left:20px;
+			width: 60px;
+			height: 30px;
+			background-image: url("textures/logo.png");
+			background-size: 100% 100%;
+
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			touch-action: none;
+
+
+		}
+
 		#size {
 			width: 100%;
 			position: fixed;
@@ -259,10 +286,12 @@
 			</br></br>
 			<div id="simple">
 				Works Best On NEW DEVICES<br>
-				If it Doesnt Work <a id="simplea"href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
+				If it Doesnt Work <a id="simplea" href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
 			</div>
+			
 			<div id="credits">
-				Nessi Nezilla - ballaballa <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual Reality <br> Nils Lesser - Sound
+				Nessi Nezilla - ballaballa <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual
+				Reality <br> Nils Lesser - Sound
 			</div>
 		</div>
 
@@ -1061,7 +1090,7 @@
 
 			loadScene2();
 			//scene2.add(ufo);
-			
+
 
 			var ufoloader = new GLTFLoader(manager);
 			ufoloader.load("models/UFOwithout.glb", function (gltf) {
@@ -1126,7 +1155,7 @@
 			*/
 
 		}
-		function loadScene2(){
+		function loadScene2() {
 			rocksMgr = new ResourceTracker();
 			const trackRocks = rocksMgr.track.bind(rocksMgr);
 			var rocksloader = new GLTFLoader(manager);
@@ -1186,7 +1215,7 @@
 
 				//setTimeout(function () { rocksMgr.dispose() }, 8000);
 				var spriteMap = new THREE.TextureLoader().load("textures/glow.png");
-				
+
 				var spriteMaterial = new THREE.SpriteMaterial(
 					{
 						map: spriteMap,
@@ -1593,18 +1622,25 @@
 			document.getElementById('simplea').addEventListener('touchstart', function (e) {
 				window.location.href = "http://exhibition.nessi-nezilla.de/360.html";
 			});
-
+/*
+			document.getElementById('logo').addEventListener('mousedown', function (e) {
+				window.location.href = "http://nessi-nezilla.de/";
+			});
+			document.getElementById('logo').addEventListener('touchstart', function (e) {
+				window.location.href = "http://nessi-nezilla.de/";
+			});
+*/
 
 			footer.addEventListener('touchstart', function (e) {
 				e.returnValue = false;
 				e.preventDefault();
-console.log('dddddd');
+				console.log('dddddd');
 				var txt = $(e.target).text();
 
 
 				console.log(txt);
 				fadeInstr();
-				
+
 
 				setTimeout(function () { goToScene(txt) }, 1000);
 
@@ -1638,18 +1674,18 @@ console.log('dddddd');
 				console.log("touchStart");
 				//onDocumentMouseDown(e);
 				shortClick = true;
-				setTimeout(function(e){
+				setTimeout(function (e) {
 					shortClick = false;
-				},300);
+				}, 300);
 				mousex = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
-				mousey =  - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
+				mousey = - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			}, false);
 
 			document.addEventListener('touchend', function (e) {
 				e.preventDefault();
 				//e.returnValue = false;
 				console.log("touchStart");
-				if(shortClick == true) onDocumentMouseDown(e, mousex,mousey);
+				if (shortClick == true) onDocumentMouseDown(e, mousex, mousey);
 				shortClick = false;
 			}, false);
 
@@ -2184,7 +2220,7 @@ console.log('dddddd');
 			if (isMobile == false) {
 				mouse.x = 0;
 				mouse.y = 0;
-			} else if(mousex == null && mousey == null){
+			} else if (mousex == null && mousey == null) {
 				mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
 				mouse.y = - (event.touches[0].clientY / window.innerHeight) * 2 + 1;
 			} else {
@@ -2209,9 +2245,9 @@ console.log('dddddd');
 				if (intersects.length > 0) {
 					if (transition == false && tutorial == false && canClick == true/* && blocker.style.display == 'none'*/) {
 						clicker(o);
-					//lightbox_open();
-					//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
-					console.log("click");
+						//lightbox_open();
+						//animateMove(camera.position,{x: to.position.x - 2, y: to.position.y,z: to.position.z + 0.5},to.position,1000);
+						console.log("click");
 					}
 				}
 			}
