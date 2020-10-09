@@ -69,6 +69,7 @@
 			margin-right: 10px;
 			line-height: 1.1;
 		}
+		#credits .altf {font-family: Baby;}
 
 		#myBar {
 			width: 1%;
@@ -87,6 +88,7 @@
 			transform: translate(-50%, -50%);
 			display: none;
 		}
+
 
 		#loadText {
 			font-size: 42px;
@@ -111,6 +113,10 @@
 			/* This will show the gradient as a text color rather than element bg.
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;*/
+		}
+
+		#loadText .altf{
+			font-family: Baby;
 		}
 
 		#instructions {
@@ -214,12 +220,13 @@
 		#size {
 			width: 100%;
 			position: fixed;
-			font-size: 38px;
+			font-size: 35px;
 			height: 50px;
 			top: 40px;
 			opacity: 0;
 			transition: opacity 0.3s;
 			text-align: center;
+			font-family: Baby;
 		}
 
 		#size.fade {
@@ -255,7 +262,7 @@
 				If it Doesnt Work <a id="simplea"href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
 			</div>
 			<div id="credits">
-				Nessi Nezilla - ballaballa <br> Lucas Saidl & Sebastian Zimmerhackl - virtual Reality <br> Nils Lesser - Sound
+				Nessi Nezilla - ballaballa <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual Reality <br> Nils Lesser - Sound
 			</div>
 		</div>
 
@@ -546,7 +553,7 @@
 
 		function updateLoadBar(prc) {
 			elem.style.width = prc + "%";
-			$("#loadText").html('loading<br>' + prc + '%<br>');
+			$("#loadText").html('loading<br><span class="altf">' + prc + '%</span><br>');
 			$('html,body').css('cursor', 'default');
 			/*
 			if (prc == 100) loading.style.display = 'none';

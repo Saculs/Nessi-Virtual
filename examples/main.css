@@ -108,6 +108,13 @@ a, button, input, select {
 	padding: 10px;
 }
 
+@font-face {
+	font-family: 'Baby';
+	src: url('fonts/BabySchoolItalic.eot');
+	src: local('☺'), url('fonts/BabySchoolItalic.woff') format('woff'), url('fonts/BabySchoolItalic.ttf') format('truetype'), url('fonts/BabySchoolItalic.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
 
 @font-face {
