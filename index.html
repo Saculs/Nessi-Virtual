@@ -225,7 +225,7 @@
 		#logo {
 
 
-color: white;
+			color: white;
 		}
 
 		#size {
@@ -272,9 +272,10 @@ color: white;
 				Works Best On NEW DEVICES<br>
 				If it Doesnt Work <a id="simplea" href="http://exhibition.Nessi-Nezilla.de/360.html">Click Here</a>
 			</div>
-			
+
 			<div id="credits">
-				<a id="logo" href="http://nessi-nezilla.de/">Nessi Nezilla - ballaballa</a> <br> Lucas Saidl <span class="altf">&</span> Sebastian Zimmerhackl - virtual
+				<a id="logo" href="http://nessi-nezilla.de/">Nessi Nezilla - ballaballa</a> <br> Lucas Saidl <span
+					class="altf">&</span> Sebastian Zimmerhackl - virtual
 				Reality <br> Nils Lesser - Sound
 			</div>
 		</div>
@@ -776,11 +777,20 @@ color: white;
 			runner3.scale.set(3, 3, 3);
 			runner3.rotation.y = getRadian(90);
 			runner4.position.set(20, 10, 70);
+
+			runner1.name = 'Fire';
+			runner2.name = 'Fire';
+			runner3.name = 'Fire';
+			runner4.name = 'Fire';
+
+
 			scene1.add(runner);
 			scene1.add(runner1);
 			scene1.add(runner2);
 			scene1.add(runner3);
 			scene1.add(runner4);
+
+
 
 			var ufoSuck = new THREE.Mesh(runnerGeometry, runnerMaterial);
 			ufoSuck.position.set(0, 10, -80);
@@ -1070,6 +1080,7 @@ color: white;
 				transparent: true
 			});
 			var stars = new THREE.Points(starGeo, starMaterial);
+			stars.name = stars;
 			scene2.add(stars);
 
 			loadScene2();
@@ -2127,15 +2138,20 @@ color: white;
 			if (intersects.length > 0) {
 
 				var oName = intersects[0].object.name;
-				//console.log("hover" + oName);
-				if ((oName == "Fire" || oName == "ufoSuck") && intersects.length > 1) oName = intersects[1].object.name;
-				if (oName.includes("P_") && oName != 'GagarinLP_1_-__0' && document.getElementById("size").className != "fade") {
-					hoverNowName = oName;
-					setSizetext(oName);
-					fadeSize();
-					console.log("hover" + oName);
+				if (oName != null) {
+
 				}
-				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Moon" || oName == "Plane002" || oName == "Invisible" || oName.includes("P_")) {
+				//console.log("hover" + oName);
+				if ((oName == "Fire" || oName == "ufoSuck" || oName == "stars") && intersects.length > 1) oName = intersects[1].object.name;
+				if (oName != null) {
+					if (oName.includes("P_") && oName != 'GagarinLP_1_-__0' && document.getElementById("size").className != "fade") {
+						hoverNowName = oName;
+						setSizetext(oName);
+						fadeSize();
+						console.log("hover" + oName);
+					}
+				}
+				if (oName == "FirePlanet" || oName == "Ship" || oName == "Emmisive" || oName == "Light" || oName == "Moon" || oName == "Plane002" || oName == "Invisible" || oName.includes("P_")) {
 					if (!oName.includes("P_")) crossHair.style.display = 'block';
 					if ((oName == "Plane002") && getEuler(intersects[0].object.rotation.y) == 0) {
 						var vec = { x: 0, y: 0, z: 0 };
@@ -2288,22 +2304,8 @@ color: white;
 					//instructions.style.display = 'block';
 					transition = true;
 					break;
+				case 'Light':
 				case "Ship":
-					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
-					fadeInstr('pink');
-					controls.unlock();
-					setTimeout(function () { goToScene("UFO") }, 1000);
-					//blocker.style.backgroundColor = rgba(1,1,1,1);
-					//goToScene("UFO");
-
-
-
-					canClick = false;
-					setTimeout(function () { canClick = true; resetVelocity(); }, 2000);
-					//blocker.style.display = 'block';
-					//instructions.style.display = 'block';
-					transition = true;
-					break;
 				case "Emmisive":
 					tripCamera({ x: 60, y: 0, z: 0 }, { x: 10, y: 0, z: 0 }, camera);
 					fadeInstr('pink');
